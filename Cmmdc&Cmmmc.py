@@ -1,17 +1,17 @@
-#cmmdc
-
-a = int(input())
-b = int(input())
+a = int(input()).split()
+b = int(input()).split()
 cpa = a
 cpb = b
 
-while a is not b:
+#cmmdc
+
+while a * b != 0:
     if a < b:
-        b -= a
-    else: a -= b
-print(f"CMMDC: {a:.0f}")
+        b = b % a
+    else: a = a % b
+print(f"CMMDC: {a + b:.0f}")
 
 #cmmmc
 
-cmmmc = (cpa*cpb/a)
+cmmmc = (cpa*cpb/(a+ b))
 print(f"CMMMC: {cmmmc:.0f}")
