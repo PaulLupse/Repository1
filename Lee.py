@@ -1,4 +1,5 @@
 from collections import deque
+from pathlib import Path
 
 def afismat(m): #afiseaza matricea m
     for i in m:
@@ -23,7 +24,8 @@ def Lee(istart, jstart):
                 coada.append([itarget,jtarget])
         coada.popleft()
 
-f = open(r"C:\Users\Paul\Documents\GitHub\Repository1\Input.in", 'r')
+path = Path(__file__).with_name("Input.in")
+f = open(path, 'r')
 n, m = f.readline().split(); n = int(n); m = int(m)
 M = []
 
