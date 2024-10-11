@@ -2,9 +2,9 @@ from collections import deque
 from pathlib import Path
 
 path = Path(__file__).with_name("Output.out")
-fOut = open(path, "w")
 
-def afismat(m): #afiseaza matricea m
+def afismat(m): # afiseaza matricea m
+    fOut = open(path, "w") # suprascrie fisierul Output
     for i in m:
         for j in i:
             if j == -1:
