@@ -1,13 +1,16 @@
 from collections import deque
 from pathlib import Path
 
+path = Path(__file__).with_name("Output.out")
+fOut = open(path, "w")
+
 def afismat(m): #afiseaza matricea m
     for i in m:
         for j in i:
             if j == -1:
-                print("#", end = ' ')
-            else: print(j, end = ' ')
-        print()
+                fOut.write("# ")
+            else: fOut.write(str(j) + " ")
+        fOut.write("\n")
 
 di = [-1, 0, 1, 0]; dj = [0, 1, 0, -1]
 
@@ -24,8 +27,7 @@ def Lee(istart, jstart):
                 coada.append([itarget,jtarget])
         coada.popleft()
 
-path = Path(__file__).with_name("Input.in")
-f = open(path, 'r')
+f = open(Path(__file__).with_name("Input.in"), 'r')
 n, m = f.readline().split(); n = int(n); m = int(m)
 M = []
 
