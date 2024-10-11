@@ -1,3 +1,5 @@
+# Algoritmul lui Lee
+
 from collections import deque
 from pathlib import Path
 
@@ -26,7 +28,7 @@ def Lee(istart, jstart):
 
 path = Path(__file__).with_name("Input.in")
 f = open(path, 'r')
-n, m = f.readline().split(); n = int(n); m = int(m)
+n, m = f.readline().split(); n = int(n); m = int(m) # n - nr. linii. m - nr. coloane
 M = []
 
 border = [-1] * (n + 2)
@@ -35,11 +37,11 @@ M.append(border) # bordare matrice sus
 for i in range(0,n):
     linie = []
     for j in f.readline().split():
-        if int(j) == 1:
-            linie.append(-1)
+        if int(j) == 1: # 1 = obstacol
+            linie.append(-1) 
         else: linie.append(0)
-    linie.insert(0, -1)
-    linie.append(-1)
+    linie.insert(0, -1) # bordare linie stanga
+    linie.append(-1)    # bordare linie dreapta
     M.append(linie)
 
 M.append(border) #bordare jos
