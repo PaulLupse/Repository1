@@ -7,7 +7,7 @@ path = Path(__file__).with_name("Output.out")
 def afismat(m, n): # afiseaza matricea m
     fOut = open(path, "w") # suprascrie fisierul Output
     for i in range(1, 3**n + 1):
-        fOut.writelines(M[i][1:] + M[i][1:])
+        fOut.writelines(M[i][1:])
         fOut.write("\n")
 
 M = []
