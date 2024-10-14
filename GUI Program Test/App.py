@@ -23,12 +23,12 @@ elif n == 5:
 
 #################EndSierp######################
 
-def afismat(m, n):#
+def afismat():#
     x = y = 1
     for i in range(1, 3**n + 1):
         for j in range(1, 3**n + 1):
-            if(m[i][j] == '. '):
-                point = canvas.create_rectangle(x, y, x + squareL, y + squareL, fill = "black")
+            if M[i][j] == '. ':
+                point = canvas.create_rectangle(x, y, x + squareL + 1, y + squareL + 1, fill = "blue", outline = "blue")
             y += squareL + 1
         y = 1
         x += squareL + 1
@@ -61,7 +61,7 @@ def Sierping(i, j, lvl):
 Sierping(int((3 ** n) / 2) + 1, int((3 ** n) / 2) + 1, n)
 
 #################EndSierp######################
-afismat(M, n)
+afismat()
 canvas.location(x = 0, y = 0)
 canvas.pack()
 window.mainloop()
