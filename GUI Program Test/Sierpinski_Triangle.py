@@ -7,13 +7,20 @@ class Coord:
         self.x = x
         self.y = y
 
-n = int(input())
+n = 0
 
 window = tk.Tk()
 window.title("Sierpinski Triangle")
-window.geometry("768x768")
-
+window.geometry("850x768")
 canvas = Canvas(window, height = 732, width= 732, background="white")
+
+def drawPattern():
+    canvas.delete("all")
+    Sierping(Coord(x=365, y=2),
+             Coord(x=2, y=729),
+             Coord(x=729, y=729),
+            lvl=int(n))
+    print(n)
 
 def Sierping(a, b, c, lvl):
     canvas.create_line(a.x, a.y, b.x, b.y, width = 0, fill = "black")
@@ -24,12 +31,44 @@ def Sierping(a, b, c, lvl):
     halfAC = Coord((a.x + c.x)/2, (a.y + c.y)/2)
     halfBC = Coord((b.x + c.x)/2, (b.y + c.y)/2)
 
-    if(lvl > 1):
+    if lvl > 1 :
         Sierping(a, halfAB, halfAC, lvl - 1)
         Sierping(halfAB, b, halfBC, lvl - 1)
         Sierping(halfAC, halfBC, c, lvl - 1)
 
-Sierping(Coord(x = 365,y = 2),Coord(x = 2, y = 729) , Coord(x = 729,y = 729), lvl = n)
+valori = {
+    "Level 1" : "1",
+    "Level 2" : "2",
+    "Level 3" : "3",
+    "Level 4" : "4",
+    "Level 5" : "5",
+    "Level 6" : "6",
+    "Level 7" : "7",
+    "Level 8" : "8"
+}
 
-canvas.pack()
+v = StringVar(window, '1')
+
+def setN():
+    global n
+    n = v.get()
+    print("a")
+
+
+
+j = 30
+for (text, value) in valori.items():
+    Radiobutton(window, text = text, variable = v, value = value,
+                command=setN).place(x = 5, y = j, anchor = NW)
+    j += 20
+
+select = Label(text = "Select level:")
+generate = Button(text = "GENERATE", command = drawPattern)
+exit = Button(text = "EXIT", command = window.destroy)
+
+select.place(x = 5, y = 10)
+generate.place(x = 5, y = 220, anchor = NW)
+exit.place(x = 5, y = 250, anchor = NW)
+
+canvas.place(anchor = NW, x = 100, y = 1)
 window.mainloop()
