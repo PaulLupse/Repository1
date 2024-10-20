@@ -20,7 +20,6 @@ def drawPattern():
              Coord(x=2, y=729),
              Coord(x=729, y=729),
             lvl=int(n))
-    print(n)
 
 def Sierping(a, b, c, lvl):
     canvas.create_line(a.x, a.y, b.x, b.y, width = 0, fill = "black")
@@ -52,7 +51,6 @@ v = StringVar(window, '1')
 def setN():
     global n
     n = v.get()
-    print("a")
 
 
 
