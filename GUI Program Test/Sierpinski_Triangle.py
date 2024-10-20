@@ -19,7 +19,7 @@ def drawPattern():
     Sierping(Coord(x=365, y=2),
              Coord(x=2, y=729),
              Coord(x=729, y=729),
-            lvl=int(n))
+            lvl=int(v.get()))
 
 def Sierping(a, b, c, lvl):
     canvas.create_line(a.x, a.y, b.x, b.y, width = 0, fill = "black")
@@ -48,16 +48,9 @@ valori = {
 
 v = StringVar(window, '1')
 
-def setN():
-    global n
-    n = v.get()
-
-
-
 j = 30
 for (text, value) in valori.items():
-    Radiobutton(window, text = text, variable = v, value = value,
-                command=setN).place(x = 5, y = j, anchor = NW)
+    Radiobutton(window, text = text, variable = v, value = value).place(x = 5, y = j, anchor = NW)
     j += 20
 
 select = Label(text = "Select level:")
