@@ -18,7 +18,7 @@ print("S-au comandat", istoric_comenzi.count("guias"), "guias,", istoric_comenzi
 
 print("Mai sunt", tavi.count("tava"), "tavi")
 print("Mai este ceafa:", "ceafa" in meniu)
-print("Mai este papanas:", "papanas" in meniu)
+print("Mai este papanas:", "papanasi" in meniu)
 print("Mai este guias:", "guias" in meniu)
 
 suma = 0

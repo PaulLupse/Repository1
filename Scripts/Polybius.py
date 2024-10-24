@@ -30,7 +30,7 @@ LetterCode = {}
 LetterDecode = [["0", "0", "0", "0", "0", "0"]] * 6
 #LetterDecode[5][0] = 'Z'
 
-# ABCDEFGHIJKLMNOPQRSTUVWXYZ
+# ABCDEFGHIJKLMNOPRSTUVWXYZ
 #
 #DisplayCodedMsg = [letter for letter in msg]
 
