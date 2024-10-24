@@ -7,7 +7,7 @@ import tkinter.ttk as ttk
 
 win = tk.Tk()
 win.title("Polybius Cipher")
-win.geometry("300x400")
+win.geometry("400x500")
 
 DisplayCodedMsg = ""
 
@@ -28,7 +28,7 @@ CodedMsg =""
 
 LetterCode = {}
 LetterDecode = [["0", "0", "0", "0", "0", "0"]] * 6
-LetterDecode[5][0] = 'Z'
+#LetterDecode[5][0] = 'Z'
 
 # ABCDEFGHIJKLMNOPQRSTUVWXYZ
 #
@@ -62,7 +62,7 @@ def decodemsg():
             k+= 1
             j += 1
         i += 1
-    LetterDecode[5][0] = 'Z'
+    #LetterDecode[5][0] = 'Z'
     for i in range(0, len(msg) - 1, 2):
         EncodedMsg = EncodedMsg + LetterDecode[int(msg[i])][int(msg[i+1])]
     CodedMsgOutput.config(state = "normal")
