@@ -132,7 +132,7 @@ def Warnings():
         msgWarning.set("")
         msgWarningIsActive = 0
 
-    if not keyWarningIsActive or not msgWarningIsActive:
+    if not(keyWarningIsActive or msgWarningIsActive):
         enableButtons()
 
     if MsgEntry.get(1.0, "end-1c").isalpha():
