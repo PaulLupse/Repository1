@@ -40,7 +40,7 @@ def encodemsg():
     for letter in key[:len(key):]:
         LetterCode[ord(letter)] = [str(k // 5), str(k % 5)]
         k += 1
-    LetterCode[ord(' ')] = ['5', '5']
+    CodedMsg = ""
     for letter in msg[:len(msg)-1:]:
         CodedMsg = CodedMsg + LetterCode[ord(letter)][0] + LetterCode[ord(letter)][1]
     CodedMsgOutput.config(state = "normal")
