@@ -133,14 +133,15 @@ def Warnings():
         msgWarningIsActive = 0
 
     if not(keyWarningIsActive or msgWarningIsActive):
-        enableButtons()
-
-    if MsgEntry.get(1.0, "end-1c").isalpha():
-        buton0["state"] = "normal"
-        buton1["state"] = "disabled"
-    elif MsgEntry.get(1.0, "end-1c").isdigit():
-        buton0["state"] = "disabled"
-        buton1["state"] = "normal"
+        if MsgEntry.get(1.0, "end-1c").isalpha():
+            buton0["state"] = "normal"
+            buton1["state"] = "disabled"
+        elif MsgEntry.get(1.0, "end-1c").isdigit():
+            buton0["state"] = "disabled"
+            if len(MsgEntry.get(1.0, "end-1c")) % 2 == 0:
+                buton1["state"] = "normal"
+            else: buton1["state"] = "disabled"
+        else: enableButtons()
 
     win.after(200, Warnings)
 
