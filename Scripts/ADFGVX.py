@@ -27,7 +27,7 @@ KeyMatEntry = tk.Text(KeyMatFrame, width = 6, font = ("Courier", 15), height = 6
 
 MsgAFrame = ttk.Frame(win, height = 2, width = 20)
 MsgAEntryLabel = ttk.Label(MsgAFrame, text = "Enter Message to encode/decode:")
-MsgAEntry = tk.Text(MsgAFrame, width = 25, height = 11, font = ("Courier", 12), relief = "solid")
+MsgAEntry = tk.Text(MsgAFrame, width = 25, height = 11, font = ("Courier", 12), relief = "solid", wrap = "word")
 
 MsgBFrame = ttk.Frame(win, height = 2, width = 20)
 MsgBOutLabel = ttk.Label(MsgBFrame, text = "Encoded/Decoded Message:")
@@ -37,6 +37,7 @@ MsgBOut.config(state = "disabled")
 # /\ /\ /\ FrontEnd /\ /\ /\
 
 class LetCode(object):
+    let = []
     def __init__(self, let1, let2):
         self.let1 = let1
         self.let2 = let2
@@ -57,11 +58,12 @@ def compare(col1, col2):
 def Encode():
     LettersCode = [LetCode('0', '0') for _ in range(0, 205)]
 
-    KeyMatString =  KeyMatEntry.get(1.0, END)
-    MsgToEncode =   MsgAEntry.get(1.0, END)
+    KeyMatString =  KeyMatEntry.get(1.0, END).upper()
+    MsgToEncode =   MsgAEntry.get(1.0, END).upper()
 
     EarlyEncodedMsg = ""
     MsgToEncode = MsgToEncode.replace(" ", "")
+    MsgToEncode = MsgToEncode.replace("\n", "")
 
     k = 0
     for i in range(0, 6):
@@ -69,7 +71,7 @@ def Encode():
             LettersCode[ord(KeyMatString[k])] = LetCode(c[i], c[j])
             k += 1
 
-    for letter in MsgToEncode[:-1:]:
+    for letter in MsgToEncode:
         l1 = LettersCode[ord(letter)].let1
         l2 = LettersCode[ord(letter)].let2
         EarlyEncodedMsg += l1 + l2
@@ -92,6 +94,7 @@ def Encode():
         EncodedMat[i] = EncodedMat[i][0:-1]
 
     EncodedMsg = " ".join(EncodedMat)
+    #EncodedMsg.strip(" ")
 
     MsgBOut.config(state="normal")
     MsgBOut.delete('1.0', END)
@@ -104,13 +107,24 @@ def Encode():
 
 def Decode():
 
+    KeyMatString = KeyMatEntry.get(1.0, END).upper()
+    MsgToDecode = MsgAEntry.get(1.0, END).upper()
+
+    MsgToDecode.replace("\n", " ")
+
+    EncodedMat = [coloana for coloana in MsgToDecode.split(" ")]
+
+
+
+
+
 
 # \/ \/ \/ FrontEnd \/ \/ \/
 
 ButtonFrame = ttk.Frame(win, width = 10, height = 3)
 EncodeButton = ttk.Button(ButtonFrame, text = "ENCODE", command = Encode)
 DecodeButton = ttk.Button(ButtonFrame, text = "DECODE")
-ExitButton = ttk.Button(ButtonFrame, text = "EXIT", command = win.destroy, width = 11)
+ExitButton = ttk.Button(ButtonFrame,   text = "EXIT",   command = win.destroy, width = 11)
 
 MsgAEntryLabel.pack()
 MsgAEntry.pack()
