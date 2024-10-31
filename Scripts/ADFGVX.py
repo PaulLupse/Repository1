@@ -1,12 +1,12 @@
 # ADFGVX Cipher
 
-import numpy as np
 import tkinter as tk
 import tkinter.ttk as ttk
+from base64 import encode
 from tkinter import *
-from tkinter.ttk import *
 import math
 from functools import cmp_to_key
+import numpy as np
 
 # \/ \/ \/ FrontEnd \/ \/ \/
 
@@ -22,8 +22,8 @@ KeyEntryLabel = ttk.Label(KeyFrame, text = "Enter Key:")
 KeyEntry = ttk.Entry(KeyFrame, width = 19, font = "Courier", justify = "center", textvariable = EncodeKey)
 
 KeyMatFrame = ttk.Frame(win, height = 2, width = 20)
-KeyMatEntryLabel = ttk.Label(KeyMatFrame, text = "Enter character matrix:")
-KeyMatEntry = tk.Text(KeyMatFrame, width = 6, font = ("Courier", 15), height = 6, relief = "solid")
+KeyMatEntryLabel = ttk.Label(KeyMatFrame, text = "Enter character\n matrix:", justify = 'center')
+KeyMatEntry = tk.Text(KeyMatFrame, width = 6, font = ("Courier", 12), height = 6, relief = "solid")
 
 MsgAFrame = ttk.Frame(win, height = 2, width = 20)
 MsgAEntryLabel = ttk.Label(MsgAFrame, text = "Enter Message to encode/decode:")
@@ -42,7 +42,7 @@ class LetCode(object):
         self.let1 = let1
         self.let2 = let2
 
-EncodeKey.set(value = "PRIVACY")
+EncodeKey.set(value = "ACHTUNG")
 KeyMatEntry.insert(END, "NA1C3H8TB2OME5WRPD4F6G7I9J0KLQSUVXYZ")
 
 c = ('A', 'D', 'F', 'G', 'V', 'X',)
@@ -52,6 +52,13 @@ def compare(col1, col2):
     if ord1 < ord2:
         return -1
     elif ord1 == ord2:
+        return 0
+    else: return 1
+
+def compare1(indLetter1, indLetter2):
+    if indLetter1[0] < indLetter2[0]:
+        return -1
+    elif indLetter1[0] == indLetter2[0]:
         return 0
     else: return 1
 
@@ -101,54 +108,109 @@ def Encode():
     MsgBOut.insert(tk.END, EncodedMsg)
     MsgBOut.config(state="disabled")
 
-    print(EarlyEncodedMsg)
-    print(EncodedMat)
-    print(EncodedMsg)
-
 def Decode():
 
-    KeyMatString = KeyMatEntry.get(1.0, END).upper()
+    KeyMat = KeyMatEntry.get(1.0, END).upper()
     MsgToDecode = MsgAEntry.get(1.0, END).upper()
 
-    MsgToDecode.replace("\n", " ")
+    MsgToDecode = MsgToDecode.replace("\n", "")
 
     EncodedMat = [coloana for coloana in MsgToDecode.split(" ")]
 
+    indKey = []
+    for i in range (0, len(EncodeKey.get())):
+        indKey.append((EncodeKey.get()[i], i))
 
+    indKey.sort(key = cmp_to_key(compare1))
 
+    for i in range(0, len(EncodedMat)):
+        EncodedMat[i] += str(indKey[i][1])
 
+    EncodedMat.sort(key = cmp_to_key(compare))
 
+    for i in range(0, len(EncodedMat)):
+        EncodedMat[i] = EncodedMat[i][0:-1:]
+
+    EarlyDecodedMsg = ""
+
+    MaxColLength = max([len(column) for column in EncodedMat])
+    for i in range(0, MaxColLength):
+        for j in range(0, len(EncodeKey.get())):
+            if i < len(EncodedMat[j]):
+                EarlyDecodedMsg += EncodedMat[j][i]
+
+    KeyMat = KeyMat[0:-1:]
+
+    LetterCodeMat = np.array([letter for letter in KeyMat])
+    LetterCodeMat = LetterCodeMat.reshape(6, 6)
+
+    DecodedMsg = ""
+
+    for i in range(0, len(EarlyDecodedMsg), 2):
+        DecodedMsg += LetterCodeMat[c.index(EarlyDecodedMsg[i])][c.index(EarlyDecodedMsg[i+1])]
+
+    MsgBOut.config(state="normal")
+    MsgBOut.delete('1.0', END)
+    MsgBOut.insert(tk.END, DecodedMsg)
+    MsgBOut.config(state="disabled")
 
 # \/ \/ \/ FrontEnd \/ \/ \/
 
 ButtonFrame = ttk.Frame(win, width = 10, height = 3)
 EncodeButton = ttk.Button(ButtonFrame, text = "ENCODE", command = Encode)
-DecodeButton = ttk.Button(ButtonFrame, text = "DECODE")
+DecodeButton = ttk.Button(ButtonFrame, text = "DECODE", command = Decode)
 ExitButton = ttk.Button(ButtonFrame,   text = "EXIT",   command = win.destroy, width = 11)
 
 MsgAEntryLabel.pack()
 MsgAEntry.pack()
-MsgAFrame.grid(row = 0, column = 0, padx = 20, pady = 10, rowspan = 2)
 
 KeyEntryLabel.pack()
 KeyEntry.pack()
-KeyFrame.grid(row = 0, column = 1, columnspan = 2, sticky = N, padx = 20, pady = 10)
 
 KeyMatEntryLabel.pack()
 KeyMatEntry.pack()
-KeyMatFrame.grid(row = 1, column = 1,  sticky = N, padx = 0, pady = 10, rowspan = 3)
 
-ButtonFrame.grid(row = 1, column = 2, rowspan = 1, padx = 10)
-EncodeButton.pack()
-DecodeButton.pack()
-ExitButton.pack()
+EncodeButton.pack(pady = 2)
+DecodeButton.pack(pady = 2)
+ExitButton.pack(pady = 2)
 
 MsgBOutLabel.pack()
 MsgBOut.pack()
-MsgBFrame.grid(row = 0, column = 3, padx = 20, pady = 10, rowspan = 2)
 
+MsgAFrame.grid(  row = 0, column = 0, rowspan = 2,    padx = 15, pady = 10, sticky = N)
+KeyFrame.grid(   row = 0, column = 1, columnspan = 2, padx = 0, pady = 10, sticky = N)
+KeyMatFrame.grid(row = 1, column = 1,                 padx = 0,  pady = 0,  sticky = N)
+ButtonFrame.grid(row = 1, column = 2,                 padx = 0, pady = 0,  sticky = W)
+MsgBFrame.grid(  row = 0, column = 3, rowspan = 2,    padx = 15, pady = 10, sticky = N)
+
+def Restrictions():
+
+    msg = MsgAEntry.get(1.0, END).upper()
+    msg = msg.replace("\n", "")
+    msg = msg.replace(" ", "")
+    encodeOK = True
+    if not(msg.isalpha()):
+        encodeOK = False
+    else:
+        encodeOK = True
+        for letter in msg:
+            if letter not in c:
+                encodeOK = False
+
+
+    if encodeOK:
+        DecodeButton["state"] = "normal"
+    else:
+        DecodeButton["state"] = "disabled"
+
+    win.after(200, Restrictions)
+
+Restrictions()
 win.mainloop()
 
 # /\ /\ /\ FrontEnd /\ /\ /\
 
 #ATTACKAT1200AM
+#DGDD DAGD DGAF ADDF DADV DVFA ADVX
+#NUSH
+#ADA XA AXX
