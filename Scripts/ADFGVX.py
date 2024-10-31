@@ -12,7 +12,7 @@ from functools import cmp_to_key
 
 win = tk.Tk()
 win.title("ADFGVX Cipher")
-win.geometry("850x300")
+win.geometry("950x300")
 win.resizable(False, False)
 
 EncodeKey = StringVar(win, "")
@@ -32,6 +32,7 @@ MsgAEntry = tk.Text(MsgAFrame, width = 25, height = 11, font = ("Courier", 12), 
 MsgBFrame = ttk.Frame(win, height = 2, width = 20)
 MsgBOutLabel = ttk.Label(MsgBFrame, text = "Encoded/Decoded Message:")
 MsgBOut = tk.Text(MsgBFrame, width = 25, height = 11, font = ("Courier", 12), relief = "solid", wrap = "word")
+MsgBOut.config(state = "disabled")
 
 # /\ /\ /\ FrontEnd /\ /\ /\
 
@@ -100,6 +101,8 @@ def Encode():
     print(EarlyEncodedMsg)
     print(EncodedMat)
     print(EncodedMsg)
+
+def Decode():
 
 
 # \/ \/ \/ FrontEnd \/ \/ \/
