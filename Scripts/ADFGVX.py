@@ -2,17 +2,17 @@
 
 import tkinter as tk
 import tkinter.ttk as ttk
-from base64 import encode
 from tkinter import *
 import math
 from functools import cmp_to_key
+
 import numpy as np
 
 # \/ \/ \/ FrontEnd \/ \/ \/
 
 win = tk.Tk()
 win.title("ADFGVX Cipher")
-win.geometry("950x300")
+win.geometry("765x300")
 win.resizable(False, False)
 
 EncodeKey = StringVar(win, "")
@@ -33,6 +33,12 @@ MsgBFrame = ttk.Frame(win, height = 2, width = 20)
 MsgBOutLabel = ttk.Label(MsgBFrame, text = "Encoded/Decoded Message:")
 MsgBOut = tk.Text(MsgBFrame, width = 25, height = 11, font = ("Courier", 12), relief = "solid", wrap = "word")
 MsgBOut.config(state = "disabled")
+
+TemporaryWarningMessage = StringVar()
+TemporaryWarningLabel = Label(fg = "red", textvariable= TemporaryWarningMessage)
+
+WarningMessage = StringVar()
+WarningMessageLabel = Label(fg = "red", textvariable= WarningMessage)
 
 # /\ /\ /\ FrontEnd /\ /\ /\
 
@@ -62,7 +68,24 @@ def compare1(indLetter1, indLetter2):
         return 0
     else: return 1
 
+counter = 0
+userInputWarning = False
+showingWarning = False
+def showWarning():
+    global counter
+    global showingWarning
+    showingWarning = True
+
+    if counter > 0:
+        win.after(1000, showWarning)
+        counter -= 1
+    else:
+        TemporaryWarningMessage.set("")
+        showingWarning = False
+
 def Encode():
+    global userInputWarning
+
     LettersCode = [LetCode('0', '0') for _ in range(0, 205)]
 
     KeyMatString =  KeyMatEntry.get(1.0, END).upper()
@@ -72,43 +95,50 @@ def Encode():
     MsgToEncode = MsgToEncode.replace(" ", "")
     MsgToEncode = MsgToEncode.replace("\n", "")
 
-    k = 0
-    for i in range(0, 6):
-        for j in range(0, 6):
-            LettersCode[ord(KeyMatString[k])] = LetCode(c[i], c[j])
-            k += 1
+    if len(MsgToEncode) >= len(EncodeKey.get())//2:
+        k = 0
+        for i in range(0, 6):
+            for j in range(0, 6):
+                LettersCode[ord(KeyMatString[k])] = LetCode(c[i], c[j])
+                k += 1
 
-    for letter in MsgToEncode:
-        l1 = LettersCode[ord(letter)].let1
-        l2 = LettersCode[ord(letter)].let2
-        EarlyEncodedMsg += l1 + l2
+        for letter in MsgToEncode:
+            l1 = LettersCode[ord(letter)].let1
+            l2 = LettersCode[ord(letter)].let2
+            EarlyEncodedMsg += l1 + l2
 
-    EncodedMat = []
-    lkey = len(EncodeKey.get()); lmsg = len(EarlyEncodedMsg)
-    MaxColLength = math.ceil(lmsg / lkey)
-    for j in range(0, lkey):
-        column = ''
-        for i in range(0, MaxColLength):
-            index = i*lkey + j
-            if index < lmsg:
-                column += EarlyEncodedMsg[index]
-        column += EncodeKey.get()[j]
-        EncodedMat.append(column)
+        EncodedMat = []
+        lkey = len(EncodeKey.get()); lmsg = len(EarlyEncodedMsg)
+        MaxColLength = math.ceil(lmsg / lkey)
+        for j in range(0, lkey):
+            column = ''
+            for i in range(0, MaxColLength):
+                index = i*lkey + j
+                if index < lmsg:
+                    column += EarlyEncodedMsg[index]
+            column += EncodeKey.get()[j]
+            EncodedMat.append(column)
 
-    EncodedMat.sort(key = cmp_to_key(compare))
+        EncodedMat.sort(key = cmp_to_key(compare))
 
-    for i in range(lkey):
-        EncodedMat[i] = EncodedMat[i][0:-1]
+        for i in range(lkey):
+            EncodedMat[i] = EncodedMat[i][0:-1]
 
-    EncodedMsg = " ".join(EncodedMat)
-    #EncodedMsg.strip(" ")
+        EncodedMsg = " ".join(EncodedMat)
+        #EncodedMsg.strip(" ")
 
-    MsgBOut.config(state="normal")
-    MsgBOut.delete('1.0', END)
-    MsgBOut.insert(tk.END, EncodedMsg)
-    MsgBOut.config(state="disabled")
+        MsgBOut.config(state="normal")
+        MsgBOut.delete('1.0', END)
+        MsgBOut.insert(tk.END, EncodedMsg)
+        MsgBOut.config(state="disabled")
+    else:
+        userInputWarning = True
+        showWarning()
+        TemporaryWarningMessage.set(
+            "LENGTH OF MESSAGE TO ENCODE MUST BE AT LEAST HALF THE LENGTH OF THE ENCRYPTION KEY!")
 
 def Decode():
+    global userInputWarning
 
     KeyMat = KeyMatEntry.get(1.0, END).upper()
     MsgToDecode = MsgAEntry.get(1.0, END).upper()
@@ -117,49 +147,59 @@ def Decode():
 
     EncodedMat = [coloana for coloana in MsgToDecode.split(" ")]
 
-    indKey = []
-    for i in range (0, len(EncodeKey.get())):
-        indKey.append((EncodeKey.get()[i], i))
+    if len(EncodedMat) == len(EncodeKey.get()):
+        indKey = []
+        for i in range (0, len(EncodeKey.get())):
+            indKey.append((EncodeKey.get()[i], i))
 
-    indKey.sort(key = cmp_to_key(compare1))
+        indKey.sort(key = cmp_to_key(compare1))
 
-    for i in range(0, len(EncodedMat)):
-        EncodedMat[i] += str(indKey[i][1])
+        for i in range(0, len(EncodedMat)):
+            EncodedMat[i] += str(indKey[i][1])
 
-    EncodedMat.sort(key = cmp_to_key(compare))
+        EncodedMat.sort(key = cmp_to_key(compare))
 
-    for i in range(0, len(EncodedMat)):
-        EncodedMat[i] = EncodedMat[i][0:-1:]
+        for i in range(0, len(EncodedMat)):
+            EncodedMat[i] = EncodedMat[i][0:-1:]
 
-    EarlyDecodedMsg = ""
+        EarlyDecodedMsg = ""
 
-    MaxColLength = max([len(column) for column in EncodedMat])
-    for i in range(0, MaxColLength):
-        for j in range(0, len(EncodeKey.get())):
-            if i < len(EncodedMat[j]):
-                EarlyDecodedMsg += EncodedMat[j][i]
+        MaxColLength = max([len(column) for column in EncodedMat])
+        for i in range(0, MaxColLength):
+            for j in range(0, len(EncodeKey.get())):
+                if i < len(EncodedMat[j]):
+                    EarlyDecodedMsg += EncodedMat[j][i]
 
-    KeyMat = KeyMat[0:-1:]
+        KeyMat = KeyMat[0:-1:]
 
-    LetterCodeMat = np.array([letter for letter in KeyMat])
-    LetterCodeMat = LetterCodeMat.reshape(6, 6)
+        LetterCodeMat = np.array([letter for letter in KeyMat])
+        LetterCodeMat = LetterCodeMat.reshape(6, 6)
 
-    DecodedMsg = ""
+        DecodedMsg = ""
 
-    for i in range(0, len(EarlyDecodedMsg), 2):
-        DecodedMsg += LetterCodeMat[c.index(EarlyDecodedMsg[i])][c.index(EarlyDecodedMsg[i+1])]
+        for i in range(0, len(EarlyDecodedMsg), 2):
+            DecodedMsg += LetterCodeMat[c.index(EarlyDecodedMsg[i])][c.index(EarlyDecodedMsg[i+1])]
 
-    MsgBOut.config(state="normal")
-    MsgBOut.delete('1.0', END)
-    MsgBOut.insert(tk.END, DecodedMsg)
-    MsgBOut.config(state="disabled")
+        MsgBOut.config(state="normal")
+        MsgBOut.delete('1.0', END)
+        MsgBOut.insert(tk.END, DecodedMsg)
+        MsgBOut.config(state="disabled")
+    else:
+        userInputWarning = True
+        TemporaryWarningMessage.set(
+            "WORD COUNT IN MESSAGE TO DECODE MUST BE EQUAL TO THE LENGTH OF THE ENCRYPTION KEY!")
+
+def ResetKeyMat():
+    KeyMatEntry.delete(1.0, END)
+    KeyMatEntry.insert(END, "NA1C3H8TB2OME5WRPD4F6G7I9J0KLQSUVXYZ")
 
 # \/ \/ \/ FrontEnd \/ \/ \/
 
 ButtonFrame = ttk.Frame(win, width = 10, height = 3)
-EncodeButton = ttk.Button(ButtonFrame, text = "ENCODE", command = Encode)
-DecodeButton = ttk.Button(ButtonFrame, text = "DECODE", command = Decode)
-ExitButton = ttk.Button(ButtonFrame,   text = "EXIT",   command = win.destroy, width = 11)
+EncodeButton = ttk.Button(ButtonFrame, text = "ENCODE", command = Encode, width = 15)
+DecodeButton = ttk.Button(ButtonFrame, text = "DECODE", command = Decode, width = 15)
+ResetKeyMatButton = ttk.Button(ButtonFrame, text = "RESET MATRIX", command = ResetKeyMat, width = 15)
+ExitButton = ttk.Button(ButtonFrame,   text = "EXIT", command = win.destroy, width = 15)
 
 MsgAEntryLabel.pack()
 MsgAEntry.pack()
@@ -172,23 +212,41 @@ KeyMatEntry.pack()
 
 EncodeButton.pack(pady = 2)
 DecodeButton.pack(pady = 2)
+ResetKeyMatButton.pack(pady = 2)
 ExitButton.pack(pady = 2)
 
 MsgBOutLabel.pack()
 MsgBOut.pack()
 
-MsgAFrame.grid(  row = 0, column = 0, rowspan = 2,    padx = 15, pady = 10, sticky = N)
-KeyFrame.grid(   row = 0, column = 1, columnspan = 2, padx = 0, pady = 10, sticky = N)
-KeyMatFrame.grid(row = 1, column = 1,                 padx = 0,  pady = 0,  sticky = N)
-ButtonFrame.grid(row = 1, column = 2,                 padx = 0, pady = 0,  sticky = W)
-MsgBFrame.grid(  row = 0, column = 3, rowspan = 2,    padx = 15, pady = 10, sticky = N)
 
-def Restrictions():
+
+MsgAFrame.grid(   row = 0, column = 0, rowspan = 2,    padx = 15, pady = 10, sticky = N)
+KeyFrame.grid(    row = 0, column = 1, columnspan = 2, padx = 0, pady = 10, sticky = N)
+KeyMatFrame.grid( row = 1, column = 1,                 padx = 0,  pady = 0,  sticky = N)
+ButtonFrame.grid( row = 1, column = 2,                 padx = 0, pady = 0,  sticky = W)
+MsgBFrame.grid(   row = 0, column = 3, rowspan = 2,    padx = 15, pady = 10, sticky = N)
+TemporaryWarningLabel.grid(row = 2, column = 0, columnspan = 4, padx = 10, pady = 2, sticky = N)
+WarningMessageLabel.grid(row = 3, column = 0, columnspan = 4, padx = 10, pady = 2, sticky = N)
+
+# /\ /\ /\ FrontEnd /\ /\ /\
+
+def disableButtons():
+    EncodeButton["state"] = "disabled"
+    DecodeButton["state"] = "disabled"
+def enableButtons():
+    EncodeButton["state"] = "normal"
+    DecodeButton["state"] = "normal"
+
+encodeOK = True
+keyWarning = False
+def RestrictionsAndWarnings():
+    global counter
+    global userInputWarning
+    global encodeOK
 
     msg = MsgAEntry.get(1.0, END).upper()
     msg = msg.replace("\n", "")
     msg = msg.replace(" ", "")
-    encodeOK = True
     if not(msg.isalpha()):
         encodeOK = False
     else:
@@ -197,20 +255,30 @@ def Restrictions():
             if letter not in c:
                 encodeOK = False
 
+    if userInputWarning is True:
+        userInputWarning = False
+        counter = 5
+        if not showingWarning:
+            showWarning()
 
-    if encodeOK:
-        DecodeButton["state"] = "normal"
+    if len(KeyMatEntry.get(1.0, 'end-1c')) != 36:
+        WarningMessage.set("CHARACTER MATRIX MUST BE EXACTLY 36 CHARACTERS!")
+        disableButtons()
+    elif len(set(KeyMatEntry.get(1.0, "end-1c").upper())) != len(KeyMatEntry.get(1.0, "end-1c").upper()):
+        WarningMessage.set("""CHARACTER MATRIX MUST NOT HAVE DUPLICATE CHARACTERS!""")
+        disableButtons()
+    elif not(KeyMatEntry.get(1.0, "end-1c").isalnum() or KeyMatEntry.get(1.0) == '\n'):
+        WarningMessage.set("""CHARACTER MATRIX MUST ONLY CONTAIN LETTERS AND NUMBERS!""")
+        disableButtons()
     else:
-        DecodeButton["state"] = "disabled"
+        WarningMessage.set("")
+        if encodeOK is False:
+            DecodeButton["state"] = "disabled"
+            EncodeButton["state"] = "normal"
+        else:
+            enableButtons()
 
-    win.after(200, Restrictions)
+    win.after(200, RestrictionsAndWarnings)
 
-Restrictions()
+RestrictionsAndWarnings()
 win.mainloop()
-
-# /\ /\ /\ FrontEnd /\ /\ /\
-
-#ATTACKAT1200AM
-#DGDD DAGD DGAF ADDF DADV DVFA ADVX
-#NUSH
-#ADA XA AXX
