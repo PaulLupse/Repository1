@@ -68,6 +68,20 @@ def compare1(indLetter1, indLetter2):
         return 0
     else: return 1
 
+def compare2(col1, col2):
+    ind1 = 0
+    ind2 = 0
+    while col1[ind1].isalpha():
+        ind1 += 1
+    while col2[ind2].isalpha():
+        ind2+= 1
+    ord1 = int(col1[ind1::]); ord2 = int(col2[ind2::])
+    if ord1 < ord2:
+        return -1
+    elif ord1 == ord2:
+        return 0
+    else: return 1
+
 counter = 0
 userInputWarning = False
 showingWarning = False
@@ -144,6 +158,7 @@ def Decode():
     MsgToDecode = MsgAEntry.get(1.0, END).upper()
 
     MsgToDecode = MsgToDecode.replace("\n", "")
+    MsgToDecode = MsgToDecode.strip(" ")
 
     EncodedMat = [coloana for coloana in MsgToDecode.split(" ")]
 
@@ -157,10 +172,14 @@ def Decode():
         for i in range(0, len(EncodedMat)):
             EncodedMat[i] += str(indKey[i][1])
 
-        EncodedMat.sort(key = cmp_to_key(compare))
+        EncodedMat.sort(key = cmp_to_key(compare2))
 
         for i in range(0, len(EncodedMat)):
-            EncodedMat[i] = EncodedMat[i][0:-1:]
+            ind = 0
+            while EncodedMat[i][ind].isalpha():
+                ind+=1
+
+            EncodedMat[i] = EncodedMat[i][0:ind]
 
         EarlyDecodedMsg = ""
 
