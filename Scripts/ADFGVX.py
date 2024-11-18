@@ -215,10 +215,10 @@ def ResetKeyMat():
 # \/ \/ \/ FrontEnd \/ \/ \/
 
 ButtonFrame = ttk.Frame(win, width = 10, height = 3)
-EncodeButton = ttk.Button(ButtonFrame, text = "ENCODE", command = Encode, width = 15)
-DecodeButton = ttk.Button(ButtonFrame, text = "DECODE", command = Decode, width = 15)
-ResetKeyMatButton = ttk.Button(ButtonFrame, text = "RESET MATRIX", command = ResetKeyMat, width = 15)
-ExitButton = ttk.Button(ButtonFrame,   text = "EXIT", command = win.destroy, width = 15)
+EncodeButton = ttk.Button(ButtonFrame, text = "ENCODE", command = Encode, width = 15, cursor = "hand2")
+DecodeButton = ttk.Button(ButtonFrame, text = "DECODE", command = Decode, width = 15, cursor = "hand2")
+ResetKeyMatButton = ttk.Button(ButtonFrame, text = "RESET MATRIX", command = ResetKeyMat, width = 15, cursor = "hand2")
+ExitButton = ttk.Button(ButtonFrame,   text = "EXIT", command = win.destroy, width = 15, cursor = "hand2")
 
 MsgAEntryLabel.pack()
 MsgAEntry.pack()
@@ -280,6 +280,11 @@ def RestrictionsAndWarnings():
         if not showingWarning:
             showWarning()
 
+    win.after(200, RestrictionsAndWarnings)
+
+def ButtonCheck(event):
+    print("ACTIVATED")
+
     if len(KeyMatEntry.get(1.0, 'end-1c')) != 36:
         WarningMessage.set("CHARACTER MATRIX MUST BE EXACTLY 36 CHARACTERS!")
         disableButtons()
@@ -297,7 +302,8 @@ def RestrictionsAndWarnings():
         else:
             enableButtons()
 
-    win.after(200, RestrictionsAndWarnings)
+win.bind("<KeyPress>", ButtonCheck)
+#win.bind("<KeyRelease>", ButtonCheck)
 
 RestrictionsAndWarnings()
 win.mainloop()
