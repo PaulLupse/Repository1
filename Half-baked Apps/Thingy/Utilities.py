@@ -57,7 +57,9 @@ class StopWatch:
         self.time_passed += self.__stop_time - self.__start_time
 
 class Sort:
-    def BubbleSort(self, arr):
+
+    @staticmethod
+    def BubbleSort(arr):
         arrL = len(arr)
         sorted = False
         j = 0
@@ -69,14 +71,16 @@ class Sort:
                     arr[i], arr[i + 1] = arr[i + 1], arr[i]
             j += 1
 
-    def StupidSort(self, arr):
+    @staticmethod
+    def StupidSort(arr):
         arrL = len(arr)
         for i in range(0, arrL - 1):
             for j in range(i + 1, arrL):
                 if arr[i] > arr[j]:
                     arr[i], arr[j] = arr[j], arr[i]
 
-    def SelectionSort(self, arr):
+    @staticmethod
+    def SelectionSort(arr):
         arrL = len(arr)
         for i in range(0, arrL - 1):
             imin = i
@@ -86,7 +90,8 @@ class Sort:
 
             arr[imin], arr[i] = arr[i], arr[imin]
 
-    def InsertionSort(self, arr):
+    @staticmethod
+    def InsertionSort(arr):
         arrL = len(arr)
         arr2 = np.zeros((arrL,), np.int64)
         k = 0
@@ -101,23 +106,42 @@ class Sort:
         for i in range(0, arrL):
             arr[i] = arr2[i]
 
-    def MergeSort(self, arr, left, right):
-        if left + 1 < right:
-            p = (left + right )//2
-            self.MergeSort(arr, left, p)
-            self.MergeSort(arr, p, right)
-            InterclassedArr = Interclass_np(arr[left:p], arr[p:right])
+    def MergeSort(self, arr):
+        if len(arr) > 1:
+            p = (len(arr))//2
+            self.MergeSort(arr[0:p])
+            self.MergeSort(arr[p:len(arr)])
+            InterclassedArr = Interclass_np(arr[0:p], arr[p:len(arr)])
             k = 0
-            for i in range(left, right):
+            for i in range(0, len(arr)):
                 arr[i] = InterclassedArr[k]
                 k += 1
 
-    def QuickSort(self, arr, left, right):
+    def QuickSort(self, arr):
+        if len(arr) > 1:
+            p = arr[0]
+            i = -1; j = len(arr)
+            while True:
+                while True:
+                    i += 1
+                    if p <= arr[i]:
+                        break
+
+                while True:
+                    j -= 1
+                    if p >= arr[j]:
+                        break
+
+                if i > j:
+                    break
+
+                arr[i], arr[j] = arr[j], arr[i]
+
+            self.QuickSort(arr[0:i])
+            self.QuickSort(arr[i:len(arr)])
+
+    def HeapSort(self, arr):
         pass
-
-
-
-
 
 
 def Interclass_np(arr1, arr2):
@@ -154,8 +178,8 @@ if __name__ == "__main__":
 
     s = Sort()
 
-    s.MergeSort(a, 0, len(a))
-    s.MergeSort(b, 0, len(b))
+    s.MergeSort(a)
+    s.MergeSort(b)
 
     print(a, b)
 
