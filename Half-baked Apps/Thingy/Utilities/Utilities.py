@@ -1,6 +1,12 @@
 import threading as thrd
 import time
+
 import numpy as np
+
+import numpy
+
+n = numpy.ndarray((1, 5), "float")
+
 
 class CDTimer:
     def __init__(self, period):
@@ -13,8 +19,8 @@ class CDTimer:
     def __run(self):
         while self.__pperiod > 0 and self.__stop is not True:
             if self.__pause is not True:
-                self.__pperiod -= 0.01
-                time.sleep(0.01)
+                self.__pperiod -= 0.1
+                time.sleep(0.1)
 
         self.running = False
         self.__stop = False
@@ -57,6 +63,7 @@ class StopWatch:
         self.time_passed += self.__stop_time - self.__start_time
 
 class Sort:
+
 
     @staticmethod
     def BubbleSort(arr):
@@ -175,6 +182,33 @@ def Interclass_np(arr1, arr2):
 if __name__ == "__main__":
     a = np.array([1, 6, 5, 7, 1, 9])
     b = np.array([9, 4, 2, 10, 1])
+
+    def interclass(self, a, b):
+        interclassedArray = numpy.array()
+        i = 0
+        j = 0
+        k = 0
+        la = len(a); lb = len(b)
+        while i <= la and j <= lb:
+            if a[i] > b[j]:
+                interclassedArray[k] = b[j]
+                j += 1
+            else:
+                interclassedArray[k] = a[i]
+                i += 1
+            k += 1
+        while i <= la:
+            interclassedArray[k] = a[i]
+            i += 1
+            k += 1
+        while j <= lb:
+            interclassedArray[k] = b[j]
+            j += 1
+            k += 1
+
+if __name__ == "__main__":
+    pass
+
 
     s = Sort()
 
