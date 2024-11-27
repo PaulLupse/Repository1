@@ -1,12 +1,6 @@
 import threading as thrd
 import time
-
 import numpy as np
-
-import numpy
-
-n = numpy.ndarray((1, 5), "float")
-
 
 class CDTimer:
     def __init__(self, period):
@@ -62,95 +56,6 @@ class StopWatch:
         self.__stop_time = time.time()
         self.time_passed += self.__stop_time - self.__start_time
 
-class Sort:
-
-
-    @staticmethod
-    def BubbleSort(arr):
-        arrL = len(arr)
-        sorted = False
-        j = 0
-        while sorted is False:
-            sorted = True
-            for i in range(0, arrL - 1 - j):
-                if arr[i] > arr[i + 1]:
-                    sorted = False
-                    arr[i], arr[i + 1] = arr[i + 1], arr[i]
-            j += 1
-
-    @staticmethod
-    def StupidSort(arr):
-        arrL = len(arr)
-        for i in range(0, arrL - 1):
-            for j in range(i + 1, arrL):
-                if arr[i] > arr[j]:
-                    arr[i], arr[j] = arr[j], arr[i]
-
-    @staticmethod
-    def SelectionSort(arr):
-        arrL = len(arr)
-        for i in range(0, arrL - 1):
-            imin = i
-            for j in range(i + 1, arrL):
-                if arr[j] < arr[imin]:
-                    imin = j
-
-            arr[imin], arr[i] = arr[i], arr[imin]
-
-    @staticmethod
-    def InsertionSort(arr):
-        arrL = len(arr)
-        arr2 = np.zeros((arrL,), np.int64)
-        k = 0
-        for number in arr:
-            i = k
-            while arr2[i-1] > number and i-1 >= 0:
-                arr2[i] = arr2[i-1]
-                i -= 1
-            arr2[i] = number
-            k += 1
-
-        for i in range(0, arrL):
-            arr[i] = arr2[i]
-
-    def MergeSort(self, arr):
-        if len(arr) > 1:
-            p = (len(arr))//2
-            self.MergeSort(arr[0:p])
-            self.MergeSort(arr[p:len(arr)])
-            InterclassedArr = Interclass_np(arr[0:p], arr[p:len(arr)])
-            k = 0
-            for i in range(0, len(arr)):
-                arr[i] = InterclassedArr[k]
-                k += 1
-
-    def QuickSort(self, arr):
-        if len(arr) > 1:
-            p = arr[0]
-            i = -1; j = len(arr)
-            while True:
-                while True:
-                    i += 1
-                    if p <= arr[i]:
-                        break
-
-                while True:
-                    j -= 1
-                    if p >= arr[j]:
-                        break
-
-                if i > j:
-                    break
-
-                arr[i], arr[j] = arr[j], arr[i]
-
-            self.QuickSort(arr[0:i])
-            self.QuickSort(arr[i:len(arr)])
-
-    def HeapSort(self, arr):
-        pass
-
-
 def Interclass_np(arr1, arr2):
     i = 0; arr1L = len(arr1)
     j = 0; arr2L = len(arr2)
@@ -158,64 +63,39 @@ def Interclass_np(arr1, arr2):
 
     arrk = np.zeros((arr1L + arr2L,), np.int64)
 
+    changes = []
+    comparisons = 1
     while i < arr1L and j < arr2L:
+        comparisons += 1
         if arr1[i] < arr2[j]:
             arrk[k] = arr1[i]
+            changes.append(i)
             i += 1
         else:
             arrk[k] = arr2[j]
+            changes.append(j)
             j += 1
         k += 1
 
     while i < arr1L:
+        comparisons += 1
         arrk[k] = arr1[i]
+        changes.append(i)
         i += 1
         k += 1
     while j < arr2L:
+        comparisons += 1
         arrk[k] = arr2[j]
+        changes.append(j)
         j += 1
         k += 1
 
-    return arrk
+    return arrk, comparisons, changes
 
-
-if __name__ == "__main__":
-    a = np.array([1, 6, 5, 7, 1, 9])
-    b = np.array([9, 4, 2, 10, 1])
-
-    def interclass(self, a, b):
-        interclassedArray = numpy.array()
-        i = 0
-        j = 0
-        k = 0
-        la = len(a); lb = len(b)
-        while i <= la and j <= lb:
-            if a[i] > b[j]:
-                interclassedArray[k] = b[j]
-                j += 1
-            else:
-                interclassedArray[k] = a[i]
-                i += 1
-            k += 1
-        while i <= la:
-            interclassedArray[k] = a[i]
-            i += 1
-            k += 1
-        while j <= lb:
-            interclassedArray[k] = b[j]
-            j += 1
-            k += 1
+def CarbonCopy(arr):
+    arrCopy = [i for i in arr]
+    return arrCopy
 
 if __name__ == "__main__":
     pass
-
-
-    s = Sort()
-
-    s.MergeSort(a)
-    s.MergeSort(b)
-
-    print(a, b)
-
-    print(Interclass_np(a, b))
 
