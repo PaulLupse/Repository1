@@ -11,7 +11,6 @@ win = tk.Tk()
 win.geometry("700x550")
 win.title("Sorting Algorithms Visualised")
 win.resizable(False, False)
-#win.configure(background='#999999')
 
 class Mediator:
     def __init__(self, buttons):
@@ -20,7 +19,6 @@ class Mediator:
         self.buttons[button_name]['state'] = 'disabled'
     def enable_button(self, button_name):
         self.buttons[button_name]['state'] = 'normal'
-
 
 class element:
     def __init__(self, master, x, screenL, elementWidth, border):
@@ -37,6 +35,9 @@ class sortingScreen:
         self.screenL = screenL
         self.elementWidth = elementwidth
         self.mediator = Mediator
+        self.delay = 0
+        self.sorting = False
+        self.shuffling = False
 
         self.canvas = tk.Canvas(master, bg = "black", bd = 0, width = screenL, height = screenL)
         self.canvas.grid(row=row, column=column, padx=10, pady=10, rowspan = 20)
@@ -72,11 +73,16 @@ class sortingScreen:
         Mediator.disable_button('reset')
         Mediator.disable_button('sort')
 
+        self.shuffling = True
+
         shuffle_indexes = [i for i in range(0, len(self.element_list) - 1)]
         random.shuffle(shuffle_indexes)
         thrd.Thread(target = self.shuffling_thread, args = (shuffle_indexes, )).start()
 
     def sort(self):
+        l = len(self.element_list)
+        self.sorting = True
+
         Mediator.disable_button('set')
         Mediator.disable_button('shuffle')
         Mediator.disable_button('reset')
@@ -90,20 +96,26 @@ class sortingScreen:
         indexes = [len(self.element_list) - self.canvas.coords(i.shape)[1]//self.elementWidth for i in self.element_list]
         comparisons = 0
         if type == 'Merge Sort':
+            self.delay = 0.005
             swap_dq, comparisons = Sorting.Sort_np.MergeSort(indexes, 0, len(indexes))
             thrd.Thread(target=self.merge_sorting_thread, args=(swap_dq,)).start()
         else:
             swap_dq = 0
             match type:
                 case 'Stupid Sort':
+                    self.delay = 0.001 #* (1/l)
                     swap_dq, comparisons = Sorting.Sort_np.StupidSort(indexes)
                 case 'Bubble Sort':
+                    self.delay = 0.001 #* (1/l)
                     swap_dq, comparisons = Sorting.Sort_np.BubbleSort(indexes)
                 case 'Selection Sort':
+                    self.delay = 0.03 #* (1/l)
                     swap_dq, comparisons = Sorting.Sort_np.SelectionSort(indexes)
                 case 'Insertion Sort':
+                    self.delay = 0.001 #* (1/l)
                     swap_dq, comparisons = Sorting.Sort_np.InsertionSort(indexes)
                 case 'Quick Sort':
+                    self.delay = 0.016 #* (1/l)
                     swap_dq, comparisons = Sorting.Sort_np.QuickSort(indexes, 0, len(indexes))
             thrd.Thread(target=self.sorting_thread, args=(swap_dq,)).start()
 
@@ -123,7 +135,7 @@ class sortingScreen:
                 for i in range(left, right):
                     self.canvas.itemconfig(self.element_list[i].shape, fill='red')
                     self.overwrite_element(i, obj_arr_coords[k])
-                    time.sleep(0.005)
+                    time.sleep(self.delay)
                     self.canvas.itemconfig(self.element_list[i].shape, fill='white')
                     k += 1
                 swap_dq.popleft()
@@ -142,12 +154,12 @@ class sortingScreen:
                 break
             if self.pause_sorting is False:
                 swap = swap_dq[0]
-                self.canvas.itemconfig(swap[1], fill = 'red')
+                thrd.Thread(target = self.change_colour_thread, args = (swap[0], 'red',)).start()
+                thrd.Thread(target=self.change_colour_thread, args=(swap[1], 'red',)).start()
                 self.swp(swap[1], swap[0])
                 swap_dq.popleft()
-                time.sleep(1/l)
-                self.canvas.itemconfig(swap[1], fill='white')
-            else: time.sleep(1/l)
+                time.sleep(self.delay)
+            else: time.sleep(0.005)
         if self.stop_sorting is False:
             thrd.Thread(target=self.final_touch_thread).start()
         else:
@@ -165,6 +177,8 @@ class sortingScreen:
         Mediator.enable_button('reset')
         Mediator.enable_button('sort')
 
+        self.shuffling = False
+
     def final_touch_thread(self):
         l = len(self.element_list)
         for element in self.element_list:
@@ -180,6 +194,12 @@ class sortingScreen:
         Mediator.disable_button('pause')
         Mediator.disable_button('stop')
         Mediator.disable_button('resume')
+        self.sorting = False
+
+    def change_colour_thread(self, el_index, color):
+        self.canvas.itemconfig(self.element_list[el_index].shape, fill = color)
+        time.sleep(self.delay * 50)
+        self.canvas.itemconfig(self.element_list[el_index].shape, fill='white')
 
     def pause_sort(self):
         self.pause_sorting = True
@@ -220,6 +240,127 @@ class sortingScreen:
             self.__erase_elements()
             self.elementWidth = self.screenL // int(elNum)
             self.__init_elements()
+
+    def show_all_algorithms(self):
+        Mediator.disable_button('set')
+        Mediator.disable_button('shuffle')
+        Mediator.disable_button('reset')
+        Mediator.disable_button('sort')
+        Mediator.disable_button('resume')
+        Mediator.disable_button('showall')
+
+        Mediator.enable_button('pause')
+        Mediator.enable_button('stop')
+
+        thrd.Thread(target = self.show_all_algorithms_thread).start()
+
+    def show_all_algorithms_thread(self):
+        self.shuffle()
+        self.ComboBox.comboBox.set('Stupid Sort')
+
+        while True:
+            if self.shuffling == True:
+                time.sleep(0.1)
+            else: break
+        time.sleep(1)
+
+        self.sort()
+
+        while True:
+            if self.sorting == True:
+                time.sleep(0.1)
+            else: break
+
+        time.sleep(1)
+        self.shuffle()
+        self.ComboBox.comboBox.set('Bubble Sort')
+
+        while True:
+            if self.shuffling == True:
+                time.sleep(0.1)
+            else:
+                break
+        time.sleep(1)
+
+        self.sort()
+
+        while True:
+            if self.sorting == True:
+                time.sleep(0.1)
+            else: break
+
+        time.sleep(1)
+        self.shuffle()
+        self.ComboBox.comboBox.set('Selection Sort')
+
+        while True:
+            if self.shuffling == True:
+                time.sleep(0.1)
+            else:
+                break
+        time.sleep(1)
+
+        self.sort()
+
+        while True:
+            if self.sorting == True:
+                time.sleep(0.1)
+            else: break
+
+        time.sleep(1)
+        self.shuffle()
+        self.ComboBox.comboBox.set('Insertion Sort')
+
+        while True:
+            if self.shuffling == True:
+                time.sleep(0.1)
+            else:
+                break
+        time.sleep(1)
+
+        self.sort()
+
+        while True:
+            if self.sorting == True:
+                time.sleep(0.1)
+            else: break
+        time.sleep(1)
+        self.shuffle()
+        self.ComboBox.comboBox.set('Merge Sort')
+
+        while True:
+            if self.shuffling == True:
+                time.sleep(0.1)
+            else: break
+        time.sleep(1)
+
+        self.sort()
+
+        while True:
+            if self.sorting == True:
+                time.sleep(0.1)
+            else: break
+        time.sleep(1)
+        self.shuffle()
+        self.ComboBox.comboBox.set('Quick Sort')
+
+        while True:
+            if self.shuffling == True:
+                time.sleep(0.1)
+            else: break
+        time.sleep(1)
+
+        self.sort()
+
+        Mediator.enable_button('set')
+        Mediator.enable_button('shuffle')
+        Mediator.enable_button('sort')
+        Mediator.enable_button('showall')
+
+        Mediator.disable_button('pause')
+        Mediator.disable_button('stop')
+        Mediator.disable_button('resume')
+
 
 class ImprovedComboBox:
     def __init__(self, master, values):
@@ -278,13 +419,16 @@ ResumeButton =  ttk.Button(ButtonFrame, text = "RESUME SORTING", command = sorti
 StopButton =    ttk.Button(ButtonFrame, text = "STOP SORTING",   command = sortingScreen.stop_sort,   width = 20)
 ExitButton =    ttk.Button(ButtonFrame, text = "EXIT",           command = win.destroy,               width = 20)
 
+ShowAllSortsButton = ttk.Button(ButtonFrame, text = "SHOW ALL SORTS", command = sortingScreen.show_all_algorithms, width = 20)
+
 Mediator.buttons = {'set'    :SetElNumButton,
                      'shuffle':ShuffleButton,
                      'reset'  :ResetButton,
                      'sort'   :SortButton,
                      'pause'  :PauseButton,
                      'resume' :ResumeButton,
-                     'stop'   :StopButton}
+                     'stop'   :StopButton,
+                     'showall':ShowAllSortsButton}
 
 ResetButton['state'] = 'disabled'
 PauseButton['state'] = 'disabled'
@@ -298,8 +442,9 @@ PauseButton.pack()
 ResumeButton.pack()
 StopButton.pack()
 ExitButton.pack()
+ShowAllSortsButton.pack()
 
-ButtonFrame.grid(row = 5, column = 1, rowspan = 7)
+ButtonFrame.grid(row = 5, column = 1, rowspan = 8)
 
 win.mainloop()
 

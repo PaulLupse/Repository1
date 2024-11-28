@@ -18,7 +18,7 @@ class Sort_np:
                 if arr[i] > arr[i + 1]:
                     sorted = False
                     arr[i], arr[i + 1] = arr[i + 1], arr[i]
-                    array_changes.append([i, i+1])
+                    array_changes.append([i, i+1, 's'])
                 comparisons += 1
             j += 1
         return array_changes, comparisons
