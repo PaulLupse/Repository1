@@ -8,6 +8,10 @@ from functools import cmp_to_key
 
 import numpy as np
 
+import ctypes
+
+ctypes.windll.shcore.SetProcessDpiAwareness(1)
+
 # \/ \/ \/ FrontEnd \/ \/ \/
 
 win = tk.Tk()

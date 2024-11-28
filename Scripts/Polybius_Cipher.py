@@ -4,6 +4,9 @@ from tkinter import *
 import tkinter as tk
 import tkinter.scrolledtext as st
 import tkinter.ttk as ttk
+import ctypes
+
+ctypes.windll.shcore.SetProcessDpiAwareness(1)
 
 win = tk.Tk()
 win.title("Polybius Cipher")
