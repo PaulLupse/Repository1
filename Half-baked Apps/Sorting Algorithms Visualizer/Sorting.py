@@ -15,10 +15,11 @@ class Sort_np:
         while sorted is False:
             sorted = True
             for i in range(0, arrL - 1 - j):
+                array_changes.append([i, i + 1, 'comparison'])
                 if arr[i] > arr[i + 1]:
                     sorted = False
                     arr[i], arr[i + 1] = arr[i + 1], arr[i]
-                    array_changes.append([i, i+1, 's'])
+                    array_changes.append([i, i+1, 'swap'])
                 comparisons += 1
             j += 1
         return array_changes, comparisons
@@ -30,9 +31,10 @@ class Sort_np:
         arrL = len(arr)
         for i in range(0, arrL - 1):
             for j in range(i + 1, arrL):
+                array_changes.append([i, j, 'comparison'])
                 if arr[i] > arr[j]:
                     arr[i], arr[j] = arr[j], arr[i]
-                    array_changes.append([i, j])
+                    array_changes.append([i, j, 'swap'])
                 comparisons += 1
         return array_changes, comparisons
 
@@ -44,12 +46,50 @@ class Sort_np:
         for i in range(0, arrL - 1):
             imin = i
             for j in range(i + 1, arrL):
+                array_changes.append([i, j, 'comparison'])
                 if arr[j] < arr[imin]:
                     imin = j
                 comparisons += 1
 
             arr[imin], arr[i] = arr[i], arr[imin]
-            array_changes.append([imin, i])
+            array_changes.append([imin, i, 'swap'])
+        return array_changes, comparisons
+
+    @staticmethod
+    def DoubleSelectionSort(arr):
+        array_changes = dq()
+        comparisons = 0
+        arrL = len(arr)
+        i = 0
+        j = arrL - 1
+        while i < j:
+            imin = i
+            imax = i
+            min = arr[i]
+            max = arr[i]
+            for k in range(i , j + 1, 1):
+                array_changes.append([imax, k, 'comparison'])
+                if arr[k] > max:
+                    imax = k
+                    max = arr[k]
+                elif arr[k] < min:
+                    imin = k
+                    min = arr[k]
+                    array_changes.append([imin, k, 'comparison'])
+                comparisons += 1
+
+            arr[imin], arr[i] = arr[i], arr[imin]
+            array_changes.append([imin, i, 'swap'])
+
+            if arr[imin] == max:
+                arr[imin], arr[j] = arr[j], arr[imin]
+                array_changes.append([imin, j, 'swap'])
+            else:
+                arr[imax], arr[j] = arr[j], arr[imax]
+                array_changes.append([imax, j, 'swap'])
+
+            i += 1
+            j -= 1
         return array_changes, comparisons
 
     @staticmethod
@@ -62,10 +102,13 @@ class Sort_np:
         for number in arr:
             i = k
             comparisons = 1
-            while arr2[i-1] > number and i-1 >= 0:
+            for i in range(k, 0, -1):
+                #array_changes.append([i, i, 'comparison'])
+                if arr2[i-1] < number:
+                    break
                 comparisons += 1
                 arr2[i] = arr2[i-1]
-                array_changes.append([i, i-1])
+                array_changes.append([i, i-1, 'swap'])
                 i -= 1
             arr2[i] = number
             k += 1
@@ -95,6 +138,7 @@ class Sort_np:
 
             while i < p and j < right:
                 self.comparisons += 1
+                self.array_changes.append([i, j, None, 'comparison'])
                 if arr[i] < arr[j]:
                     arrk[k] = arr[i]
                     indarrk[k] = i
@@ -119,7 +163,7 @@ class Sort_np:
                 k += 1
 
             k = 0
-            self.array_changes.append([left, right, indarrk])
+            self.array_changes.append([left, right, indarrk, 'set'])
             for i in range(left, right):
                 arr[i] = arrk[k]
                 k += 1
@@ -132,37 +176,42 @@ class Sort_np:
 
     @classmethod
     def QuickSort(self, arr, left, right):
-        if right - left > 1:
-            p = arr[left]
-            i = left - 1; j = right
-            while True:
-                while True:
-                    i += 1
-                    if p <= arr[i]:
-                        break
+        if left < right:
 
-                while True:
-                    j -= 1
-                    if p >= arr[j]:
-                        break
+            mid = (left + right) // 2
+            arr[left], arr[mid] = arr[mid], arr[left]
+            self.array_changes.append([left, mid, 'swap'])
 
-                if i > j:
-                    break
+            i = left; j = right; d = 0
+            while i < j:
 
-                self.array_changes.append([i, j])
-                arr[i], arr[j] = arr[j], arr[i]
+                self.array_changes.append([i, j, 'comparison'])
 
-            self.QuickSort(arr, left, i)
-            self.QuickSort(arr, i, right)
+                if arr[i] > arr[j]:
 
-            if right == len(arr) and left == 0:
+                    arr[i], arr[j] = arr[j], arr[i]
+                    d = 1 - d
+
+                    self.array_changes.append([i, j, 'swap'])
+
+                i += d
+                j -= 1 - d
+
+            self.QuickSort(arr, left, i - 1)
+            self.QuickSort(arr, i + 1, right)
+
+
+            if right == len(arr) - 1 and left == 0:
                 arr_chng = dq([i for i in self.array_changes]); comps = self.comparisons
                 while self.array_changes: self.array_changes.pop()
                 self.comparisons = 0
                 return arr_chng, comps
 
 if __name__ == "__main__":
+    arr = np.array([2, 1, 3, 5, 4, 6, 8, 7])
 
+    sort = Sort_np()
+    sort.DoubleSelectionSort(arr)
+    print(arr)
 
-    pass
 

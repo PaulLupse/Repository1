@@ -16,7 +16,7 @@ ctypes.windll.shcore.SetProcessDpiAwareness(1)
 
 win = tk.Tk()
 win.title("ADFGVX Cipher")
-win.geometry("765x300")
+#win.geometry("765x300")
 win.resizable(False, False)
 
 EncodeKey = StringVar(win, "")
