@@ -13,7 +13,6 @@ ctypes.windll.shcore.SetProcessDpiAwareness(1)
 # Application Front End
 
 win = tk.Tk()
-win.geometry("700x550")
 win.title("Sorting Algorithms Visualised")
 win.resizable(False, False)
 
@@ -24,6 +23,7 @@ class Mediator:
         self.buttons[button_name]['state'] = 'disabled'
     def enable_button(self, button_name):
         self.buttons[button_name]['state'] = 'normal'
+
 
 class element:
     def __init__(self, master, x, screenL, elementWidth, border):
