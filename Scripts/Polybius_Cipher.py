@@ -10,7 +10,6 @@ ctypes.windll.shcore.SetProcessDpiAwareness(1)
 
 win = tk.Tk()
 win.title("Polybius Cipher")
-win.geometry("320x460")
 win.resizable(False,False)
 
 KeyEntryLabel = ttk.Label(text = "ENTER KEY:")

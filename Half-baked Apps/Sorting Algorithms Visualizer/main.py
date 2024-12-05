@@ -8,6 +8,7 @@ import Sorting
 
 import ctypes
 
+
 ctypes.windll.shcore.SetProcessDpiAwareness(1)
 
 # Application Front End
@@ -23,7 +24,6 @@ class Mediator:
         self.buttons[button_name]['state'] = 'disabled'
     def enable_button(self, button_name):
         self.buttons[button_name]['state'] = 'normal'
-
 
 class element:
     def __init__(self, master, x, screenL, elementWidth, border):
@@ -41,7 +41,7 @@ class sortingScreen:
         self.screenL = screenL
         self.elementWidth = elementwidth
         self.mediator = Mediator
-        self.delay = 0
+        self.delay = 0.5
         self.sorting = False
         self.shuffling = False
         self.colored = [0] * 613
@@ -148,14 +148,22 @@ class sortingScreen:
 
                     k = 0
                     for i in range(left, right):
-                        thrd.Thread(target=self.change_colour_thread, args=(i, 'red', 0.02)).start()
+                        self.canvas.itemconfig(self.element_list[i].shape, fill = 'green')
+
                         self.overwrite_element(i, obj_arr_coords[k])
                         time.sleep(self.delay)
                         k += 1
+
+                        self.canvas.itemconfig(self.element_list[i].shape, fill='white')
                 else:
-                    thrd.Thread(target=self.change_colour_thread, args=(swap_dq[0][0], 'red', 0.01,)).start()
-                    thrd.Thread(target=self.change_colour_thread, args=(swap_dq[0][1], 'red', 0.01,)).start()
+                    self.canvas.itemconfig(self.element_list[left].shape, fill='red')
+                    self.canvas.itemconfig(self.element_list[right].shape, fill='red')
+
                     time.sleep(self.delay)
+
+                    self.canvas.itemconfig(self.element_list[left].shape, fill='white')
+                    self.canvas.itemconfig(self.element_list[right].shape, fill='white')
+
                 swap_dq.popleft()
 
             else: time.sleep(0.05)
@@ -166,22 +174,35 @@ class sortingScreen:
             self.stop_sorting = False
             self.pause_sorting = False
 
+        return 0
+
     def sorting_thread(self, swap_dq):
         l = len(self.element_list)
         while swap_dq:
             if self.stop_sorting is True:
                 break
             if self.pause_sorting is False:
-                swap = swap_dq[0]
+                el1 = swap_dq[0][0]
+                el2 = swap_dq[0][1]
+                type = swap_dq[0][2]
 
-                thrd.Thread(target = self.change_colour_thread, args = (swap[0], 'red', 0.01,)).start()
-                thrd.Thread(target=self.change_colour_thread, args=(swap[1], 'red', 0.01,)).start()
 
-                if swap[2] == 'swap':
-                    self.swp(swap[1], swap[0])
+                if type == 'swap':
+                    self.canvas.itemconfig(self.element_list[el1].shape, fill='green')
+                    self.canvas.itemconfig(self.element_list[el2].shape, fill='green')
+                    self.swp(el1, el2)
+                else:
+                    self.canvas.itemconfig(self.element_list[el1].shape, fill='red')
+                    self.canvas.itemconfig(self.element_list[el2].shape, fill='red')
 
                 swap_dq.popleft()
                 time.sleep(self.delay)
+
+                #self.master.after(max(10, self.delay), self.decolor(el1))
+                #self.master.after(max(10, self.delay), self.decolor(el2))
+
+                self.canvas.itemconfig(self.element_list[el1].shape, fill='white')
+                self.canvas.itemconfig(self.element_list[el2].shape, fill='white')
 
             else: time.sleep(0.005)
         if self.stop_sorting is False:
@@ -189,6 +210,8 @@ class sortingScreen:
         else:
             self.stop_sorting = False
             self.pause_sorting = False
+
+        return 0
 
     def shuffling_thread(self, indexes):
         l = len(self.element_list)
@@ -203,6 +226,8 @@ class sortingScreen:
         Mediator.enable_button('sort')
 
         self.shuffling = False
+
+        return 0
 
     def final_touch_thread(self):
         l = len(self.element_list)
@@ -222,13 +247,7 @@ class sortingScreen:
         Mediator.disable_button('resume')
         self.sorting = False
 
-    def change_colour_thread(self, el_index, color, delay):
-        self.colored[el_index] += 1
-        self.canvas.itemconfig(self.element_list[el_index].shape, fill = color)
-        time.sleep(delay)
-        if self.colored[el_index] == 1:
-            self.canvas.itemconfig(self.element_list[el_index].shape, fill='white')
-        self.colored[el_index] -= 1
+        return 0
 
     def pause_sort(self):
         self.pause_sorting = True
@@ -285,7 +304,6 @@ class sortingScreen:
                     self.delay = float(delay) / 1000
         except:
             msgbox.showerror("Delay input error", "Enter a correct value!")
-
 
     def show_all_algorithms(self):
         Mediator.disable_button('worstcase')
@@ -472,7 +490,7 @@ ElNumComboBoxVariable = tk.StringVar()
 ElNumComboBoxLabel = ttk.Label(OptionsFrame, text = "Set number of elements:")
 ElNumComboBoxLabel.grid(row = 3, column = 0, columnspan = 2)
 ElNumComboBox = ImprovedComboBox(OptionsFrame, ('8', '16', '32', '64', '128', '256', '512'), 3, False)
-ElNumComboBox.comboBox.set('256')
+ElNumComboBox.comboBox.set('16')
 
 SortComboBoxLabel = ttk.Label(OptionsFrame, text = "Choose sorting algorithm")
 SortComboBoxLabel.grid(row = 0, column = 0, columnspan = 2)
@@ -481,15 +499,15 @@ SortComboBox = ImprovedComboBox(OptionsFrame, ('Stupid Sort', 'Bubble Sort', 'Se
                                                             'Double Selection Sort', 'Insertion Sort',
                                                             'Merge Sort', 'Quick Sort'), 20, False)
 SortComboBox.comboBox.grid(row = 1, column = 0, columnspan = 2)
-SortComboBox.comboBox.set('Quick Sort')
+SortComboBox.comboBox.set('Stupid Sort')
 
 DelayEntryTextVar = tk.StringVar()
 DelayEntry = ttk.Entry(OptionsFrame, width = 6, textvariable=DelayEntryTextVar)
-DelayEntryTextVar.set('Def')
+DelayEntryTextVar.set('500')
 
 
 Mediator = Mediator(None)
-sortingScreen = sortingScreen(win, 0, 0, 2, 512, SortComboBox, ElNumComboBox, DelayEntry, Mediator)
+sortingScreen = sortingScreen(win, 0, 0, 32, 512, SortComboBox, ElNumComboBox, DelayEntry, Mediator)
 
 ElNumSetButton = ttk.Button(OptionsFrame, text = "SET", command = sortingScreen.set_number_of_elements, width = 15)
 ElNumSetButton.grid(row = 4, column = 1)
@@ -502,7 +520,7 @@ DelayLabel.grid(row = 5, column = 0, columnspan = 2)
 DelayEntry.grid(row = 6, column = 0)
 DelayEntrySetButton.grid(row = 6, column = 1)
 
-OptionsFrame.grid(row = 0, column = 1, rowspan = 5)
+OptionsFrame.grid(row = 0, column = 1, rowspan = 5, padx = 10)
 
 # /\/\/\ OPTIONS /\/\/\
 
@@ -545,8 +563,5 @@ ExitButton.pack()
 
 ButtonFrame.grid(row = 5, column = 1, rowspan = 9)
 
-
 win.mainloop()
 
-if __name__ == "__main__":
-    pass

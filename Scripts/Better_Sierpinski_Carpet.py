@@ -3,7 +3,6 @@ from tkinter import *
 
 window = tk.Tk()
 window.title("Application")
-window.geometry("768x768")
 
 canvas = Canvas(window, bg = "black", height = 730, width = 730)
 
