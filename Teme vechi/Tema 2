@@ -1,0 +1,27 @@
+paragraf = """La 1 decembrie 1918 a fost convocată, la Alba Iulia, 
+Adunarea Naţională a Românilor, lucrările finalizându-se cu 
+Hotărârea de unire necondiţionată a Transilvaniei cu România, 
+votată în unanimitate. Acest act a avut loc după ce, la data 
+de 27 martie 1918, respectiv 28 noiembrie 1918, organele 
+reprezentative ale Basarabiei şi Bucovinei au votat unirea."""
+
+l = len(paragraf); halfl = 0
+if l % 2 == 1:
+    halfl = l//2 + 1
+else: halfl = l//2
+
+half1 = paragraf[:halfl + 1:]
+half2 = paragraf[halfl + 1::]
+
+half1 = half1.upper()
+half1.strip()
+
+half2 = half2[::-1]
+half2 = half2.replace(".", "")
+half2 = half2.replace(",", "")
+half2 = half2.replace("?", "")
+half2 = half2.replace("!", "")
+
+half2 = half2.capitalize()
+
+print(half1 + half2)

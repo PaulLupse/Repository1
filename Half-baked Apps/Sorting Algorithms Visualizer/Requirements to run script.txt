@@ -1,3 +1,0 @@
-Installed packages:
-- numpy version 2.x 
-- anaconda distribution version 3.x
