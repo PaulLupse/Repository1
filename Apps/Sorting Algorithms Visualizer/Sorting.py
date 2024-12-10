@@ -139,7 +139,7 @@ class Sort_np:
 
             while i < p and j < right:
                 self.comparisons += 1
-                self.array_changes.append([i, j, None, 'comparison'])
+                self.array_changes.append([i, j, 'comparison', None])
                 if arr[i] < arr[j]:
                     arrk[k] = arr[i]
                     indarrk[k] = i
@@ -164,7 +164,7 @@ class Sort_np:
                 k += 1
 
             k = 0
-            self.array_changes.append([left, right, indarrk, 'set'])
+            self.array_changes.append([left, right, 'set', indarrk])
             for i in range(left, right):
                 arr[i] = arrk[k]
                 k += 1
@@ -209,10 +209,6 @@ class Sort_np:
                 return arr_chng, comps
 
 if __name__ == "__main__":
-    arr = np.array([2, 1, 3, 5, 4, 6, 8, 7])
-
-    sort = Sort_np()
-    sort.DoubleSelectionSort(arr)
-    print(arr)
+    pass
 
 
