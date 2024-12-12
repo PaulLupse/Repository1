@@ -1,5 +1,6 @@
 import numpy as np
 from collections import deque as dq
+from Utilities.Utilities import getMax as max
 
 class Sort_np:
     array_changes = dq()
@@ -104,7 +105,7 @@ class Sort_np:
             i = k
             comparisons = 1
             for i in range(k, 0, -1):
-                #array_changes.append([i, i, 'comparison'])
+                array_changes.append([i, i, 'comparison'])
                 if arr2[i-1] < number:
                     break
                 comparisons += 1
@@ -208,7 +209,53 @@ class Sort_np:
                 self.comparisons = 0
                 return arr_chng, comps
 
+    @staticmethod
+    def digitCountSort(arr, exp):
+        arrL = len(arr)
+        count = np.zeros(10, int)
+        output = np.zeros(arrL, int)
+        outputIndexes = np.zeros(arrL, int)
+
+        for i in range(0, arrL):
+            count[(int(arr[i]) // exp) % 10] += 1
+
+        for i in range(1, len(count)):
+            count[i] += count[i - 1]
+
+        i = len(output) - 1
+        while i >= 0:
+            index = int(arr[i] // exp)
+            outputIndexes[len(output) - 1 - i] = count[index % 10] - 1
+            output[count[index % 10] - 1] = arr[i]
+            count[index % 10] -= 1
+            i -= 1
+
+        return output, outputIndexes
+
+    @classmethod
+    def RadixSortLSD(self, arr):
+        array_changes = dq()
+        comparisons = 0
+
+        arrL = len(arr)
+        arrMax = max(arr)
+        exp = 1
+
+        while arrMax//exp > 0:
+            countedArr, outputIndexes = self.digitCountSort(arr, exp)
+            outputIndexes = np.flip(outputIndexes, 0)
+            for i in range(0, arrL):
+                arr[i] = countedArr[i]
+                array_changes.append([i, i, 'comparison'])
+            array_changes.append([0, arrL, 'set', outputIndexes])
+            exp *= 10
+
+        return array_changes, comparisons
+
+
 if __name__ == "__main__":
-    pass
 
-
+    a = np.array(range(512, 0, -1))
+    sort = Sort_np
+    sort.RadixSortLSD(a)
+    print(a)

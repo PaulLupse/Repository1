@@ -96,6 +96,28 @@ def CarbonCopy(arr):
     arrCopy = [i for i in arr]
     return arrCopy
 
+def getMax(arr):
+    max = arr[0]
+    for nr in arr:
+        if nr > max:
+            max = nr
+
+    return max
+
+def getNumLen(number):
+    nrdig = 0
+    cpn = number
+    while cpn:
+        nrdig += 1
+        cpn /= 10
+    return nrdig
+
+def invertArray_np(arr):
+    invertedArr = np.zeros(len(arr), int)
+
+
+
+
 if __name__ == "__main__":
     pass
 
