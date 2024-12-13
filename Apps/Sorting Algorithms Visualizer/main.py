@@ -46,7 +46,7 @@ class sortingScreen:
         self.colored = [0] * 613
         self.master = master
 
-        self.canvas = tk.Canvas(master, bg = "black", bd = 0, width = screenL, height = screenL)
+        self.canvas = tk.Canvas(master, bg = "black", bd = 0, width = screenL + 1, height = screenL + 1)
         self.canvas.grid(row=row, column=column, padx=10, pady=10, rowspan = 20)
 
         self.element_list = []
@@ -84,7 +84,7 @@ class sortingScreen:
 
         self.shuffling = True
 
-        shuffle_indexes = [i for i in range(0, len(self.element_list) - 1)]
+        shuffle_indexes = [int(i) for i in range(0, len(self.element_list) - 1)]
         random.shuffle(shuffle_indexes)
 
         #self.shuffling_thread(shuffle_indexes)
@@ -106,7 +106,7 @@ class sortingScreen:
         Mediator.enable_button('stop')
 
         type = self.ComboBox.comboBox.get()
-        indexes = [len(self.element_list) - self.canvas.coords(i.shape)[1]//self.elementWidth for i in self.element_list]
+        indexes = [(len(self.element_list) - self.canvas.coords(i.shape)[1]//self.elementWidth) - 1 for i in self.element_list]
         comparisons = 0
         swap_dq = 0
 
@@ -127,13 +127,21 @@ class sortingScreen:
                 swap_dq, comparisons = Sorting.Sort_np.QuickSort(indexes, 0, len(indexes) - 1)
             case 'Radix Sort (LSD)':
                 swap_dq, comparisons = Sorting.Sort_np.RadixSortLSD(indexes)
+            case 'Radix Sort (MSD)':
+                pos = 0
+                if l > 99: pos = 3
+                elif l > 9: pos = 2
+                else: pos = 1
+                swap_dq, comparisons = Sorting.Sort_np.RadixSortMSD(indexes, 0, len(indexes) - 1, pos)
 
         #self.sorting_thread(swap_dq)
         thrd.Thread(target=self.sorting_thread, args=(swap_dq,)).start()
 
     def sorting_thread(self, swap_dq):
-        if self.delay >= 0.01:
+        if self.delay >= 0.1:
             decolorDelay = self.delay
+        elif self.delay >= 0.01:
+            decolorDelay = self.delay * 5
         elif self.delay >= 0.001:
             decolorDelay = self.delay * 10
         else:
@@ -144,7 +152,7 @@ class sortingScreen:
         elementsToDecolor = {}
 
         sortType = self.ComboBox.comboBox.get()
-        if sortType == 'Merge Sort' or sortType == 'Radix Sort (LSD)':
+        if sortType == 'Merge Sort' or 'Radix Sort' in sortType:
             while swap_dq:
                 if self.stop_sorting is True:
                     for key in list(elementsToDecolor):
@@ -164,7 +172,7 @@ class sortingScreen:
 
                     if type == 'set':
                         if 'Radix Sort' in sortType :
-                            obj_arr_coords = [self.canvas.coords(k.shape) for k in self.element_list]
+                            obj_arr_coords = [self.canvas.coords(k.shape) for k in self.element_list[left:right + 1]]
 
                         else: obj_arr_coords = [self.canvas.coords(self.element_list[k].shape) for k in swap_dq[0][3]]
 
@@ -184,9 +192,9 @@ class sortingScreen:
                                         del elementsToDecolor[key]
 
                                 if 'Radix Sort' in sortType:
-                                    self.canvas.itemconfig(self.element_list[swap_dq[0][3][i]].shape, fill='green')
-                                    self.overwrite_element(swap_dq[0][3][i], obj_arr_coords[k])
-                                    elementsToDecolor[swap_dq[0][3][i]] = decolorDelay
+                                    self.canvas.itemconfig(self.element_list[swap_dq[0][3][k]].shape, fill='green')
+                                    self.overwrite_element(swap_dq[0][3][k], obj_arr_coords[k])
+                                    elementsToDecolor[swap_dq[0][3][k]] = decolorDelay
                                 else:
                                     self.canvas.itemconfig(self.element_list[i].shape, fill= 'green')
                                     self.overwrite_element(i, obj_arr_coords[k])
@@ -347,6 +355,9 @@ class sortingScreen:
             self.__erase_elements()
             self.elementWidth = self.screenL // int(elNum)
             self.__init_elements()
+        if self.elementWidth > 2:
+            self.canvas.config(width = self.screenL + 1, height = self.screenL + 1)
+        else: self.canvas.config(width = self.screenL, height = self.screenL)
 
     def set_delay(self):
         delay = self.DelayEntry.get()
@@ -434,7 +445,7 @@ ElNumComboBoxLabel.grid(row = 3, column = 0, columnspan = 2)
 ElNumComboBox = ImprovedComboBox(OptionsFrame, ('8', '16', '32', '64', '128', '256', '512'), 3, False)
 ElNumComboBox.comboBox.set('16')
 
-SortComboBoxLabel = ttk.Label(OptionsFrame, text = "Choose sorting algorithm")
+SortComboBoxLabel = ttk.Label(OptionsFrame, text = "Choose sorting algorithm:")
 SortComboBoxLabel.grid(row = 0, column = 0, columnspan = 2)
 
 SortComboBox = ImprovedComboBox(OptionsFrame, ('Stupid Sort',
@@ -444,9 +455,11 @@ SortComboBox = ImprovedComboBox(OptionsFrame, ('Stupid Sort',
                                                       'Insertion Sort',
                                                       'Merge Sort',
                                                       'Quick Sort',
-                                                      'Radix Sort (LSD)'), 20, False)
+                                                      'Radix Sort (LSD)',
+                                                      'Radix Sort (MSD)'), 20, False)
+
 SortComboBox.comboBox.grid(row = 1, column = 0, columnspan = 2)
-SortComboBox.comboBox.set('Radix Sort (LSD)')
+SortComboBox.comboBox.set('Stupid Sort')
 
 DelayEntryTextVar = tk.StringVar()
 DelayEntry = ttk.Entry(OptionsFrame, width = 6, textvariable=DelayEntryTextVar)
@@ -454,7 +467,7 @@ DelayEntryTextVar.set('500')
 
 
 Mediator = Mediator(None)
-sortingScreen = sortingScreen(win, 0, 0, 1, 512, SortComboBox, ElNumComboBox, DelayEntry, Mediator)
+sortingScreen = sortingScreen(win, 0, 0, 32, 512, SortComboBox, ElNumComboBox, DelayEntry, Mediator)
 
 ElNumSetButton = ttk.Button(OptionsFrame, text = "SET", command = sortingScreen.set_number_of_elements, width = 15)
 ElNumSetButton.grid(row = 4, column = 1)
@@ -467,7 +480,7 @@ DelayLabel.grid(row = 5, column = 0, columnspan = 2)
 DelayEntry.grid(row = 6, column = 0)
 DelayEntrySetButton.grid(row = 6, column = 1)
 
-OptionsFrame.grid(row = 0, column = 1, rowspan = 5, padx = 10)
+OptionsFrame.grid(row = 0, column = 1, rowspan = 5, padx = 10, pady = 10)
 
 # /\/\/\ OPTIONS /\/\/\
 
@@ -516,8 +529,5 @@ ButtonFrame.grid(row = 5, column = 1, rowspan = 9)
 # /\/\/\ BUTTONS /\/\/\
 
 if __name__ == '__main__':
-    #sortingScreen.shuffle()
-    #sortingScreen.sort()
-
     win.mainloop()
 

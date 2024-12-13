@@ -112,12 +112,6 @@ def getNumLen(number):
         cpn /= 10
     return nrdig
 
-def invertArray_np(arr):
-    invertedArr = np.zeros(len(arr), int)
-
-
-
-
 if __name__ == "__main__":
     pass
 

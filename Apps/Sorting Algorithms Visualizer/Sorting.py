@@ -1,6 +1,6 @@
 import numpy as np
 from collections import deque as dq
-from Utilities.Utilities import getMax as max
+from Utilities import getMax as max
 
 class Sort_np:
     array_changes = dq()
@@ -210,7 +210,7 @@ class Sort_np:
                 return arr_chng, comps
 
     @staticmethod
-    def digitCountSort(arr, exp):
+    def __digitCountSort(arr, exp):
         arrL = len(arr)
         count = np.zeros(10, int)
         output = np.zeros(arrL, int)
@@ -242,7 +242,7 @@ class Sort_np:
         exp = 1
 
         while arrMax//exp > 0:
-            countedArr, outputIndexes = self.digitCountSort(arr, exp)
+            countedArr, outputIndexes = self.__digitCountSort(arr, exp)
             outputIndexes = np.flip(outputIndexes, 0)
             for i in range(0, arrL):
                 arr[i] = countedArr[i]
@@ -252,10 +252,51 @@ class Sort_np:
 
         return array_changes, comparisons
 
+    @classmethod
+    def RadixSortMSD(self, arr, left, right, pos):
+        if right <= left: return
+
+        count = np.zeros(12, int)
+        temp = np.zeros(right - left + 10, int)
+
+        for i in range(left, right + 1):
+            digit = (arr[i] // (10 ** (pos - 1))) % 10
+            count[int(digit)] += 1
+
+        for i in range(1, 11):
+            count[i] += count[i - 1]
+
+        tempIndexes = np.zeros(right - left + 1, int)
+
+        k = 0
+        i = right
+        while i >= left:
+            digit = (arr[i] // (10 ** (pos - 1))) % 10
+            temp[count[int(digit)] - 1] = arr[i]
+            tempIndexes[k] = left + count[int(digit)] - 1
+            k += 1
+            count[int(digit)] -= 1
+            i -= 1
+
+        k = 0
+        for i in range(left, right + 1):
+            arr[i] = temp[k]
+            k += 1
+            self.array_changes.append([i, i, 'comparison'])
+
+        tempIndexes = np.flip(tempIndexes, 0)
+        self.array_changes.append([left, right + 1, 'set', tempIndexes])
+
+        for r in range(10):
+            self.RadixSortMSD(arr, left + count[r], left + count[r + 1] - 1, pos - 1)
+
+        if right == len(arr) - 1 and left == 0:
+            arr_chng = dq([i for i in self.array_changes])
+            comps = self.comparisons
+            while self.array_changes: self.array_changes.pop()
+            self.comparisons = 0
+            return arr_chng, comps
+
 
 if __name__ == "__main__":
-
-    a = np.array(range(512, 0, -1))
-    sort = Sort_np
-    sort.RadixSortLSD(a)
-    print(a)
+    pass
