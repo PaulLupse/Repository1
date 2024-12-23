@@ -1,6 +1,7 @@
 import numpy as np
 from collections import deque as dq
 from Utilities import getMax as max
+from random import shuffle
 
 class Sort_np:
     array_changes = dq()
@@ -37,6 +38,34 @@ class Sort_np:
                     arr[i], arr[j] = arr[j], arr[i]
                     array_changes.append([i, j, 'swap'])
                 comparisons += 1
+        return array_changes, comparisons
+
+    @staticmethod
+    def CocktailShakerSort(arr):
+        array_changes = dq()
+        comparisons = 0
+        arrL = len(arr)
+        sorted = False
+        j = 0
+        while sorted is False:
+            sorted = True
+            for i in range(j, arrL - 1 - j):
+                array_changes.append([i, i + 1, 'comparison'])
+                if arr[i] > arr[i + 1]:
+                    sorted = False
+                    arr[i], arr[i + 1] = arr[i + 1], arr[i]
+                    array_changes.append([i, i + 1, 'swap'])
+                comparisons += 1
+
+            if sorted is False:
+                for i in range(arrL - 1 - j, j, -1):
+                    array_changes.append([i, i - 1, 'comparison'])
+                    if arr[i] < arr[i - 1]:
+                        sorted = False
+                        arr[i], arr[i - 1] = arr[i - 1], arr[i]
+                        array_changes.append([i, i - 1, 'swap'])
+                    comparisons += 1
+            j += 1
         return array_changes, comparisons
 
     @staticmethod
@@ -296,6 +325,25 @@ class Sort_np:
             while self.array_changes: self.array_changes.pop()
             self.comparisons = 0
             return arr_chng, comps
+
+    @staticmethod
+    def BogoSort(arr):
+        sorted = False
+        while not sorted:
+            sorted = True
+            i = 0
+            while i < len(arr) - 1:
+                yield [i, i + 1, 'comparison']
+
+                if arr[i] > arr[i + 1]:
+                    shuffle(arr)
+                    yield [None, None, 'setArray', arr]
+                    sorted = False
+                    i = 0
+                else:
+                    i += 1
+
+        yield [None, None, 'sorted', None]
 
 
 if __name__ == "__main__":

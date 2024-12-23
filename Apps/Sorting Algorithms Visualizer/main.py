@@ -58,7 +58,7 @@ class sortingScreen:
         self.__init_elements()
 
     def __init_elements(self):
-        for i in range(0, self.screenL + 3, self.elementWidth):
+        for i in range(0, self.screenL, self.elementWidth):
             Element = element(self.canvas, i, self.screenL, self.elementWidth, (self.elementWidth > 2))
             self.element_list.append(Element)
             self.init_coords.append(self.canvas.coords(Element.shape))
@@ -84,11 +84,23 @@ class sortingScreen:
 
         self.shuffling = True
 
-        shuffle_indexes = [int(i) for i in range(0, len(self.element_list) - 1)]
+        shuffle_indexes = [int(i) for i in range(0, len(self.element_list))]
         random.shuffle(shuffle_indexes)
 
         #self.shuffling_thread(shuffle_indexes)
         thrd.Thread(target = self.shuffling_thread, args = (shuffle_indexes, )).start()
+
+    def __decolor_all(self, elementsToDecolor):
+        for key in list(elementsToDecolor):
+            self.canvas.itemconfig(self.element_list[key].shape, fill='white')
+            del elementsToDecolor[key]
+
+    def __decolor_tick(self, elementsToDecolor):
+        for key in list(elementsToDecolor):
+            elementsToDecolor[key] -= self.delay
+            if elementsToDecolor[key] <= 0:
+                self.canvas.itemconfig(self.element_list[key].shape, fill='white')
+                del elementsToDecolor[key]
 
     def sort(self):
         l = len(self.element_list)
@@ -106,7 +118,7 @@ class sortingScreen:
         Mediator.enable_button('stop')
 
         type = self.ComboBox.comboBox.get()
-        indexes = [(len(self.element_list) - self.canvas.coords(i.shape)[1]//self.elementWidth) - 1 for i in self.element_list]
+        indexes = [(len(self.element_list) - self.canvas.coords(i.shape)[1]//self.elementWidth - 1) for i in self.element_list]
         comparisons = 0
         swap_dq = 0
 
@@ -115,6 +127,8 @@ class sortingScreen:
                 swap_dq, comparisons = Sorting.Sort_np.StupidSort(indexes)
             case 'Bubble Sort':
                 swap_dq, comparisons = Sorting.Sort_np.BubbleSort(indexes)
+            case 'Cocktail Shaker Sort':
+                swap_dq, comparisons = Sorting.Sort_np.CocktailShakerSort(indexes)
             case 'Selection Sort':
                 swap_dq, comparisons = Sorting.Sort_np.SelectionSort(indexes)
             case 'Double Selection Sort':
@@ -134,10 +148,13 @@ class sortingScreen:
                 else: pos = 1
                 swap_dq, comparisons = Sorting.Sort_np.RadixSortMSD(indexes, 0, len(indexes) - 1, pos)
 
-        #self.sorting_thread(swap_dq)
-        thrd.Thread(target=self.sorting_thread, args=(swap_dq,)).start()
+            case 'Bogo Sort':
+                thrd.Thread(target=self.sorting_thread, args=(swap_dq, indexes, )).start()
 
-    def sorting_thread(self, swap_dq):
+        #self.sorting_thread(swap_dq, indexes)
+        if type != 'Bogo Sort': thrd.Thread(target=self.sorting_thread, args=(swap_dq, indexes,)).start()
+
+    def sorting_thread(self, swap_dq, indexes):
         if self.delay >= 0.1:
             decolorDelay = self.delay
         elif self.delay >= 0.01:
@@ -152,19 +169,44 @@ class sortingScreen:
         elementsToDecolor = {}
 
         sortType = self.ComboBox.comboBox.get()
-        if sortType == 'Merge Sort' or 'Radix Sort' in sortType:
-            while swap_dq:
+        if sortType == 'Bogo Sort':
+            for step in Sorting.Sort_np.BogoSort(indexes):
                 if self.stop_sorting is True:
-                    for key in list(elementsToDecolor):
-                        self.canvas.itemconfig(self.element_list[key].shape, fill='white')
-                        del elementsToDecolor[key]
+                    self.__decolor_all(elementsToDecolor)
                     break
+
                 if self.pause_sorting is False:
-                    for key in list(elementsToDecolor):
-                        elementsToDecolor[key] -= self.delay
-                        if elementsToDecolor[key] <= 0:
-                            self.canvas.itemconfig(self.element_list[key].shape, fill='white')
-                            del elementsToDecolor[key]
+                    if step[2] == 'sorted':
+                        break
+
+                    self.__decolor_tick(elementsToDecolor)
+
+                    if step[2] == 'comparison':
+                        self.canvas.itemconfig(self.element_list[step[0]].shape, fill='red')
+                        self.canvas.itemconfig(self.element_list[step[1]].shape, fill='red')
+
+                        elementsToDecolor[step[0]] = decolorDelay
+                        elementsToDecolor[step[1]] = decolorDelay
+
+                    else:
+                        self.__set(step[3])
+
+                    time.sleep(self.delay)
+                else:
+                    while self.pause_sorting is True:
+                        time.sleep(0.05)
+
+
+
+        elif sortType == 'Merge Sort' or 'Radix Sort' in sortType:
+            while swap_dq:
+
+                if self.stop_sorting is True:
+                    self.__decolor_all(elementsToDecolor)
+                    break
+
+                if self.pause_sorting is False:
+                    self.__decolor_tick(elementsToDecolor)
 
                     left = swap_dq[0][0]
                     right = swap_dq[0][1]
@@ -180,16 +222,10 @@ class sortingScreen:
                         i = left
                         while i < right:
                             if self.stop_sorting is True:
-                                for key in list(elementsToDecolor):
-                                    self.canvas.itemconfig(self.element_list[key].shape, fill='white')
-                                    del elementsToDecolor[key]
+                                self.__decolor_all(elementsToDecolor)
                                 break
                             if self.pause_sorting is False:
-                                for key in list(elementsToDecolor):
-                                    elementsToDecolor[key] -= self.delay
-                                    if elementsToDecolor[key] <= 0:
-                                        self.canvas.itemconfig(self.element_list[key].shape, fill='white')
-                                        del elementsToDecolor[key]
+                                self.__decolor_tick(elementsToDecolor)
 
                                 if 'Radix Sort' in sortType:
                                     self.canvas.itemconfig(self.element_list[swap_dq[0][3][k]].shape, fill='green')
@@ -223,18 +259,11 @@ class sortingScreen:
         else:
             while swap_dq:
                 if self.stop_sorting is True:
-                    if elementsToDecolor:
-                        for key in list(elementsToDecolor):
-                            self.canvas.itemconfig(self.element_list[key].shape, fill = 'white')
-                            del elementsToDecolor[key]
+                    self.__decolor_all(elementsToDecolor)
                     break
 
                 if self.pause_sorting is False:
-                    for key in list(elementsToDecolor):
-                        elementsToDecolor[key] -= self.delay
-                        if elementsToDecolor[key] <= 0:
-                            self.canvas.itemconfig(self.element_list[key].shape, fill = 'white')
-                            del elementsToDecolor[key]
+                    self.__decolor_tick(elementsToDecolor)
 
                     el1 = swap_dq[0][0]
                     el2 = swap_dq[0][1]
@@ -244,7 +273,8 @@ class sortingScreen:
                         self.canvas.itemconfig(self.element_list[el1].shape, fill='green')
                         self.canvas.itemconfig(self.element_list[el2].shape, fill='green')
                         self.swp(el1, el2)
-
+                    elif type == 'setArray':
+                        self.__set(el1)
                     else:
                         self.canvas.itemconfig(self.element_list[el1].shape, fill='red')
                         self.canvas.itemconfig(self.element_list[el2].shape, fill='red')
@@ -260,13 +290,10 @@ class sortingScreen:
                 else: time.sleep(0.005)
 
             if elementsToDecolor:
-                for key in list(elementsToDecolor):
-                    self.canvas.itemconfig(self.element_list[key].shape, fill='white')
-                    del elementsToDecolor[key]
+                self.__decolor_all(elementsToDecolor)
 
-        for key in list(elementsToDecolor):
-            self.canvas.itemconfig(self.element_list[key].shape, fill='white')
-            del elementsToDecolor[key]
+        if elementsToDecolor:
+            self.__decolor_all(elementsToDecolor)
 
         if self.stop_sorting is False:
             thrd.Thread(target=self.final_touch_thread).start()
@@ -342,6 +369,11 @@ class sortingScreen:
         Mediator.enable_button('showall')
         self.stop_sorting = True
         self.pause_sorting = True
+
+    def __set(self, arr):
+        l = len(self.element_list)
+        for i in range(0, l):
+            self.overwrite_element(i, self.init_coords[int(arr[i])])
 
     def reset(self):
         l = len(self.element_list)
@@ -450,13 +482,15 @@ SortComboBoxLabel.grid(row = 0, column = 0, columnspan = 2)
 
 SortComboBox = ImprovedComboBox(OptionsFrame, ('Stupid Sort',
                                                       'Bubble Sort',
+                                                      'Cocktail Shaker Sort',
                                                       'Selection Sort',
                                                       'Double Selection Sort',
                                                       'Insertion Sort',
                                                       'Merge Sort',
                                                       'Quick Sort',
                                                       'Radix Sort (LSD)',
-                                                      'Radix Sort (MSD)'), 20, False)
+                                                      'Radix Sort (MSD)',
+                                                      'Bogo Sort',), 20, False)
 
 SortComboBox.comboBox.grid(row = 1, column = 0, columnspan = 2)
 SortComboBox.comboBox.set('Stupid Sort')
@@ -518,7 +552,7 @@ WorstCaseButton.pack()
 ShuffleButton.pack()
 ResetButton.pack()
 SortButton.pack()
-ShowAllSortsButton.pack()
+#ShowAllSortsButton.pack()
 PauseButton.pack()
 ResumeButton.pack()
 StopButton.pack()
@@ -529,5 +563,8 @@ ButtonFrame.grid(row = 5, column = 1, rowspan = 9)
 # /\/\/\ BUTTONS /\/\/\
 
 if __name__ == '__main__':
+    #sortingScreen.shuffle()
+    #sortingScreen.sort()
     win.mainloop()
+
 
