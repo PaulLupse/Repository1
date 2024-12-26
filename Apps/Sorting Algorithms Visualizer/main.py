@@ -129,6 +129,8 @@ class sortingScreen:
                 swap_dq, comparisons = Sorting.Sort_np.BubbleSort(indexes)
             case 'Cocktail Shaker Sort':
                 swap_dq, comparisons = Sorting.Sort_np.CocktailShakerSort(indexes)
+            case 'Odd-Even Sort':
+                swap_dq, comparisons = Sorting.Sort_np.OddEvenSort(indexes)
             case 'Selection Sort':
                 swap_dq, comparisons = Sorting.Sort_np.SelectionSort(indexes)
             case 'Double Selection Sort':
@@ -147,7 +149,8 @@ class sortingScreen:
                 elif l > 9: pos = 2
                 else: pos = 1
                 swap_dq, comparisons = Sorting.Sort_np.RadixSortMSD(indexes, 0, len(indexes) - 1, pos)
-
+            case 'Heap Sort':
+                swap_dq, comparisons = Sorting.Sort_np.HeapSort(indexes)
             case 'Bogo Sort':
                 thrd.Thread(target=self.sorting_thread, args=(swap_dq, indexes, )).start()
 
@@ -195,8 +198,6 @@ class sortingScreen:
                 else:
                     while self.pause_sorting is True:
                         time.sleep(0.05)
-
-
 
         elif sortType == 'Merge Sort' or 'Radix Sort' in sortType:
             while swap_dq:
@@ -483,6 +484,7 @@ SortComboBoxLabel.grid(row = 0, column = 0, columnspan = 2)
 SortComboBox = ImprovedComboBox(OptionsFrame, ('Stupid Sort',
                                                       'Bubble Sort',
                                                       'Cocktail Shaker Sort',
+                                                      'Odd-Even Sort',
                                                       'Selection Sort',
                                                       'Double Selection Sort',
                                                       'Insertion Sort',
@@ -490,6 +492,7 @@ SortComboBox = ImprovedComboBox(OptionsFrame, ('Stupid Sort',
                                                       'Quick Sort',
                                                       'Radix Sort (LSD)',
                                                       'Radix Sort (MSD)',
+                                                      'Heap Sort',
                                                       'Bogo Sort',), 20, False)
 
 SortComboBox.comboBox.grid(row = 1, column = 0, columnspan = 2)

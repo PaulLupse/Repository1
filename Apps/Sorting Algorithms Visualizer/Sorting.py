@@ -69,6 +69,31 @@ class Sort_np:
         return array_changes, comparisons
 
     @staticmethod
+    def OddEvenSort(arr):
+        array_changes = dq()
+        comparisons = 0
+        arrL = len(arr)
+        sorted = False
+        while sorted is False:
+            sorted = True
+            for i in range(1, arrL - 1, 2):
+                array_changes.append([i, i + 1, 'comparison'])
+                if arr[i] > arr[i + 1]:
+                    sorted = False
+                    arr[i], arr[i + 1] = arr[i + 1], arr[i]
+                    array_changes.append([i, i + 1, 'swap'])
+                comparisons += 1
+
+            for i in range(0, arrL - 1, 2):
+                array_changes.append([i, i + 1, 'comparison'])
+                if arr[i] > arr[i + 1]:
+                    sorted = False
+                    arr[i], arr[i + 1] = arr[i + 1], arr[i]
+                    array_changes.append([i, i + 1, 'swap'])
+                comparisons += 1
+        return array_changes, comparisons
+
+    @staticmethod
     def SelectionSort(arr):
         array_changes = dq()
         comparisons = 0
@@ -262,6 +287,27 @@ class Sort_np:
         return output, outputIndexes
 
     @classmethod
+    def __heapify(self, arr, arrL, index):
+        largest = index
+        left = index * 2 + 1
+        right = index * 2 + 2
+
+        if left < arrL and arr[left] > arr[largest]:
+            yield [largest, left, 'comparison']
+            largest = left
+
+        if right < arrL and arr[right] > arr[largest]:
+            yield [largest, right, 'comparison']
+            largest = right
+
+        if largest != index:
+            arr[largest], arr[index] = arr[index], arr[largest]
+            yield [largest, index, 'swap']
+            for el in self.__heapify(arr, arrL, largest):
+                yield el
+        else: yield [None, None]
+
+    @classmethod
     def RadixSortLSD(self, arr):
         array_changes = dq()
         comparisons = 0
@@ -345,6 +391,32 @@ class Sort_np:
 
         yield [None, None, 'sorted', None]
 
+    @classmethod
+    def HeapSort(self, arr):
+        array_changes = dq()
+
+        arrL = len(arr)
+
+        for i in range(arrL // 2 - 1, -1, -1):
+            for el in self.__heapify(arr, arrL, i):
+                if el[0] is not None: array_changes.append(el)
+
+        for i in range(arrL - 1, 0, -1):
+            arr[0], arr[i] = arr[i], arr[0]
+            array_changes.append([0, i, 'swap', None])
+            for el in self.__heapify(arr, i, 0):
+                if el[0] is not None: array_changes.append(el)
+
+        return array_changes, 0
 
 if __name__ == "__main__":
+
+    arr = np.array([1, 5, 8, 2, 4, 9, 3, 4, 10, 2])
+
+    sort = Sort_np
+
+    sort.HeapSort(arr)
+
+    print(arr)
+
     pass

@@ -1,73 +1,58 @@
-# A utility function to print an array
-def print_array(arr):
-    for num in arr:
-        print (num)
+# Python program for implementation of heap Sort
 
-# A utility function to get the digit at index d in an integer
-def digit_at(x, d):
-    return (x // (10 ** (d - 1))) % 10
+# To heapify a subtree rooted with node i
+# which is an index in arr[].
+def heapify(arr, n, i):
+    # Initialize largest as root
+    largest = i
 
-# The main function to sort array using MSD Radix Sort recursively
-def MSD_sort(arr, lo, hi, d):
-    # Recursion break condition
-    if hi <= lo:
-        return
+    #  left index = 2*i + 1
+    l = 2 * i + 1
 
-    count = [0] * (10 + 2)
-    temp = {}
+    # right index = 2*i + 2
+    r = 2 * i + 2
 
-    # Store occurrences of most significant character from each integer in count[]
-    for i in range(lo, hi + 1):
-        c = digit_at(arr[i], d)
-        count[c] += 1
+    # If left child is larger than root
+    if l < n and arr[l] > arr[largest]:
+        largest = l
 
-    # Change count[] so that count[] now contains actual position of these digits in temp[]
-    for r in range(10 + 1):
-        count[r + 1] += count[r]
+    # If right child is larger than largest so far
+    if r < n and arr[r] > arr[largest]:
+        largest = r
 
-    # Build the temp
-    for i in range(lo, hi + 1):
-        c = digit_at(arr[i], d)
-        temp[count[c + 1]] = arr[i]
-        count[c + 1] += 1
+    # If largest is not root
+    if largest != i:
+        arr[i], arr[largest] = arr[largest], arr[i]  # Swap
 
-    # Copy all integers of temp to arr[], so that arr[] now contains partially sorted integers
-    for i in range(lo, hi + 1):
-        arr[i] = temp.get(i - lo + 1, 0)
+        # Recursively heapify the affected sub-tree
+        heapify(arr, n, largest)
 
-    # Recursively MSD_sort() on each partially sorted integers set to sort them by their next digit
-    for r in range(10):
-        MSD_sort(arr, lo + count[r], lo + count[r + 1] - 1, d - 1)
 
-# Function to find the largest integer
-def getMax(arr):
-    mx = arr[0]
-    for num in arr:
-        if num > mx:
-            mx = num
-    return mx
+# Main function to do heap sort
+def heapSort(arr):
+    n = len(arr)
 
-# Main function to call MSD_sort
-def radixsort(arr):
-    # Find the maximum number to know the number of digits
-    m = getMax(arr)
+    # Build heap (rearrange array)
+    for i in range(n // 2 - 1, -1, -1):
+        heapify(arr, n, i)
 
-    # Get the length of the largest integer
-    d = len(str(abs(m)))
+    # One by one extract an element from heap
+    for i in range(n - 1, 0, -1):
+        # Move root to end
+        arr[0], arr[i] = arr[i], arr[0]
 
-    # Function call
-    MSD_sort(arr, 0, len(arr) - 1, d)
+        # Call max heapify on the reduced heap
+        heapify(arr, i, 0)
 
-# Driver Code
-if __name__ == "__main__":
-    # Input array
-    arr = [9330, 9950, 718, 8977, 6790, 95, 9807, 741, 8586, 5710]
 
-    print ("Unsorted array:")
-    print_array(arr)
+def printArray(arr):
+    for i in arr:
+        print(i, end=" ")
+    print()
 
-    # Function Call
-    radixsort(arr)
 
-    print ("Sorted array:")
-    print_array(arr)
+# Driver's code
+arr = [9, 4, 3, 8, 10, 2, 5]
+heapSort(arr)
+print("Sorted array is ")
+printArray(arr)
