@@ -112,6 +112,10 @@ def getNumLen(number):
         cpn /= 10
     return nrdig
 
+
+def binary(nr):
+    return int("{0:b}".format(int(nr)))
+
 if __name__ == "__main__":
     pass
 

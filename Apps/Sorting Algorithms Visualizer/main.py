@@ -118,8 +118,13 @@ class sortingScreen:
         Mediator.enable_button('stop')
 
         type = self.ComboBox.comboBox.get()
-        indexes = [(len(self.element_list) - self.canvas.coords(i.shape)[1]//self.elementWidth - 1) for i in self.element_list]
-        comparisons = 0
+
+        add = 0
+        if l > 255:
+            add = 1
+
+        indexes = [int(len(self.element_list) - self.canvas.coords(i.shape)[1]//self.elementWidth) + add for i in self.element_list]
+        print(indexes)
         swap_dq = 0
 
         match type:
@@ -144,7 +149,6 @@ class sortingScreen:
             case 'Radix Sort (LSD)':
                 swap_dq, comparisons = Sorting.Sort_np.RadixSortLSD(indexes)
             case 'Radix Sort (MSD)':
-                pos = 0
                 if l > 99: pos = 3
                 elif l > 9: pos = 2
                 else: pos = 1
@@ -204,6 +208,7 @@ class sortingScreen:
 
                 if self.stop_sorting is True:
                     self.__decolor_all(elementsToDecolor)
+                    Mediator.enable_button('reset')
                     break
 
                 if self.pause_sorting is False:
@@ -224,6 +229,7 @@ class sortingScreen:
                         while i < right:
                             if self.stop_sorting is True:
                                 self.__decolor_all(elementsToDecolor)
+                                Mediator.enable_button('reset')
                                 break
                             if self.pause_sorting is False:
                                 self.__decolor_tick(elementsToDecolor)
@@ -374,7 +380,7 @@ class sortingScreen:
     def __set(self, arr):
         l = len(self.element_list)
         for i in range(0, l):
-            self.overwrite_element(i, self.init_coords[int(arr[i])])
+            self.overwrite_element(i, self.init_coords[int(arr[i]) - 1])
 
     def reset(self):
         l = len(self.element_list)
@@ -440,10 +446,14 @@ class sortingScreen:
             self.__init_elements()
 
         l = len(self.element_list)
-        if l > 255: l -= 1
+
 
         for i in range(0, l//2):
-            self.swp(i, l - i - 2)
+            self.swp(i, l - i - 1)
+
+        if self.elementWidth > 2:
+            self.canvas.config(width = self.screenL + 1, height = self.screenL + 1)
+        else: self.canvas.config(width = self.screenL, height = self.screenL)
 
 class ImprovedComboBox:
     def __init__(self, master, values, width, pack):

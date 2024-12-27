@@ -1,6 +1,7 @@
 import numpy as np
 from collections import deque as dq
 from Utilities import getMax as max
+from Utilities import binary
 from random import shuffle
 
 class Sort_np:
@@ -324,19 +325,22 @@ class Sort_np:
                 array_changes.append([i, i, 'comparison'])
             array_changes.append([0, arrL, 'set', outputIndexes])
             exp *= 10
+            print(arr[len(arr) - 2:])
 
         return array_changes, comparisons
 
     @classmethod
     def RadixSortMSD(self, arr, left, right, pos):
-        if right <= left: return
+        if right <= left or pos < 1: return
 
         count = np.zeros(12, int)
         temp = np.zeros(right - left + 10, int)
 
         for i in range(left, right + 1):
             digit = (arr[i] // (10 ** (pos - 1))) % 10
-            count[int(digit)] += 1
+            try:
+                count[int(digit)] += 1
+            except: print(digit, arr[i], pos)
 
         for i in range(1, 11):
             count[i] += count[i - 1]
@@ -411,12 +415,18 @@ class Sort_np:
 
 if __name__ == "__main__":
 
-    arr = np.array([1, 5, 8, 2, 4, 9, 3, 4, 10, 2])
+    arr = np.array(range(256, 0, -1))
+    arr1 = np.array(range(256, 0, -1))
 
     sort = Sort_np
 
-    sort.HeapSort(arr)
+    arr_chng, a = sort.RadixSortMSD(arr, 0, len(arr) - 1, 3)
 
-    print(arr)
+    while arr_chng:
+        if arr_chng[0][2] == 'set':
+            arr1[arr_chng[0][0]], arr1[arr_chng[0][1]] = arr1[arr_chng[0][1]], arr1[arr_chng[0][0]]
+        arr_chng.popleft()
+
+    print(arr1)
 
     pass
