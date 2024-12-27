@@ -1,7 +1,6 @@
 import numpy as np
 from collections import deque as dq
 from Utilities import getMax as max
-from Utilities import binary
 from random import shuffle
 
 class Sort_np:
@@ -414,19 +413,5 @@ class Sort_np:
         return array_changes, 0
 
 if __name__ == "__main__":
-
-    arr = np.array(range(256, 0, -1))
-    arr1 = np.array(range(256, 0, -1))
-
-    sort = Sort_np
-
-    arr_chng, a = sort.RadixSortMSD(arr, 0, len(arr) - 1, 3)
-
-    while arr_chng:
-        if arr_chng[0][2] == 'set':
-            arr1[arr_chng[0][0]], arr1[arr_chng[0][1]] = arr1[arr_chng[0][1]], arr1[arr_chng[0][0]]
-        arr_chng.popleft()
-
-    print(arr1)
 
     pass

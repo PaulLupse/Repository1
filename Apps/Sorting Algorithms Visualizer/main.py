@@ -162,10 +162,10 @@ class sortingScreen:
         if type != 'Bogo Sort': thrd.Thread(target=self.sorting_thread, args=(swap_dq, indexes,)).start()
 
     def sorting_thread(self, swap_dq, indexes):
-        if self.delay >= 0.1:
+        if self.delay >= 0.02:
             decolorDelay = self.delay
         elif self.delay >= 0.01:
-            decolorDelay = self.delay * 5
+            decolorDelay = self.delay * 2
         elif self.delay >= 0.001:
             decolorDelay = self.delay * 10
         else:
@@ -576,8 +576,6 @@ ButtonFrame.grid(row = 5, column = 1, rowspan = 9)
 # /\/\/\ BUTTONS /\/\/\
 
 if __name__ == '__main__':
-    #sortingScreen.shuffle()
-    #sortingScreen.sort()
     win.mainloop()
 
 
