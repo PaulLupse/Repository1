@@ -87,7 +87,6 @@ class sortingScreen:
         shuffle_indexes = [int(i) for i in range(0, len(self.element_list))]
         random.shuffle(shuffle_indexes)
 
-        #self.shuffling_thread(shuffle_indexes)
         thrd.Thread(target = self.shuffling_thread, args = (shuffle_indexes, )).start()
 
     def __decolor_all(self, elementsToDecolor):
@@ -124,37 +123,36 @@ class sortingScreen:
             add = 1
 
         indexes = [int(len(self.element_list) - self.canvas.coords(i.shape)[1]//self.elementWidth) + add for i in self.element_list]
-        print(indexes)
         swap_dq = 0
 
         match type:
             case 'Stupid Sort':
-                swap_dq, comparisons = Sorting.Sort_np.StupidSort(indexes)
+                swap_dq = Sorting.Sort_np.StupidSort(indexes)
             case 'Bubble Sort':
-                swap_dq, comparisons = Sorting.Sort_np.BubbleSort(indexes)
+                swap_dq = Sorting.Sort_np.BubbleSort(indexes)
             case 'Cocktail Shaker Sort':
-                swap_dq, comparisons = Sorting.Sort_np.CocktailShakerSort(indexes)
+                swap_dq = Sorting.Sort_np.CocktailShakerSort(indexes)
             case 'Odd-Even Sort':
-                swap_dq, comparisons = Sorting.Sort_np.OddEvenSort(indexes)
+                swap_dq = Sorting.Sort_np.OddEvenSort(indexes)
             case 'Selection Sort':
-                swap_dq, comparisons = Sorting.Sort_np.SelectionSort(indexes)
+                swap_dq = Sorting.Sort_np.SelectionSort(indexes)
             case 'Double Selection Sort':
-                swap_dq, comparisons = Sorting.Sort_np.DoubleSelectionSort(indexes)
+                swap_dq = Sorting.Sort_np.DoubleSelectionSort(indexes)
             case 'Insertion Sort':
-                swap_dq, comparisons = Sorting.Sort_np.InsertionSort(indexes)
+                swap_dq = Sorting.Sort_np.InsertionSort(indexes)
             case 'Merge Sort':
-                swap_dq, comparisons = Sorting.Sort_np.MergeSort(indexes, 0, len(indexes))
+                swap_dq = Sorting.Sort_np.MergeSort(indexes, 0, len(indexes))
             case 'Quick Sort':
-                swap_dq, comparisons = Sorting.Sort_np.QuickSort(indexes, 0, len(indexes) - 1)
+                swap_dq = Sorting.Sort_np.QuickSort(indexes, 0, len(indexes) - 1)
             case 'Radix Sort (LSD)':
-                swap_dq, comparisons = Sorting.Sort_np.RadixSortLSD(indexes)
+                swap_dq = Sorting.Sort_np.RadixSortLSD(indexes)
             case 'Radix Sort (MSD)':
                 if l > 99: pos = 3
                 elif l > 9: pos = 2
                 else: pos = 1
-                swap_dq, comparisons = Sorting.Sort_np.RadixSortMSD(indexes, 0, len(indexes) - 1, pos)
+                swap_dq = Sorting.Sort_np.RadixSortMSD(indexes, 0, len(indexes) - 1, pos)
             case 'Heap Sort':
-                swap_dq, comparisons = Sorting.Sort_np.HeapSort(indexes)
+                swap_dq = Sorting.Sort_np.HeapSort(indexes)
             case 'Bogo Sort':
                 thrd.Thread(target=self.sorting_thread, args=(swap_dq, indexes, )).start()
 
@@ -200,7 +198,7 @@ class sortingScreen:
 
                     time.sleep(self.delay)
                 else:
-                    while self.pause_sorting is True:
+                    while self.pause_sorting is True and self.stop_sorting is False:
                         time.sleep(0.05)
 
         elif sortType == 'Merge Sort' or 'Radix Sort' in sortType:

@@ -5,12 +5,12 @@ from random import shuffle
 
 class Sort_np:
     array_changes = dq()
-    comparisons = 0
+    
 
     @staticmethod
     def BubbleSort(arr):
         array_changes = dq()
-        comparisons = 0
+        
         arrL = len(arr)
         sorted = False
         j = 0
@@ -22,14 +22,14 @@ class Sort_np:
                     sorted = False
                     arr[i], arr[i + 1] = arr[i + 1], arr[i]
                     array_changes.append([i, i+1, 'swap'])
-                comparisons += 1
+                
             j += 1
-        return array_changes, comparisons
+        return array_changes
 
     @staticmethod
     def StupidSort(arr):
         array_changes = dq()
-        comparisons = 0
+        
         arrL = len(arr)
         for i in range(0, arrL - 1):
             for j in range(i + 1, arrL):
@@ -37,13 +37,13 @@ class Sort_np:
                 if arr[i] > arr[j]:
                     arr[i], arr[j] = arr[j], arr[i]
                     array_changes.append([i, j, 'swap'])
-                comparisons += 1
-        return array_changes, comparisons
+                
+        return array_changes
 
     @staticmethod
     def CocktailShakerSort(arr):
         array_changes = dq()
-        comparisons = 0
+        
         arrL = len(arr)
         sorted = False
         j = 0
@@ -55,7 +55,7 @@ class Sort_np:
                     sorted = False
                     arr[i], arr[i + 1] = arr[i + 1], arr[i]
                     array_changes.append([i, i + 1, 'swap'])
-                comparisons += 1
+                
 
             if sorted is False:
                 for i in range(arrL - 1 - j, j, -1):
@@ -64,14 +64,14 @@ class Sort_np:
                         sorted = False
                         arr[i], arr[i - 1] = arr[i - 1], arr[i]
                         array_changes.append([i, i - 1, 'swap'])
-                    comparisons += 1
+                    
             j += 1
-        return array_changes, comparisons
+        return array_changes
 
     @staticmethod
     def OddEvenSort(arr):
         array_changes = dq()
-        comparisons = 0
+        
         arrL = len(arr)
         sorted = False
         while sorted is False:
@@ -82,7 +82,7 @@ class Sort_np:
                     sorted = False
                     arr[i], arr[i + 1] = arr[i + 1], arr[i]
                     array_changes.append([i, i + 1, 'swap'])
-                comparisons += 1
+                
 
             for i in range(0, arrL - 1, 2):
                 array_changes.append([i, i + 1, 'comparison'])
@@ -90,13 +90,13 @@ class Sort_np:
                     sorted = False
                     arr[i], arr[i + 1] = arr[i + 1], arr[i]
                     array_changes.append([i, i + 1, 'swap'])
-                comparisons += 1
-        return array_changes, comparisons
+                
+        return array_changes
 
     @staticmethod
     def SelectionSort(arr):
         array_changes = dq()
-        comparisons = 0
+        
         arrL = len(arr)
         for i in range(0, arrL - 1):
             imin = i
@@ -104,16 +104,16 @@ class Sort_np:
                 array_changes.append([imin, j, 'comparison'])
                 if arr[j] < arr[imin]:
                     imin = j
-                comparisons += 1
+                
 
             arr[imin], arr[i] = arr[i], arr[imin]
             array_changes.append([imin, i, 'swap'])
-        return array_changes, comparisons
+        return array_changes
 
     @staticmethod
     def DoubleSelectionSort(arr):
         array_changes = dq()
-        comparisons = 0
+        
         arrL = len(arr)
         i = 0
         j = arrL - 1
@@ -132,7 +132,7 @@ class Sort_np:
                     imin = k
                     min = arr[k]
 
-                comparisons += 1
+                
 
             arr[imin], arr[i] = arr[i], arr[imin]
             array_changes.append([imin, i, 'swap'])
@@ -146,12 +146,12 @@ class Sort_np:
 
             i += 1
             j -= 1
-        return array_changes, comparisons
+        return array_changes
 
     @staticmethod
     def InsertionSort(arr):
         array_changes = dq()
-        comparisons = 0
+        
         arrL = len(arr)
         arr2 = np.zeros((arrL,), np.int64)
         k = 0
@@ -162,7 +162,7 @@ class Sort_np:
                 array_changes.append([i, i, 'comparison'])
                 if arr2[i-1] < number:
                     break
-                comparisons += 1
+                
                 arr2[i] = arr2[i-1]
                 array_changes.append([i, i-1, 'swap'])
                 i -= 1
@@ -172,14 +172,14 @@ class Sort_np:
         for i in range(0, arrL):
             arr[i] = arr2[i]
 
-        return array_changes, comparisons
+        return array_changes
 
     @classmethod
     def MergeSort(self, arr, left, right):
         global array_changes
         global comparisons
 
-        self.comparisons += 1
+        
         if right - left > 1:
             p = (right + left) // 2
             self.MergeSort(arr=arr, left=left, right=p)
@@ -193,7 +193,7 @@ class Sort_np:
             indarrk = np.zeros(right - left, np.int64)
 
             while i < p and j < right:
-                self.comparisons += 1
+                
                 self.array_changes.append([i, j, 'comparison', None])
                 if arr[i] < arr[j]:
                     arrk[k] = arr[i]
@@ -206,13 +206,13 @@ class Sort_np:
                 k += 1
 
             while i < p:
-                self.comparisons += 1
+                
                 arrk[k] = arr[i]
                 indarrk[k] = i
                 i += 1
                 k += 1
             while j < right:
-                self.comparisons += 1
+                
                 arrk[k] = arr[j]
                 indarrk[k] = j
                 j += 1
@@ -225,10 +225,10 @@ class Sort_np:
                 k += 1
 
             if right == len(arr) and left == 0:
-                arr_chng = dq([i for i in self.array_changes]); comps = self.comparisons
+                arr_chng = dq([i for i in self.array_changes])
                 while self.array_changes: self.array_changes.popleft()
-                self.comparisons = 0
-                return arr_chng, comps
+                
+                return arr_chng
 
     @classmethod
     def QuickSort(self, arr, left, right):
@@ -258,10 +258,10 @@ class Sort_np:
 
 
             if right == len(arr) - 1 and left == 0:
-                arr_chng = dq([i for i in self.array_changes]); comps = self.comparisons
+                arr_chng = dq([i for i in self.array_changes])
                 while self.array_changes: self.array_changes.pop()
-                self.comparisons = 0
-                return arr_chng, comps
+                
+                return arr_chng
 
     @staticmethod
     def __digitCountSort(arr, exp):
@@ -310,7 +310,7 @@ class Sort_np:
     @classmethod
     def RadixSortLSD(self, arr):
         array_changes = dq()
-        comparisons = 0
+        
 
         arrL = len(arr)
         arrMax = max(arr)
@@ -321,12 +321,13 @@ class Sort_np:
             outputIndexes = np.flip(outputIndexes, 0)
             for i in range(0, arrL):
                 arr[i] = countedArr[i]
+
                 array_changes.append([i, i, 'comparison'])
             array_changes.append([0, arrL, 'set', outputIndexes])
             exp *= 10
-            print(arr[len(arr) - 2:])
 
-        return array_changes, comparisons
+
+        return array_changes
 
     @classmethod
     def RadixSortMSD(self, arr, left, right, pos):
@@ -339,7 +340,7 @@ class Sort_np:
             digit = (arr[i] // (10 ** (pos - 1))) % 10
             try:
                 count[int(digit)] += 1
-            except: print(digit, arr[i], pos)
+            except: pass
 
         for i in range(1, 11):
             count[i] += count[i - 1]
@@ -370,10 +371,9 @@ class Sort_np:
 
         if right == len(arr) - 1 and left == 0:
             arr_chng = dq([i for i in self.array_changes])
-            comps = self.comparisons
             while self.array_changes: self.array_changes.pop()
-            self.comparisons = 0
-            return arr_chng, comps
+            
+            return arr_chng
 
     @staticmethod
     def BogoSort(arr):
