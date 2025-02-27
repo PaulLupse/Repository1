@@ -1,58 +1,34 @@
-# Python program for implementation of heap Sort
+from functools import cmp_to_key
 
-# To heapify a subtree rooted with node i
-# which is an index in arr[].
-def heapify(arr, n, i):
-    # Initialize largest as root
-    largest = i
+lista = [12312, 234, 5666, 222, 1111, 11111, 1000000000, 5, 666, 'aAAAAAAaccs']
 
-    #  left index = 2*i + 1
-    l = 2 * i + 1
+def compare(a, b):
+    cpa = a; sum_a = 0; cpb = b; sum_b = 0
+    try:
+        while cpa:
+            sum_a += cpa % 10
+            cpa //= 10
+    except:
+        cpa = a.lower()
+        while cpa:
+            sum_a += ord(cpa[0]) - ord('a') + 1
+            cpa = cpa[1::]
 
-    # right index = 2*i + 2
-    r = 2 * i + 2
+    try:
+        while cpb:
+            sum_b += cpb % 10
+            cpb //= 10
+    except:
+        cpb = b.lower()
+        while cpb:
+            sum_b += ord(cpb[0]) - ord('a') + 1
+            cpb = cpb[1::]
 
-    # If left child is larger than root
-    if l < n and arr[l] > arr[largest]:
-        largest = l
+    if sum_a < sum_b:
+        return 1
+    elif sum_a == sum_b: return 0
+    else: return -1
 
-    # If right child is larger than largest so far
-    if r < n and arr[r] > arr[largest]:
-        largest = r
-
-    # If largest is not root
-    if largest != i:
-        arr[i], arr[largest] = arr[largest], arr[i]  # Swap
-
-        # Recursively heapify the affected sub-tree
-        heapify(arr, n, largest)
-
-
-# Main function to do heap sort
-def heapSort(arr):
-    n = len(arr)
-
-    # Build heap (rearrange array)
-    for i in range(n // 2 - 1, -1, -1):
-        heapify(arr, n, i)
-
-    # One by one extract an element from heap
-    for i in range(n - 1, 0, -1):
-        # Move root to end
-        arr[0], arr[i] = arr[i], arr[0]
-
-        # Call max heapify on the reduced heap
-        heapify(arr, i, 0)
+print(sorted(lista, key = cmp_to_key(compare)))
 
 
-def printArray(arr):
-    for i in arr:
-        print(i, end=" ")
-    print()
-
-
-# Driver's code
-arr = [9, 4, 3, 8, 10, 2, 5]
-heapSort(arr)
-print("Sorted array is ")
-printArray(arr)
