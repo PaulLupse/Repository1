@@ -55,9 +55,10 @@ def selecteaza_thrd(Var, entry, output_scrolled_text, lista_butoane):
     Var.set("Se afișează persoanele ...")
     output_scrolled_text.configure(state = 'normal')
     output_scrolled_text.delete('1.0', tk.END)
+
     i = 1
     for Persoana in lista:
-        output_scrolled_text.insert(tk.INSERT, str(f'{i}. {Persoana[0]}, pași efectuați: {Persoana[1]}.\n'))
+        output_scrolled_text.insert(tk.INSERT, str(f'{i}. {Persoana[0]}, cnp: {Persoana[1]}, pași efectuați: {Persoana[2]}.\n'))
         i += 1
 
     Var.set('')
@@ -65,8 +66,6 @@ def selecteaza_thrd(Var, entry, output_scrolled_text, lista_butoane):
 
     for buton in lista_butoane:
         buton['state'] = 'normal'
-
-    print(lista_butoane)
 
 def cauta_persoana(entry, output_scrolled_text):
     if not validare_int(entry.get()):
@@ -95,7 +94,7 @@ if __name__ == "__main__":
     Label_Output = tk.Label(win, text = 'Persoana/persoanele cautate:')
     Label_Output.grid(row = 0, column = 1, padx = 10, pady = 5)
 
-    Output = scrolledtext.ScrolledText(win, wrap = tk.WORD, width = 50, height = 8)
+    Output = scrolledtext.ScrolledText(win, wrap = tk.WORD, width = 70, height = 8)
     Output.grid(row = 1, column = 1, padx = 10)
     Output.configure(state='disabled')
 

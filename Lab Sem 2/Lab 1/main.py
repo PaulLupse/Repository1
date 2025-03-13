@@ -300,10 +300,34 @@ def hash(cnp):
 
     return index
 
+def hash2(cnp):
+    cnp = int(cnp)
+    s4 = sum_dig(cnp % 1000)
+    s3 = sum_dig((cnp // 1000)) % 1000
+    s2 = sum_dig(cnp // 1000000) % 1000
+    s1 = sum_dig(cnp // 1000000000)
+
+    index = (s1 + s2 * 41 + s3 * 1681 + s4 * 68921) % 997
+
+    return index
+
+def hash3(cnp):
+    cnp = int(cnp)
+
+    index = 0
+    p = 0
+    cpcnp = cnp
+    while cpcnp > 10:
+        index = (index + ((cpcnp % 10) * (111111 ** p)) % (1e9 + 7)) % (1e9 + 7)
+        cpcnp //= 10
+        p += 1
+
+    return int((index + cpcnp) % 1000)
+
 def disperseaza():
     print('Hashing inceput la: ', datetime.now().time())
     hash_table.clear()  # initializam un hash table cu 997 linii
-    for i in range(0, 997):
+    for i in range(0, 1000):
         linie = []
         hash_table.append(linie)
 
@@ -311,14 +335,14 @@ def disperseaza():
 
     for linie in registru:
         Persoana = persoana(int(linie[0:13:]), linie[14:len(linie)])
-        Hash = hash(Persoana.cnp)
+        Hash = hash3(Persoana.cnp)
         hash_table[Hash].append(Persoana)
 
     registru.close()
     print('Hashing terminat la: ', datetime.now().time())
 
 def cauta_persoana(cnp):
-    Hash = hash(cnp)
+    Hash = hash3(cnp)
     nr_pasi = 0
 
     for i in range(0, len(hash_table[Hash])):
@@ -328,11 +352,11 @@ def cauta_persoana(cnp):
 
 def selecteaza_aleator(nr_persoane):
     lista = []
-    for i in range(0, nr_persoane):
-        cnp_aleator = random.choice(cnpuri)
+    cnp = random.sample(cnpuri, nr_persoane)
+    for cnp_aleator in cnp:
         print(cnp_aleator)
         nume, nr_pasi = cauta_persoana(cnp_aleator)
-        lista.append([nume.strip(), nr_pasi])
+        lista.append([nume.strip(), cnp_aleator, nr_pasi])
         print(f"Persoana căutată: {nume.strip()}. Pași efectuați: {nr_pasi}")
     return lista
 
@@ -341,5 +365,11 @@ if __name__ == '__main__':
     creare_persoane()
 
     disperseaza()
-    
-    selecteaza_aleator(1000)
+
+    print(hash3(1234567890123))
+
+    maxim = 0
+    for list in hash_table:
+        maxim = max(maxim, len(list))
+
+    print(maxim)
