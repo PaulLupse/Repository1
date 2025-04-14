@@ -33,13 +33,13 @@ class element:
             self.shape = master.create_rectangle(x + 2, screenL + 2, elementWidth + x + 2, screenL - x - elementWidth + 2, fill="white")
 
 class sortingScreen:
-    def __init__(self, master, row, column, elementwidth, screenL, ComboBox, ElNumComboBox, DelayEntry, Mediator):
+    def __init__(self, master, row, column, elementwidth, screenL, ComboBox, elNumComboBox, delay_entry, mediator):
         self.ComboBox = ComboBox
-        self.ElNumComboBox = ElNumComboBox
-        self.DelayEntry = DelayEntry
+        self.ElNumComboBox = elNumComboBox
+        self.DelayEntry = delay_entry
         self.screenL = screenL
         self.elementWidth = elementwidth
-        self.mediator = Mediator
+        self.mediator = mediator
         self.delay = 0.5
         self.sorting = False
         self.shuffling = False
@@ -116,7 +116,7 @@ class sortingScreen:
         Mediator.enable_button('pause')
         Mediator.enable_button('stop')
 
-        type = self.ComboBox.comboBox.get()
+        Type = self.ComboBox.comboBox.get()
 
         add = 0
         if l > 255:
@@ -125,7 +125,7 @@ class sortingScreen:
         indexes = [int(len(self.element_list) - self.canvas.coords(i.shape)[1]//self.elementWidth) + add for i in self.element_list]
         swap_dq = 0
 
-        match type:
+        match Type:
             case 'Stupid Sort':
                 swap_dq = Sorting.Sort_np.StupidSort(indexes)
             case 'Bubble Sort':
@@ -157,7 +157,7 @@ class sortingScreen:
                 thrd.Thread(target=self.sorting_thread, args=(swap_dq, indexes, )).start()
 
         #self.sorting_thread(swap_dq, indexes)
-        if type != 'Bogo Sort': thrd.Thread(target=self.sorting_thread, args=(swap_dq, indexes,)).start()
+        if Type != 'Bogo Sort': thrd.Thread(target=self.sorting_thread, args=(swap_dq, indexes,)).start()
 
     def sorting_thread(self, swap_dq, indexes):
         if self.delay >= 0.02:
@@ -214,9 +214,9 @@ class sortingScreen:
 
                     left = swap_dq[0][0]
                     right = swap_dq[0][1]
-                    type = swap_dq[0][2]
+                    Type = swap_dq[0][2]
 
-                    if type == 'set':
+                    if Type == 'set':
                         if 'Radix Sort' in sortType :
                             obj_arr_coords = [self.canvas.coords(k.shape) for k in self.element_list[left:right + 1]]
 
@@ -272,13 +272,13 @@ class sortingScreen:
 
                     el1 = swap_dq[0][0]
                     el2 = swap_dq[0][1]
-                    type = swap_dq[0][2]
+                    Type = swap_dq[0][2]
 
-                    if type == 'swap':
+                    if Type == 'swap':
                         self.canvas.itemconfig(self.element_list[el1].shape, fill='green')
                         self.canvas.itemconfig(self.element_list[el2].shape, fill='green')
                         self.swp(el1, el2)
-                    elif type == 'setArray':
+                    elif Type == 'setArray':
                         self.__set(el1)
                     else:
                         self.canvas.itemconfig(self.element_list[el1].shape, fill='red')
@@ -327,11 +327,11 @@ class sortingScreen:
 
     def final_touch_thread(self):
         l = len(self.element_list)
-        for element in self.element_list:
-            self.canvas.itemconfig(element.shape, fill = "green")
+        for Element in self.element_list:
+            self.canvas.itemconfig(Element.shape, fill ="green")
             time.sleep(1/l)
-        for element in self.element_list:
-            self.canvas.itemconfig(element.shape, fill = "white")
+        for Element in self.element_list:
+            self.canvas.itemconfig(Element.shape, fill ="white")
 
         Mediator.enable_button('worstcase')
         Mediator.enable_button('set'); Mediator.enable_button('delayset')
