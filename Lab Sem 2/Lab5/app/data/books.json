@@ -1,0 +1,39 @@
+{
+    "books": [
+        {
+            "id": 0,
+            "title": "Alexandru Lapusneanul",
+            "author": "Costache Negruzzi",
+            "year_published": "1840",
+            "year_written": "1838-1840"
+        },
+        {
+            "id": 2,
+            "title": "c",
+            "author": "Lewis Caroll",
+            "year_published": "2002",
+            "year_written": "2001"
+        },
+        {
+            "id": 3,
+            "title": "d",
+            "author": "idk",
+            "year_published": "2003",
+            "year_written": "2002"
+        },
+        {
+            "id": 4,
+            "title": "Moara cu Noroc",
+            "author": "Ioan Slavici",
+            "year_published": "1881",
+            "year_written": "1880"
+        },
+        {
+            "id": 5,
+            "title": "Ion",
+            "author": "Liviu Rebreanu",
+            "year_published": "1920",
+            "year_written": "1918-1920"
+        }
+    ]
+}
