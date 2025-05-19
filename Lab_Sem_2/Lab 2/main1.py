@@ -108,4 +108,5 @@ def main():
             candidat.pop()
         folosit_spec = False
 
-main()
+if __name__ == '__main__':
+    main()

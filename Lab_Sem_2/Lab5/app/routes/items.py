@@ -1,7 +1,9 @@
 import json
 from pathlib import Path
-from flask import request, jsonify
+from flask import request
 import numpy as np
+from ..utilities import ListUtilities
+
 
 def _read_json():
 
@@ -31,17 +33,26 @@ def _get_book_index(book_id):
 
     return book_index
 
+order = {'order': ['id', 'title', 'author', 'year_published', 'stock', 'price']}
 def get_books():
+
+    _read_json()
+    ordered_data = ListUtilities.list_carbon_copy(data['books'])
+    ordered_data.insert(0, order)
     print(data['books'])
-    return jsonify(data['books'])
+    return ordered_data, 200
 
 def get_book_by_id(book_id):
 
+    _read_json()
     book_id = int(book_id)
     book_index = _get_book_index(book_id)
 
     if book_index is not None:
-        return jsonify(data['books'][book_index]), 200
+        ordered_data = ListUtilities.list_carbon_copy([data['books'][book_index]])
+        ordered_data.insert(0, order)
+        print(data['books'][book_index])
+        return ordered_data, 200
     else:
         return {"error":"Book not found"}, 404
 
@@ -52,6 +63,7 @@ def _validate_input(user_input):
 
     for key, value in user_input.items():
         if key not in defined_fields:
+            print(key)
             return False
 
     return True
@@ -62,6 +74,8 @@ def _fetch_new_id():
     return book_id
 
 def add_book():
+
+    print(request.json)
 
     book_data = {'id':_fetch_new_id()}
     book_data.update(request.json)
@@ -76,6 +90,10 @@ def add_book():
 
 def update_book(book_id):
 
+    print(book_id)
+    print(request.json)
+
+    _read_json()
     new_data = request.json
     if not _validate_input(new_data):
         return {'error': 'Bad request'}, 400
@@ -94,6 +112,7 @@ def update_book(book_id):
 
 def delete_book(book_id):
 
+    _read_json()
     book_id = int(book_id)
     book_index = _get_book_index(book_id)
 
