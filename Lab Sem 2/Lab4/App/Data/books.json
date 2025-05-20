@@ -1,0 +1,60 @@
+{
+    "books": [
+        {
+            "id": "1",
+            "title": "Alexandru Lapusneanul",
+            "author": "Costache Negruzzi",
+            "year_published": "1840",
+            "stock": "12",
+            "price": "11"
+        },
+        {
+            "id": "2",
+            "title": "b",
+            "author": "b",
+            "year_published": "1010",
+            "stock": "1",
+            "price": "1"
+        },
+        {
+            "id": "3",
+            "title": "b",
+            "author": "b",
+            "year_published": "1010",
+            "stock": "",
+            "price": ""
+        },
+        {
+            "id": "4",
+            "title": "-",
+            "author": "-",
+            "year_published": "-",
+            "stock": "-",
+            "price": "-"
+        },
+        {
+            "id": "5",
+            "title": "b",
+            "author": "b",
+            "year_published": "1010",
+            "stock": "-",
+            "price": "-"
+        },
+        {
+            "id": "6",
+            "title": "a",
+            "author": "-",
+            "year_published": "-",
+            "stock": "-",
+            "price": "-"
+        },
+        {
+            "id": "7",
+            "title": "a",
+            "author": "a",
+            "year_published": "a",
+            "stock": "a",
+            "price": "a"
+        }
+    ]
+}
