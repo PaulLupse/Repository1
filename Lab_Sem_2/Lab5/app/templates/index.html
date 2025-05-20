@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Cărți (cam atât)</title>
+    <style>
+        body {
+            color: black;
+            font-family:'Palatino Linotype',serif
+        }
+        button {
+            border: 1px solid #dddddd;
+            color: black;
+            padding: 5px 10px;
+            text-align: center;
+            display: block;
+            font-size: 16px;
+            margin: 2px 2px;
+            cursor: pointer;
+            width: 175px;
+        }
+        table
+        {
+            font-family: arial, sans-serif;
+            border-collapse: collapse;
+            margin: 2px 2px;
+            display: block;
+        }
+        td, th
+        {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+        label {
+            margin: 2px 2px;
+            display: inline;
+        }
+        input {
+            margin: 2px 2px;
+            display: inline;
+        }
+    </style>
+</head>
+<body>
+    <h1>
+        Aplicație pentru gestionarea unui catalog de cărți
+    </h1>
+    <button onclick="showCatalog('catalog')">
+        Get catalog
+    </button>
+    <button onclick="showBook('catalog')">
+        Get book
+    </button>
+    <button onclick="deleteBook()">
+        Delete book
+    </button>
+    <form>
+        <label for="book_id_input">Book ID:</label>
+        <input type="text" id="book_id_input" name="book_id_input" value="0" size="3"><br>
+    </form>
+    <button onclick="addBook()">
+        Add book
+    </button>
+    <button onclick="updateBook()">
+        Update book
+    </button>
+    <form>
+        <label for="book_title">Book title:</label>
+        <input type="text" id="book_title" name="book_title" value="" size="20"><br>
+
+        <label for="book_author">Book author:</label>
+        <input type="text" id="book_author" name="book_author" value="" size="20"><br>
+
+        <label for="book_release_date">Book release date:</label>
+        <input type="text" id="book_release_date" name="book_release_date" value="" size="20"><br>
+
+        <label for="book_stock">Book stock:</label>
+        <input type="text" id="book_stock" name="book_stock" value="" size="5">
+
+        <label for="book_price">Book price:</label>
+        <input type="text" id="book_price" name="book_price" value="" size="5">
+    </form>
+    <table id="catalog">
+        <tr>
+            <th>ID</th>
+            <th>Title</th>
+            <th>Author</th>
+            <th>Year published</th>
+            <th>Stock</th>
+            <th>Price</th>
+        </tr>
+    </table>
+
+    <script src="script.js"></script>
+</body>
+</html>
