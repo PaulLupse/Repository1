@@ -5,6 +5,10 @@ INF = 1000000000000
 import numpy as np
 
 def rest(banknotes_stock, Rest):
+
+    if Rest == 0:
+        return 0, 0
+
     class banknotes_used:
         def __init__(self):
             self.banknotes = {}
@@ -30,6 +34,8 @@ def rest(banknotes_stock, Rest):
                     b_used[cost].banknotes.clear()
                     b_used[cost].banknotes = DictUtilities.carbon_copy(b_used[cost - banknote].banknotes)
                     b_used[cost].banknotes[banknote] += 1
+
+    b_used[Rest].banknotes = DictUtilities.remove_empty_values(b_used[Rest].banknotes)
 
     if nr_b_used[Rest] == INF:
         return None, None

@@ -14,7 +14,7 @@ def enter_product_menu(main_window):
 
     # camp pentru introducerea unui nou produs
 
-    product_name_entry_sv = tk.StringVar(menu, 'Schweppes cu ma-ta')
+    product_name_entry_sv = tk.StringVar(menu, 'Schweppes...')
     product_name_entry = cw.LabeledEntry(menu, "Introdu   numele   produsului:", 'n',
                                          gridding_options={'row' : 0, 'column' : 0, 'padx' : 5, 'pady' : 5},
                                          width = 25, textvariable=product_name_entry_sv)
