@@ -44,7 +44,7 @@
 </head>
 <body>
     <h1>
-        Aplicație pentru gestionarea unui catalog de cărți
+        Database management app
     </h1>
     <button onclick="showCatalog('catalog')">
         Get catalog
@@ -104,7 +104,7 @@ async function getBook(bookId)
 {
     bookId = Number(bookId)
     if(isNaN(bookId)) {
-        alert("Error: Bad id");
+        alert("Error: Id must be integer!");
         return "error";
     }
 
@@ -218,8 +218,8 @@ async function updateBook()
     let bookId = document.getElementById("book_id_input").value;
     bookId = Number (bookId)
     if(isNaN(bookId)) {
-        alert("Error: Bad id");
-         
+        alert("Error: Id must be integer!");
+
         return;
     }
 
@@ -251,32 +251,37 @@ async function updateBook()
     );
     if(response.ok) {
         await showCatalog('catalog');
-        alert("Added succesfully");
+        const resp = await response.json()
+        alert(resp["info"]);
     }
     else
     {
-        alert(response[error]);
+        const resp = await response.json()
+        alert(resp["error"]);
     }
 }
 async function deleteBook()
 {
-    let bookId = document.getElementById("book_id_input").value;
-    bookId = Number (bookId)
-    if(isNaN(bookId)) {
-        alert("Error: Bad id");
-         
-        return;
-    }
+     let bookId = document.getElementById("book_id_input").value;
+     bookId = Number (bookId)
+     if(isNaN(bookId)) {
+        alert("Error: Id must be integer!");
+         return;
+     }
+
      const url = "http://127.0.0.1:5000";
      const response = await fetch(url.concat(`/books/${bookId}`),{method:"DELETE"});
+
      if(response.ok)
      {
          await showCatalog('catalog');
-         alert("Deleted succesfully");
+         const resp = await response.json()
+         alert(resp["info"]);
      }
      else
      {
-         alert(response[error]);
+         const resp = await response.json()
+         alert(resp["error"]);
      }
 }
     </script>
