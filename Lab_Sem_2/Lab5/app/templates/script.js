@@ -90,7 +90,7 @@ async function addBook()
     }
     else
     {
-        alert("Error");
+        alert(response[error]);
     }
 }
 
@@ -130,7 +130,7 @@ async function updateBook()
             }
             else
             {
-                alert("Error");
+                alert(response[error]);
             }
 }
 async function deleteBook()
@@ -147,6 +147,6 @@ async function deleteBook()
             }
             else
             {
-                alert("Error");
+                alert(response[error]);
             }
 }

@@ -1,18 +1,10 @@
 {
     "books": [
         {
-            "id": 0,
-            "title": "Morometii vol1",
-            "author": "Marin Preda",
-            "year_published": "1955",
-            "stock": "11",
-            "price": "25"
-        },
-        {
             "id": 1,
             "title": "The Festival",
             "author": "H.P. Lovecraft",
-            "year_published": "1910",
+            "year_published": "1925",
             "stock": "10",
             "price": "20"
         },
@@ -47,38 +39,6 @@
             "year_published": "1938",
             "stock": "50",
             "price": "15"
-        },
-        {
-            "id": 6,
-            "title": "Morometii vol1",
-            "author": "Marin Preda",
-            "year_published": "1955",
-            "stock": "10",
-            "price": "25"
-        },
-        {
-            "id": 7,
-            "title": "Morometii vol1",
-            "author": "Marin Preda",
-            "year_published": "1955",
-            "stock": "11",
-            "price": "25"
-        },
-        {
-            "id": 8,
-            "title": "Morometii vol1",
-            "author": "Marin Preda",
-            "year_published": "1955",
-            "stock": "11",
-            "price": "25"
-        },
-        {
-            "id": 9,
-            "title": "Morometii vol1",
-            "author": "Marin Preda",
-            "year_published": "1955",
-            "stock": "11",
-            "price": "25"
         }
     ]
 }
