@@ -21,34 +21,35 @@ gasit = Value('i', 0)
 cnt_apeluri = Value('i', 0)
 
 def backy(k, parola, folosit_nr, cnt_min, folosit_maj, folosit_spec, candidat, gasit, cnt_apeluri ):
-    if gasit.value == 1:
-        exit()
-    if k == 6:
+    if gasit.value == 1: # daca alte procese au gasit un cadidat valid
+        exit() # se opreste procesul
+
+    if k == 6: # daca am ajuns la al 6-lea caracter din candidat, verificam daca este parola
         if verifica(candidat, parola, ):
             gasit.value = 1
             print(f'Număr apeluri recursive:{cnt_apeluri.value}')
             exit()
     else:
-        if cnt_min < 3:
-            for Min in minuscule:
+        if cnt_min < 3: # daca sunt mai putin de 3 minuscule in candidat, adaugam un caracter minuscul
+            for Min in minuscule: # incercam toate minusculele
                 candidat.append(Min); cnt_apeluri.value += 1
                 backy(k + 1, parola, folosit_nr, cnt_min + 1, folosit_maj, folosit_spec, candidat, gasit, cnt_apeluri )
                 candidat.pop()
 
-        if folosit_nr is False:
-            for i in range(0, 10):
+        if folosit_nr is False:  # daca nu este folosita o cifra, adaugam o cifra
+            for i in range(0, 10): # incercam toate cele 10 cifre
                 candidat.append(str(i)); cnt_apeluri.value += 1
                 backy(k + 1, parola, True, cnt_min, folosit_maj, folosit_spec, candidat, gasit, cnt_apeluri )
                 candidat.pop()
 
-        if folosit_maj is False:
-            for maj in majuscule:
+        if folosit_maj is False: # daca nu este folosita o majuscula, adaugam o majuscula
+            for maj in majuscule: # incercam toate majusculele
                 candidat.append(maj); cnt_apeluri.value += 1
                 backy(k + 1, parola, folosit_nr, cnt_min, True, folosit_spec, candidat, gasit, cnt_apeluri )
                 candidat.pop()
 
-        if folosit_spec is False:
-            for spec in speciale:
+        if folosit_spec is False: # daca nu este folosit un caracter special, adaugam un caracter special
+            for spec in speciale: # incercam toate caracterele speciale
                 candidat.append(spec); cnt_apeluri.value += 1
                 backy(k + 1, parola, folosit_nr, cnt_min, folosit_maj, True, candidat, gasit, cnt_apeluri )
                 candidat.pop()
@@ -72,14 +73,16 @@ def main():
 
     if __name__ == '__main__':
         k = 0; parola = '0e000d61c1735636f56154f30046be93b3d71f1abbac3cd9e3f80093fdb357ad'
-        parola = get_hash('0aaaA!')
+        parola = get_hash('0aaaA!') # obtinem hash-ul pt parola
 
-        candidat = []
-        folosit_maj = False
-        folosit_nr = False
-        folosit_spec = False
-        cnt_min = 0
+        # initial...
+        candidat = [] # ...candidatul este nul
+        folosit_maj = False # ...nu sunt folosite majuscule
+        folosit_nr = False # ...nu sunt folosite numere
+        folosit_spec = False # ...nu sunt folosite caractere speciale
+        cnt_min = 0 # ...nu sunt folosite minuscule
 
+        # pornim un proces care incearca candidatii ce incep cu o cifra
         folosit_nr = True
         for i in range(0, 10):
             candidat.append(str(i))
@@ -87,7 +90,7 @@ def main():
             candidat.pop()
         folosit_nr = False
 
-
+        # pornim un proces care incearca candidatii care incep cu majuscule
         folosit_maj = True
         for maj in majuscule:
             candidat.append(maj)
@@ -95,6 +98,7 @@ def main():
             candidat.pop()
         folosit_maj = False
 
+        # pornim un proces care incearca candidatii care incep cu minuscule
         cnt_min += 1
         for Min in minuscule:
             candidat.append(Min)
@@ -102,6 +106,7 @@ def main():
             candidat.pop()
         cnt_min -= 1
 
+        # pornim un proces care incearca candidatii care incepd cu caractere speciale
         folosit_spec = True
         for spec in speciale:
             candidat.append(spec)

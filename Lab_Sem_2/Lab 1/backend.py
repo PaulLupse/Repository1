@@ -350,6 +350,8 @@ def cauta_persoana(cnp):
         if hash_table[Hash][i].cnp == cnp:
             return hash_table[Hash][i].nume, nr_pasi
 
+    return "Persoana nu a fost gasita!", nr_pasi
+
 def selecteaza_aleator(nr_persoane):
     lista = []
     cnp = random.sample(cnpuri, nr_persoane)
