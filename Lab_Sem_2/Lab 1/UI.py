@@ -3,7 +3,7 @@ import tkinter.ttk as ttk
 from tkinter import scrolledtext
 import threading as thrd
 import ctypes
-import main
+import backend
 
 import tkinter.messagebox as msgbox
 
@@ -26,9 +26,9 @@ def genereaza_persoane_thrd(Var, lista_butoane):
 
     Var.set("Se generează persoanele ...")
     global cnpuri
-    cnpuri = main.creare_persoane()
+    cnpuri = backend.creare_persoane()
     Var.set("Se dispersează cnp-urile ...")
-    main.disperseaza()
+    backend.disperseaza()
     Var.set('')
 
     for buton in lista_butoane:
@@ -50,7 +50,7 @@ def selecteaza_thrd(Var, entry, output_scrolled_text, lista_butoane):
     for buton in lista_butoane:
         buton['state'] = 'disabled'
 
-    lista = main.selecteaza_aleator(int(entry.get()))
+    lista = backend.selecteaza_aleator(int(entry.get()))
 
     Var.set("Se afișează persoanele ...")
     output_scrolled_text.configure(state = 'normal')
@@ -72,7 +72,7 @@ def cauta_persoana(entry, output_scrolled_text):
         msgbox.showerror("Valoare numerică incorectă", "Introduceți o valoare validă!")
         return
 
-    nume, pasi = main.cauta_persoana(int(entry.get()))
+    nume, pasi = backend.cauta_persoana(int(entry.get()))
 
     output_scrolled_text.configure(state='normal')
     output_scrolled_text.delete('1.0', tk.END)
@@ -82,10 +82,11 @@ def cauta_persoana(entry, output_scrolled_text):
     output_scrolled_text.configure(state='disabled')
 
 if __name__ == "__main__":
+    # <fereastra principala>
     win = tk.Tk()
     win.title("Algoritm Hash Table")
     win.resizable(False, False)
-
+    
     var = tk.StringVar()
 
     Label_Alege_Tipul_De_Operatie = tk.Label(win, text = 'Alegeti tipul de operatie:')
@@ -108,7 +109,7 @@ if __name__ == "__main__":
 
     lista_butoane = (Buton_Selectare_Persoane_Aleator, Buton_Cauta_Persoana)
 
-    ########## tab-ul pt selectia aleatoare ##############
+    #----- tab-ul pt selectia aleatoare -----#
 
     Tab_Control.add(Tab_Selectie_Aleatoare, text=' Selecție Aleatoare ')
 
@@ -123,7 +124,7 @@ if __name__ == "__main__":
     Buton_Selectare_Persoane_Aleator.pack(pady = 5)
 
 
-    #######tab-ul pt selectia directa a unui cnp##########
+    #-----tab-ul pt selectia directa a unui cnp-----#
 
 
     Tab_Control.add(Tab_Selectie_Directa, text=' Selecție Directă   ')
@@ -147,4 +148,8 @@ if __name__ == "__main__":
     Buton_Exit = ttk.Button(win, text='IEȘIRE', command=win.destroy, width=10)
     Buton_Exit.grid(row=2, column=0, padx=5, pady=5)
 
+    # <fereastra principala/>
+
+def main():
     win.mainloop()
+
