@@ -107,7 +107,7 @@ class CustomTable(ttk.Treeview):
 
         self._clear()
         # rearanjeaza cartile in pozitia sortata
-        for index, order, book in enumerate(l):
+        for index, (order, book) in enumerate(l):
             self._insert_row(book, self._get_tag(index))
 
 class EntryWindow(tk.Toplevel):

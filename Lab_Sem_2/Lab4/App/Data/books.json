@@ -14,7 +14,7 @@
             "author": "idk",
             "year_published": "2003",
             "stock": "10",
-            "price": "20"
+            "price": "17"
         },
         {
             "id": 3,
@@ -22,7 +22,7 @@
             "author": "Ioan Slavici",
             "year_published": "1881",
             "stock": "10",
-            "price": "20"
+            "price": "24"
         },
         {
             "id": 4,
@@ -30,7 +30,7 @@
             "author": "Liviu Rebreanu",
             "year_published": "1920",
             "stock": "10",
-            "price": "20"
+            "price": "14"
         },
         {
             "id": 5,
@@ -39,6 +39,14 @@
             "year_published": "1938",
             "stock": "50",
             "price": "15"
+        },
+        {
+            "id": 6,
+            "title": "Morometii vol. 1",
+            "author": "Marin Preda",
+            "year_published": "1955",
+            "stock": "5",
+            "price": "20"
         }
     ]
 }

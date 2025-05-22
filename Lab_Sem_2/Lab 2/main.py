@@ -1,11 +1,12 @@
+
 import hashlib
 import multiprocessing as multi
 from multiprocessing.sharedctypes import Value
 import numpy as np
-import Hashing
+
 
 def get_hash(password):
-    return Hashing.sha_256(password)
+    return hashlib.sha256(password.encode()).hexdigest()
 
 def verifica(candidat, parola, ):
     if get_hash(''.join(candidat)) == parola:
@@ -31,27 +32,27 @@ def backy(k, parola, folosit_nr, cnt_min, folosit_maj, folosit_spec, candidat, g
     else:
         if cnt_min < 3:
             for Min in minuscule:
-                candidat.append(Min); cnt_apeluri.value += 1
+                candidat.append(Min)
                 backy(k + 1, parola, folosit_nr, cnt_min + 1, folosit_maj, folosit_spec, candidat, gasit, cnt_apeluri )
-                candidat.pop()
+                candidat.pop(); cnt_apeluri.value += 1
 
         if folosit_nr is False:
             for i in range(0, 10):
-                candidat.append(str(i)); cnt_apeluri.value += 1
+                candidat.append(str(i))
                 backy(k + 1, parola, True, cnt_min, folosit_maj, folosit_spec, candidat, gasit, cnt_apeluri )
-                candidat.pop()
+                candidat.pop(); cnt_apeluri.value += 1
 
         if folosit_maj is False:
             for maj in majuscule:
-                candidat.append(maj); cnt_apeluri.value += 1
+                candidat.append(maj)
                 backy(k + 1, parola, folosit_nr, cnt_min, True, folosit_spec, candidat, gasit, cnt_apeluri )
-                candidat.pop()
+                candidat.pop(); cnt_apeluri.value += 1
 
         if folosit_spec is False:
             for spec in speciale:
-                candidat.append(spec); cnt_apeluri.value += 1
+                candidat.append(spec)
                 backy(k + 1, parola, folosit_nr, cnt_min, folosit_maj, True, candidat, gasit, cnt_apeluri )
-                candidat.pop()
+                candidat.pop(); cnt_apeluri.value += 1
 
 def proces(k, parola, folosit_nr, cnt_min, folosit_maj, folosit_spec, candidat, gasit, cnt_apeluri ):
     cp_k = k
@@ -64,7 +65,6 @@ def proces(k, parola, folosit_nr, cnt_min, folosit_maj, folosit_spec, candidat, 
     multi.Process(target=backy, args=(
         cp_k, cp_parola, cp_folosit_nr, cp_cnt_min, cp_folosit_maj, cp_folosit_spec, cp_candidat, gasit, cnt_apeluri)).start()
 
-
 def main():
     global gasit
 
@@ -72,7 +72,6 @@ def main():
 
     if __name__ == '__main__':
         k = 0; parola = '0e000d61c1735636f56154f30046be93b3d71f1abbac3cd9e3f80093fdb357ad'
-        parola = get_hash('0aaaA!')
 
         candidat = []
         folosit_maj = False
@@ -109,5 +108,4 @@ def main():
             candidat.pop()
         folosit_spec = False
 
-if __name__ == '__main__':
-    main()
+main()
