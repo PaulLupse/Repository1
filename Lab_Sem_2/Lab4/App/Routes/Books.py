@@ -1,7 +1,7 @@
 from pathlib import Path
 import json
 
-defined_fields = []
+defined_fields = {}
 # functie pentru citirea din fisierul json
 # si stabilirea campurilor definite
 def _read_json():
@@ -9,9 +9,8 @@ def _read_json():
     json_file = open(Path(__file__).parent.parent / 'Data' / 'books.json', 'r')
     data = json.load(json_file)
 
-    if data['books']:
-        for key in data['books'][0].keys():
-            defined_fields.append(key)
+    for key, value in data['field_types'].items():
+        defined_fields[key] = value
 
     json_file.close()
 
@@ -40,13 +39,20 @@ def _fetch_new_id():
 def _validate_data(book_data):
 
     if defined_fields:
-        for key in book_data.keys():
-            if key not in defined_fields: # daca cartea are campuri de date ce nu sunt prezente in campurile definite...
-                return False # ...datele sunt invalide
-    return True
+        for key, value in book_data.items():
+            if key not in defined_fields.keys(): # daca cartea are campuri de date ce nu sunt prezente in campurile definite...
+                return False, "Bad request" # ...datele sunt invalide
+            else:
+                if defined_fields[key] == 'int':
+                    try:
+                        value = int(value)
+                    except ValueError:
+                        return False, f"{key.replace('_', ' ').capitalize()} must pe number!"
+
+    return True, None
 
 # returneaza cartea dupa id, daca este gasita, altfel returneaza eroare
-def get_book_by_id(book_id):
+'''def get_book_by_id(book_id):
 
     # citeste fisierul json
     books_data = _read_json()['books']
@@ -54,7 +60,7 @@ def get_book_by_id(book_id):
     for book in books_data:
         if int(book['id']) == book_id:
             return book, 200
-    return 'error', 404
+    return 'error', 404'''
 
 # returneaza toate cartile
 def get_all_books():
@@ -62,7 +68,7 @@ def get_all_books():
     # citeste fisierul json
     books_data = _read_json()['books']
 
-    return books_data, 200
+    return books_data, defined_fields, 200
 
 # sterge o carte dupa id, daca este gasita, altfel returneaza eroare
 def delete_book(book_id):
@@ -71,7 +77,7 @@ def delete_book(book_id):
     try:
         book_id = int(book_id)
     except ValueError: # returneaza eroare
-        return 'ID-ul cartii trebuie sa fie valoare intreaga!', 400
+        return 'Book id must be a number!', 400
 
     # citeste fisierul json
     books_data = _read_json()['books']
@@ -92,10 +98,9 @@ def add_book(book_data):
     # citeste fisierul json
     books_data = _read_json()['books']
 
-    if not _validate_data(book_data):
-        print(defined_fields)
-        print('error 400')
-        return 'error', 400
+    response, msg = _validate_data(book_data)
+    if not response:
+        return msg, 400
 
     # se atribuie un nou id la cartea noua
     new_book = {"id":str(_fetch_new_id())}
@@ -118,9 +123,9 @@ def update_book(book_data):
     except ValueError:
         return 'ID-ul cartii trebuie sa fie valoare intreaga!', 400
 
-    if not _validate_data(book_data):
-        print(defined_fields)
-        return 'Internal server error', 400
+    response, msg = _validate_data(book_data)
+    if not response:
+        return msg, 400
 
     books_data = _read_json()['books']
 

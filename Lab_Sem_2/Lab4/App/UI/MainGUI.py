@@ -43,7 +43,7 @@ def main():
     # <rama pentru tablea de afisare a datelor din fisierul json>
 
     table_frame = tk.LabelFrame(window, text='Vizualizare date',font =('Rockwell',10))
-    table = CustomWidgets.CustomTable(table_frame, columns = ['id', 'title', 'author', 'year published', 'stock', 'price'], show ='headings',
+    table = CustomWidgets.CustomTable(table_frame, columns = ['id', 'title', 'author', 'year_published', 'stock', 'price'], show ='headings',
                                       height=7)
 
     table.pack(side = 'left')

@@ -1,5 +1,7 @@
 import tkinter as tk
 import tkinter.ttk as ttk
+
+from Lab4.App.Routes.Books import defined_fields
 from ..Themes import Theme1
 from ..Routes import Books
 import tkinter.messagebox as msgbox
@@ -37,7 +39,6 @@ class CustomTable(ttk.Treeview):
         super().__init__(master, **options)
 
         self.fields = options['columns']
-
         self.tag_configure('even_row', background='#dedcfc')
         self.tag_configure('odd_row', background='#ffffff')
 
@@ -58,7 +59,7 @@ class CustomTable(ttk.Treeview):
 
         # seteaza heading-urile si coloanele
         for field in options['columns']:
-            self.heading(field, text=field, command = lambda f=field:self._treeview_sort_column(f))
+            self.heading(field, text=field.replace('_', ' ').capitalize(), command = lambda f=field:self._treeview_sort_column(f))
             self.column(field, anchor='center', stretch=False, width = 100)
 
 
@@ -85,7 +86,7 @@ class CustomTable(ttk.Treeview):
             self.delete(children)
 
     @staticmethod
-    def _get_tag(index):
+    def _get_tag(index): # returneaza tag-ul liniei in functie de index
 
         if index % 2 == 0:
             tag = 'even_row'
@@ -94,13 +95,16 @@ class CustomTable(ttk.Treeview):
 
         return tag
 
-    def _treeview_sort_column(self, column):
+    def _treeview_sort_column(self, column): # sorteaza tabelul dupa coloana specificata
 
         print(column)
 
         # lista care memoreaza o pereche de date: valoarea coloanei cartii si cartea respectiva
         # self.set returneaza valoarea campului column a cartii book
-        l = [(self.set(book, column), self.set(book)) for book in self.get_children()]
+        try: # daca valorile campurilor se pot converti la int
+            l = [(int(self.set(book, column)), self.set(book)) for book in self.get_children()]
+        except ValueError:
+            l = [(self.set(book, column), self.set(book)) for book in self.get_children()]
 
         # sorteaza dupa valoarea coloanei
         l = sorted(l, key = lambda x:x[0])

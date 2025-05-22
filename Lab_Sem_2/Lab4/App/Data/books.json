@@ -48,5 +48,14 @@
             "stock": "5",
             "price": "20"
         }
-    ]
+    ],
+    "field_types":
+        {
+            "id": "int",
+            "title": "string",
+            "author": "string",
+            "year_published": "int",
+            "stock": "int",
+            "price": "int"
+        }
 }
