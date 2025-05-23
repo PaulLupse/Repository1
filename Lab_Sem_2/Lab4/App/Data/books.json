@@ -47,15 +47,14 @@
             "year_published": "1955",
             "stock": "5",
             "price": "20"
-        }
-    ],
-    "field_types":
+        },
         {
-            "id": "int",
-            "title": "string",
-            "author": "string",
-            "year_published": "int",
-            "stock": "int",
-            "price": "int"
+            "id": "7",
+            "title": "ma-ta",
+            "author": "a",
+            "year_published": "1922",
+            "stock": "123",
+            "price": "123"
         }
+    ]
 }

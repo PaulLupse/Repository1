@@ -203,6 +203,7 @@ def generare_data(an1, an2): # an2 > an1
     return data
 
 def cifra_de_control(cnp):
+
     constanta = 279146358279
     cp_constanta = constanta
     cp_cnp = cnp

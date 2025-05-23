@@ -18,7 +18,7 @@ def main():
 
     # <rama pentru butoane>
     # butoanele sunt puse intr-o rama, care este asezata in fereastra principala
-    buttons_frame = tk.LabelFrame(window, text='Gestionare date',highlightbackground='black',font =('Rockwell',10))
+    buttons_frame = tk.LabelFrame(window, text='Manage data',highlightbackground='black',font =('Rockwell',10))
 
     add_book_button = ttk.Button(buttons_frame, text="Add book", style = 'alter.TButton', width = 22)
     delete_book_button = ttk.Button(buttons_frame, text="Delete book", style = 'delete.TButton', width = 22)
@@ -42,7 +42,7 @@ def main():
 
     # <rama pentru tablea de afisare a datelor din fisierul json>
 
-    table_frame = tk.LabelFrame(window, text='Vizualizare date',font =('Rockwell',10))
+    table_frame = tk.LabelFrame(window, text='Visualize data',font =('Rockwell',10))
     table = CustomWidgets.CustomTable(table_frame, columns = ['id', 'title', 'author', 'year_published', 'stock', 'price'], show ='headings',
                                       height=7)
 

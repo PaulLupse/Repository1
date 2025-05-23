@@ -99,7 +99,7 @@
         Sort
     </button>
     <script>
-
+        const url = "http://127.0.0.1:5000";
         // fields == array of keys
         // functie care initializeaza/modifica un combobox cu campurile specificate
         function initSortingCombobox()
@@ -107,15 +107,12 @@
             const fields = {0:"ID", 1:"Title", 2:"Author", 3:"Year published", 4:"Stock", 5:"Price"}
 
             var sortingCombobox = document.getElementById("sortingCombobox");
-
-            while(sortingCombobox.length > 0)
+            while(sortingCombobox.length > 0) // stergem optiunile anterior adaugate in combobox
             {
                 sortingCombobox.remove(0)
             }
 
-            const options = sortingCombobox.options
-
-            // adaugam fiecare camp ca si optione in sortingCombobox
+            // adaugam fiecare camp din 'fields' ca si optione in sortingCombobox
             for(let index in fields) {
 
                 let field = fields[index]
@@ -125,22 +122,23 @@
                 sortingCombobox.add(option);
             }
         }
-
+        // returneaza datele catalogului sub forma json
         async function getCatalog()
         {
-            const url = "http://127.0.0.1:5000";
             const response = await fetch(url.concat("/books")); // trimitem cerere GET pentru tot catalogul
             return await response.json();
         }
+
+        // returneaza datele cartii cu id-ul 'bookId' sub forma json
         async function getBook(bookId)
         {
             bookId = Number(bookId) // functia returneaza NaN daca bookId nu poate fii convertit in valoare intreaga
-            if(isNaN(bookId)) { // daca id-ul nu este valoare intreaga
+            if(isNaN(bookId)) { // daca id-ul nu este valoare intreaga, cererea este invalida
                 alert("Error: Id must be integer!");
                 return "error";
             }
 
-            const url = "http://127.0.0.1:5000";
+            // accesam baza de date
             const response = await fetch(url.concat(`/books/${bookId}`)); // trimitem cerere GET pentru o singura carte
             const responseData = await response.json()
             if(response.ok)
@@ -152,7 +150,7 @@
             }
         }
 
-        // functie ce elimina toate liniile din tabel
+        // functie ce elimina toate liniile din tabelul cu id-ul specificat
         async function clearTable(tableId)
         {
             var table = document.getElementById(tableId);
@@ -163,34 +161,43 @@
             }
         }
 
+        // functie care sorteaza tabelul cu id-ul precizat (arg 1),
+        // dupa coloana aflata in combobox-ul cu ud-ul precizat (arg2)
         function sortTable(tableId, comboboxId)
         {
+            // accesam valoarea combobox-ului
             const sortingField = document.getElementById(comboboxId).value
             console.log(sortingField)
 
             var table = document.getElementById(tableId)
 
+            // accesam liniile tabelului
             let rows = table.rows
             let rowArray = []
 
+            // creeam o lista care contine liniile tabelului sub forma json, unde cheile sunt
             for(let index = 0; index < rows.length; index ++) {
                 let cells = rows[index].cells
                 let row = Object()
                 for(let j = 0; j < cells.length; j++)
                 {
-                    row[j] = cells[j].innerHTML
+                    row[j] = Number(cells[j].innerHTML)
+                    if(isNaN(row[j])) // daca campul nu poate fii convertit la un numar
+                        row[j] = cells[j].innerHTML // se foloseste scrierea dupa string
                 }
                 rowArray.push(row)
             }
 
             let rowArrayLen = rowArray.length
 
+            // stupid sort
             for(let i = 1; i < rowArrayLen; i ++)
             {
                 for(let j = i + 1; j < rowArrayLen; j ++)
                 {
                     if(rowArray[i][sortingField] > rowArray[j][sortingField]){
                         let aux = Object()
+                        // facem swap-ul intre liniile tabelului
                         aux = rowArray[i]
                         rowArray[i] = rowArray[j]
                         rowArray[j] = aux
@@ -198,11 +205,13 @@
                 }
             }
 
-
+            // stergem liniile din tabel
             clearTable(tableId)
+            // si le punem in ordinea sortata
             for(let i = 1; i < rowArrayLen; i ++)
                 addRow(tableId, rowArray[i], Object.keys(rowArray[i]))
         }
+        // functie care afiseaza o singura carte in tabel
         async function showBook(tableId)
         {
 
@@ -210,19 +219,24 @@
             const bookData = await getBook(bookId);
 
             const bookFields = Object.keys(bookData[1]);
-            initSortingCombobox(bookFields);
+
+            initSortingCombobox(bookFields); // (re)initializam optiunile pentru sortare
 
             if(bookData === "error") {
                 return
             }
 
-            await clearTable(tableId);
-            const fieldsOrder = bookData[0]['order'];
-            const entry = bookData[1];
+
+            await clearTable(tableId); // stergem liniile din tabel
+
+            const fieldsOrder = bookData[0]['order']; // preluam ordinea in care trebuie sa fie asezate coloanele
+
+            const entry = bookData[1]; // preluam datele cartii
             addRow(tableId, entry, fieldsOrder);
             console.log(entry)
-            initSortingCombobox()
         }
+
+        // functie care afiseaza toate cartile in tabel
         async function showCatalog(tableId)
         {
             await clearTable(tableId);
@@ -242,11 +256,14 @@
                 addRow(tableId, catalogEntry, catalogFieldsOrder);
             }
         }
+        // functie ce adauga o singura linia la tabelul cu id-ul specificat, cu datele specificate (sub forma de obiect), in ordinea specificata
         function addRow(tableId, rowData, catalogFieldsOrder)
         {
             var table = document.getElementById(tableId);
+
             const tableRowCount = table.rows.length;
             var row = table.insertRow(tableRowCount);
+
             const fieldsCount = Object.keys(catalogFieldsOrder).length;
             for(let index = 0; index < fieldsCount; index ++)
             {
@@ -254,6 +271,7 @@
                 cell.innerHTML = rowData[catalogFieldsOrder[index]];
             }
         }
+        // functie care adauga o carte in baza de date
         async function addBook()
         {
             let bookTitle = document.getElementById("book_title").value;
@@ -262,6 +280,7 @@
             let bookStock = document.getElementById("book_stock").value;
             let bookPrice = document.getElementById("book_price").value;
 
+            // fiecare camp nul este inlocuit cu '-'
             if(bookTitle === "")
                 bookTitle = "-"
             if(bookAuthor === "")
@@ -273,7 +292,7 @@
             if(bookPrice === "")
                 bookPrice = "-"
 
-            const url = "http://127.0.0.1:5000";
+            // trimitem cerere POST pentru o singura carte
             const response = await fetch(url.concat(`/books`),
                 {
                     method:"POST",
@@ -287,13 +306,18 @@
             if(response.ok)
             {
                 await showCatalog('catalog');
-                alert("Added succesfully");
+                const resp = await response.json()
+                
+                alert(resp["info"]);
             }
             else
             {
-                alert(response[error]);
+                const resp = await response.json()
+                
+                alert(resp["error"]);
             }
         }
+        // functie care modifica o carte din baza de date
         async function updateBook()
         {
             let bookId = document.getElementById("book_id_input").value;
@@ -309,6 +333,7 @@
             let bookStock = document.getElementById("book_stock").value;
             let bookPrice = document.getElementById("book_price").value;
 
+            // fiecare camp nul este ignorat
             let fields = {};
             if(bookTitle !== "")
                 fields["title"] = bookTitle;
@@ -321,8 +346,7 @@
             if(bookPrice !== "")
                 fields["price"] = bookPrice;
 
-            const url = "http://127.0.0.1:5000";
-            const response = await fetch(url.concat(`/books/${bookId}`),
+            const response = await fetch(url.concat(`/books/${bookId}`), // trimitem cerere PUT pentru modificarea unei carti
                 {
                     method:"PUT",
                     body: JSON.stringify(fields),
@@ -332,14 +356,17 @@
             if(response.ok) {
                 await showCatalog('catalog');
                 const resp = await response.json()
+                
                 alert(resp["info"]);
             }
             else
             {
                 const resp = await response.json()
-                alert(resp["error"]);
+                
+                alert(resp["error"])
             }
         }
+        // functie pentru stergere a unei carti din baza de date
         async function deleteBook()
         {
              let bookId = document.getElementById("book_id_input").value;

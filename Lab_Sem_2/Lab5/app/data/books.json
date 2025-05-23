@@ -47,6 +47,22 @@
             "year_published": "1955",
             "stock": "5",
             "price": "20"
+        },
+        {
+            "id": 7,
+            "title": "a",
+            "author": "a",
+            "year_published": "1",
+            "stock": "1",
+            "price": "1"
         }
-    ]
+    ],
+    "field_types": {
+        "id": "int",
+        "title": "string",
+        "author": "string",
+        "year_published": "int",
+        "stock": "int",
+        "price": "int"
+    }
 }

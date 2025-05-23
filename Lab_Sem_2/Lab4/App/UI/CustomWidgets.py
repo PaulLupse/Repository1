@@ -1,7 +1,6 @@
 import tkinter as tk
 import tkinter.ttk as ttk
 
-from Lab4.App.Routes.Books import defined_fields
 from ..Themes import Theme1
 from ..Routes import Books
 import tkinter.messagebox as msgbox
@@ -163,10 +162,12 @@ class DataEntryWindow(EntryWindow):
 
         self.operation = operation
 
+        # adaugam buton pentru confirmarea actiunii
         add_button = ttk.Button(self, text='Confirm', style = 'green.TButton')
         add_button['command'] = lambda:self._send_data()
         add_button.grid(row = self.fields_number + 1, column = 0, padx=5, pady=5)
 
+        # si un buton de iesire
         exit_button = ttk.Button(self, text="Return", command=self.destroy, style = 'black.TButton')
         exit_button.grid(row = self.fields_number + 1, column = 1, padx=5, pady=5)
 
