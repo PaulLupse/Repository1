@@ -10,7 +10,7 @@
         },
         {
             "id": 2,
-            "title": "Something",
+            "title": "Morometii vol. 2",
             "author": "idk",
             "year_published": "2003",
             "stock": "10",
@@ -50,11 +50,11 @@
         },
         {
             "id": 7,
-            "title": "a",
+            "title": "as",
             "author": "a",
-            "year_published": "1",
-            "stock": "1",
-            "price": "1"
+            "year_published": "1234",
+            "stock": "12",
+            "price": "12"
         }
     ],
     "field_types": {

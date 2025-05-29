@@ -1,4 +1,12 @@
 {
+    "field_types": {
+        "id": "int",
+        "title": "string",
+        "author": "string",
+        "year_published": "int",
+        "stock": "int",
+        "price": "int"
+    },
     "books": [
         {
             "id": 1,
@@ -9,10 +17,10 @@
             "price": "20"
         },
         {
-            "id": 2,
-            "title": "Something",
-            "author": "idk",
-            "year_published": "2003",
+            "id": "2",
+            "title": "Morometii vol. 2",
+            "author": "Marin Preda",
+            "year_published": "1967",
             "stock": "10",
             "price": "17"
         },
@@ -47,14 +55,6 @@
             "year_published": "1955",
             "stock": "5",
             "price": "20"
-        },
-        {
-            "id": "7",
-            "title": "ma-ta",
-            "author": "a",
-            "year_published": "1922",
-            "stock": "123",
-            "price": "123"
         }
     ]
 }

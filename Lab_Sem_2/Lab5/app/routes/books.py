@@ -77,7 +77,6 @@ def _validate_data(book_data):
         if key not in defined_fields.keys(): # daca cartea are campuri de date ce nu sunt prezente in campurile definite...
             return False, "Bad request" # ...datele sunt invalide
         else:
-            if defined_fields[key] == 'int':
                 try:
                     value = int(value)
                 except ValueError:

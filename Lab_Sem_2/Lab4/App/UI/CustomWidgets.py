@@ -101,7 +101,7 @@ class CustomTable(ttk.Treeview):
         # lista care memoreaza o pereche de date: valoarea coloanei cartii si cartea respectiva
         # self.set returneaza valoarea campului column a cartii book
         try: # daca valorile campurilor se pot converti la int
-            l = [(int(self.set(book, column)), self.set(book)) for book in self.get_children()]
+            l = [(int(self.set(book, column).replace('-', '0')), self.set(book)) for book in self.get_children()]
         except ValueError:
             l = [(self.set(book, column), self.set(book)) for book in self.get_children()]
 

@@ -16,13 +16,15 @@ def _read_json():
 
     return data
 
-# data == list
+# new_data == list
 # functie pt scrierea in fisierul json
 # de la inceputul fisierului (practic o suprascriere)
 def _write_json(data):
 
-    json_file = open(Path(__file__).parent.parent / 'Data' / 'books.json', 'w')
-    json.dump({"books":data}, json_file, indent = 4)
+    json_file = open(Path(__file__).parent.parent / "data" / "books.json", "w")
+
+    new_data = {"field_types": defined_fields, "books": data}
+    json.dump(new_data, json_file, indent=4)
     json_file.close()
 
 # genereaza un id nou, dupa ultimul id gasit in tabela
@@ -42,7 +44,7 @@ def _validate_data(book_data):
         for key, value in book_data.items():
             if key not in defined_fields.keys(): # daca cartea are campuri de date ce nu sunt prezente in campurile definite...
                 return False, "Bad request" # ...datele sunt invalide
-            else:
+            elif value != '':
                 if defined_fields[key] == 'int':
                     try:
                         value = int(value)
@@ -50,17 +52,6 @@ def _validate_data(book_data):
                         return False, f"{key.replace('_', ' ').capitalize()} must pe number!"
 
     return True, None
-
-# returneaza cartea dupa id, daca este gasita, altfel returneaza eroare
-'''def get_book_by_id(book_id):
-
-    # citeste fisierul json
-    books_data = _read_json()['books']
-
-    for book in books_data:
-        if int(book['id']) == book_id:
-            return book, 200
-    return 'error', 404'''
 
 # returneaza toate cartile
 def get_all_books():
