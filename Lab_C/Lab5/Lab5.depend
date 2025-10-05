@@ -1,6 +1,0 @@
-# depslib dependency file v1.0
-1747065355 source:c:\users\paul\documents\github\repository1\scripts\c\lab5\main.c
-	<stdio.h>
-	<stdlib.h>
-	<string.h>
-
