@@ -55,6 +55,22 @@
             "year_published": "1955",
             "stock": "5",
             "price": "20"
+        },
+        {
+            "id": "7",
+            "title": "Lol",
+            "author": "idk",
+            "year_published": "1234",
+            "stock": "4321",
+            "price": "1984"
+        },
+        {
+            "id": "8",
+            "title": "ceva",
+            "author": "-",
+            "year_published": "-",
+            "stock": "-",
+            "price": "-"
         }
     ]
 }

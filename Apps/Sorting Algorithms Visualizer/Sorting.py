@@ -246,9 +246,10 @@ class Sort_np:
                 if arr[i] > arr[j]:
 
                     arr[i], arr[j] = arr[j], arr[i]
-                    d = 1 - d
 
                     self.array_changes.append([i, j, 'swap'])
+
+                    d = 1 - d
 
                 i += d
                 j -= 1 - d

@@ -77,14 +77,12 @@ def delete_book(book_id):
         if int(book['id']) == book_id: # daca cartea e gasita
             books_data.remove(book) # o sterge din lista de carti
             _write_json(books_data) # si rescrie fisierul json
-            return 'deleted', 201
+            return 'Deleted.', 201
 
-    return 'error', 404
+    return 'Book not found.', 404
 
 # adauga o carte
 def add_book(book_data):
-
-    print(book_data)
 
     # citeste fisierul json
     books_data = _read_json()['books']
@@ -105,14 +103,14 @@ def add_book(book_data):
     # rescrie fisierul json cu datele modificate
     _write_json(books_data)
 
-    return 'created', 200
+    return 'Created.', 200
 
 def update_book(book_data):
 
     try: # daca id-ul nu este valoare intreaga
         book_id = int(book_data['id'])
     except ValueError:
-        return 'ID-ul cartii trebuie sa fie valoare intreaga!', 400
+        return 'Book id must be a number!', 400
 
     response, msg = _validate_data(book_data)
     if not response:
@@ -138,7 +136,7 @@ def update_book(book_data):
     # rescrie fisierul json cu datele modificate
     _write_json(books_data)
 
-    return 'updated', 200
+    return 'Updated.', 200
 
 if __name__ == '__main__':
     book_data = {"id":"3","title": "b", "author": "b", "year_published": "1010"}
