@@ -19,6 +19,7 @@ class App:
             print("0. Exit")
             print("1. Generate a test")
             print("2. Run tests")
+            print("3. Delete last generated test file")
             action = input()
             match action:
                 case "0":
@@ -30,10 +31,14 @@ class App:
                     print("Test generation complete.")
                 case "2":
                     self.tester.run_tests()
-                    print("Test run complete.")
+                case "3":
+                    self.test_generator.delete_test()
                 case _:
                     print("Invalid input.")
 
 
             input("Press enter to continue...")
             self.clear_console()
+
+    def __del__(self):
+        print("Application \"" + self.app_name + "\" ended.")
