@@ -1,4 +1,5 @@
 from .WordGuesser import WordGuesser
+from .AdvancedWordGuesser import AdvancedWordGuesser
 from .Tests.TestGenerator import TestGenerator as TestGen
 from .Tests.Tester import Tester
 import os
@@ -9,16 +10,17 @@ class App:
         self.app_name = app_name
         self.tester = Tester()
         self.test_generator = TestGen()
-        self.word_guesser = WordGuesser()
+        self.word_guesser = AdvancedWordGuesser()
         print("Application \"" + app_name + "\" started.")
 
     def gui_loop(self):
 
         while True:
             print("Select an action:")
-            print("0. Exit")
             print("1. Generate a test")
             print("2. Run tests")
+            print("3. Delete test")
+            print("0. Exit")
             action = input()
             match action:
                 case "0":
@@ -34,10 +36,10 @@ class App:
                     language = input()
                     match language:
                         case "0":
-                            self.test_generator.generate_test(10, "english")
+                            self.test_generator.generate_test(100, "english")
                             print("Test generation complete.")
                         case "1":
-                            self.test_generator.generate_test(10, "romanian")
+                            self.test_generator.generate_test(100, "romanian")
                             print("Test generation complete.")
                         case _:
                             print("Invalid language selected.")
@@ -51,10 +53,22 @@ class App:
                     match language:
                         case "0":
                             self.tester.run_tests("english")
-                            print("Test run complete.")
                         case "1":
                             self.tester.run_tests("romanian")
-                            print("Test run complete.")
+                        case _:
+                            print("Invalid language selected.")
+                case "3":
+                    self.clear_console()
+                    print("Select language:")
+                    print("0. English")
+                    print("1. Romanian")
+
+                    language = input()
+                    match language:
+                        case "0":
+                            self.test_generator.delete_test("english")
+                        case "1":
+                            self.test_generator.delete_test("romanian")
                         case _:
                             print("Invalid language selected.")
                 case _:

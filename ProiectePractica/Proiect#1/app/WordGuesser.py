@@ -2,21 +2,19 @@
 english_letters = ['e', 't', 'a', 'o', 'i', 'n', 's', 'r', 'h', 'd',
                    'l', 'u', 'c', 'm' ,'f' ,'y', 'w', 'g', 'p', 'b', 'v',
                    'k', 'x', 'q', 'j', 'z']
-english_consonants = ['t', 'n', 's', 'r', 'h', 'd', 'l','c', 'm' ,'f' ,
-                    'y', 'w', 'g', 'p', 'b', 'v','k', 'x', 'q', 'j', 'z']
-english_vowels = ['e', 'a', 'o', 'i', 'u']
 
 romanian_letters = ['a', 'i' ,'e' ,'r' ,'t' ,'n' ,'u' ,'o' ,'c' ,'ă' ,'s' ,'l' ,'p',
                     'd' ,'m' ,'ș' ,'ț' ,'f' ,'v' ,'b' ,'g' ,'z' ,'h' ,'â' ,'î' ,'j',
                     'x' ,'k' ,'y' ,'w' ,'q']
-romanian_consonants = ['r' ,'t' ,'n' ,'c' ,'s' ,'l' ,'p','d' ,'m' ,'ș' ,'ț' ,
-                    'f' ,'v' ,'b' ,'g' ,'z' ,'h' ,'j','x' ,'k' ,'y' ,'w' ,'q']
-romanian_vowels = ['a', 'i', 'e', 'u', 'o', 'ă', 'â', 'î']
 
 class WordGuesser:
 
     def __init__(self):
-        pass
+        for i in range(0, len(english_letters)):
+            english_letters[i] = english_letters[i].upper()
+
+        for i in range(0, len(romanian_letters)):
+            romanian_letters[i] = romanian_letters[i].upper()
 
     @staticmethod
     def try_letter(letter, word):
@@ -27,7 +25,7 @@ class WordGuesser:
                     cnt += 1
         return cnt
 
-    def guess_word(self, word, censored_word, language):
+    def guess_word(self, censored_word, word, language):
 
         # formatul cuvantului cenzurat: caracter == "#" => caracter ascuns
         #                               caracter == [a-z] or [A-Z] => caracter present
@@ -50,7 +48,7 @@ class WordGuesser:
         unused_letters = [letter for letter in letters] # memoram toate literele nefolosite din alfabet
 
         for letter in censored_word: # eliminam din lista toate literele deja expuse in cuvantul cenzurat
-            if letter != '#':
+            if letter != '*':
                 if letter in unused_letters:
                     unused_letters.remove(letter)
                 letters_to_guess -= 1

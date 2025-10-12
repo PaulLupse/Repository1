@@ -1,5 +1,6 @@
 from pathlib import Path
 import random
+import os
 
 english_test_files_folder_path = (Path(__file__).parent/"TestFiles/English").resolve()
 romanian_test_files_folder_path = (Path(__file__).parent/"TestFiles/Romanian").resolve()
@@ -18,9 +19,9 @@ class TestGenerator:
         self.romanian_words = []
         with(open(resource_files_folder_path / "RomanianWords.txt", "r",encoding="utf-8") as words_file):
             for line in words_file:
-                self.romanian_words.append(line.strip())
+                self.romanian_words.append(line.strip().upper())
 
-        print("Word of the day: " + random.choice(self.english_words+self.romanian_words).lower())
+        print("Word of the day: " + random.choice(self.english_words+self.romanian_words))
 
     # genereaza un fisier cu 100 de cuvinte pentru ghicit
     def generate_test(self, word_count, language):
@@ -46,7 +47,7 @@ class TestGenerator:
         # genereaza cuvintele
         for i in range(0, word_count):
 
-            random_word = random.choice(words).lower()
+            random_word = random.choice(words).upper()
             letter1 = random.choice(random_word)
             letter2 = letter1
             while letter1 == letter2:
@@ -57,9 +58,31 @@ class TestGenerator:
                 if letter == letter1 or letter == letter2 or letter == '-':
                     censored_word += letter
                 else:
-                    censored_word += '#'
+                    censored_word += '*'
 
-            test_file.write(random_word + ' ' + censored_word + '\n')
+            test_file.write(str(i)+';'+censored_word + ';' + random_word + '\n')
+
+    @staticmethod
+    def delete_test(language):
+
+        if language == "english":
+            test_files_folder_path = english_test_files_folder_path
+        else:
+            test_files_folder_path = romanian_test_files_folder_path
+
+        if test_files_folder_path.iterdir():
+            last_file = ''
+            for file in test_files_folder_path.iterdir():
+                last_file = file
+
+            if str(last_file).endswith(".test"):
+                os.remove(test_files_folder_path/str(last_file))
+                print("Deleted test file: " + str(last_file))
+            else:
+                print("No test file found for language: " + language)
+        else:
+            print("No test file found for language: " + language)
+
 
 
 
