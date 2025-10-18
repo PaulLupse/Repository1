@@ -3,38 +3,49 @@
 
 #include <iostream>
 #include <string>
-#include <ostream>
 
+using namespace std;
+
+
+// clasa ce retine datele despre un student
 class Student {
 public:
     Student();
+
+    // constructor de copiere
     Student(const Student& other);
-    ~Student();
 
-    string get_first_name();
-    string get_last_name();
-    string get_field();
-    int get_study_year();
-    float get_grade_average();
+    // functii ce returneaza cate o anumita informatie despre student
+    [[nodiscard]] string get_prenume()const{return prenume;}
+    [[nodiscard]] string get_nume_de_familie()const{return nume_de_familie;}
+    [[nodiscard]] string get_specializare() const{return specializare;}
+    [[nodiscard]] int get_an() const{return an;}
+    [[nodiscard]] float get_medie() const{return medie;}
 
-    friend ostream& operator<<(ostream& strm, const Student& student);
+    // functii de comparare folosite la sortarea studentilor
+    // returneaza 'true' atunci cand este nevoie de o interschimbare, in contextul unei sortari crescatoare
+    static bool compare_medie(Student*a, Student*b);
+    static bool compare_nume(Student*a, Student*b);
+
+    friend inline ostream& operator<<(ostream& os, Student& student);
     friend class CSVReader;
 
 private:
-    string first_name;
-    string last_name;
-    string field;
-    int study_year;
-    float grade_average;
+    string prenume;
+    string nume_de_familie;
+    string specializare;
+    int an;
+    float medie;
 };
 
-inline ostream& operator<<(ostream& os, const Student& student) {
+// o supraincarcare a operatorului de deplasare (pentru ostream-uri), ce faciliteaza afisarea datelor studentului
+ostream& operator<<(ostream& os, Student& student) {
 
-    cout<<"Prenume: "<<student.first_name<<"\n";
-    cout<<"Nume de familie: "<<student.first_name<<"\n";
-    cout<<"Specializare: "<<student.first_name<<"\n";
-    cout<<"An de studiu: "<<student.first_name<<"\n";
-    cout<<"Medie: "<<student.first_name<<"\n";
+    cout<<"Nume de familie: "<<student.nume_de_familie<<"\n";
+    cout<<"Prenume: "<<student.prenume<<"\n";
+    cout<<"Specializare: "<<student.specializare<<"\n";
+    cout<<"An de studiu: "<<student.an<<"\n";
+    cout<<"Medie: "<<student.medie<<"\n";
 
     return os;
 }
