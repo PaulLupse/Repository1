@@ -8,4 +8,6 @@ add_executable(Lab3 main.cpp
         Source/Student.cpp
         Header/Student.h
         Header/CSVReader.h
-        Source/CSVReader.cpp)
+        Source/CSVReader.cpp
+        Header/ListaStudenti.h
+        Source/ListaStudenti.cpp)
