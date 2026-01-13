@@ -1,46 +1,70 @@
-from src.game_matrix import game_matrix
+from src.game_matrix import GameMatrix
 
-class game:
-    def __init__(self, _id, _matrix = None, matrix_shape = (11, 11)):
+import datetime
 
-        self.game_id = _id
-        self.matrix = game_matrix(matrix_shape)
-        self.matrix.generate_matrix()
+# clasa ce implementeaza jocul Candy Crush Automatizat
+class Game:
+    def __init__(self, game_id, matrix = None, matrix_shape = (11, 11)):
 
-        print(f"Game {_id} started.")
+        # jocul este reprezentat prin intermediul unui obiect de tip GameMatrix
+        self.matrix = GameMatrix(matrix_shape)
+        self.matrix_shape = matrix_shape
+        self.game_id = game_id
 
-        new_points = cnt_points = self.matrix.search_pattern_5line() + self.matrix.search_pattern_4line() + self.matrix.search_pattern_3line()
-        while new_points != 0:
-            self.matrix.gravitate()
-            self.matrix.fill()
-            new_points = self.matrix.search_pattern_5line() + self.matrix.search_pattern_4line() + self.matrix.search_pattern_3line()
-            cnt_points += new_points
-            print(cnt_points)
+        # daca nu a fost introdusa o matrice predefinita, se genereaza o matrice de joc
+        if matrix is None:
+            self.matrix.generate_matrix()
+        else:
+            self.matrix.set_matrix(matrix)
 
-        print(cnt_points)
-        self.matrix.print()
+    # metoda ce determina rularea jocului, luand ca parametru tinta de puncte
+    def play(self, target):
 
-        new_points = 1
+        print(f"Jocul {self.game_id} început la: {datetime.datetime.now()}.", end=' ')
+
+        # la inceputul fiecarui joc, efectuam o cautare cascada a tuturor formatiunilor deja formate initial
+        # punctele rezultate din aceasta cautare sunt adunate la punctele totale
+        cnt_points = self.matrix.search_patterns(0, target)
         cnt_swaps = 0
 
-        while new_points != 0 and cnt_points < 10000:
-            print("swap")
-            new_points, new_swaps = self.matrix.search_potential_pattern_5line()
+        new_points = 1 # initial new_points are valoarea 1 ca sa putem intra in while
+        while new_points != 0  and cnt_points < target:
+
+            # cautam toate formele potentiale de tip linie de 5, care ofera 50p
+            new_points, new_swaps = self.matrix.search_potential_pattern_5_line(cnt_points, target)
             cnt_points += new_points
             cnt_swaps += new_swaps
-            new_points, new_swaps = self.matrix.search_potential_pattern_4line()
+            if new_swaps:
+                continue
+
+            # cautam toate formele potentiale de tip L, care ofera 20p
+            new_points, new_swaps = self.matrix.search_potential_pattern_L(cnt_points, target)
             cnt_points += new_points
             cnt_swaps += new_swaps
-            new_points, new_swaps = self.matrix.search_potential_pattern_3line()
+            if new_swaps:
+                continue
+
+            # cautam toate formele potentiale de tip linie de 4, care ofera 10p
+            new_points, new_swaps = self.matrix.search_potential_pattern_4_line(cnt_points, target)
             cnt_points += new_points
             cnt_swaps += new_swaps
-            new_points = self.matrix.search_pattern_5line() + self.matrix.search_pattern_4line() + self.matrix.search_pattern_3line()
-            self.matrix.gravitate()
-            self.matrix.fill()
+            if new_swaps:
+                continue
+
+            # cautam toate formele potentiale de tip linie de 3, care ofera 5p
+            new_points, new_swaps = self.matrix.search_potential_pattern_3_line(cnt_points, target)
             cnt_points += new_points
+            cnt_swaps += new_swaps
+            if new_swaps:
+                continue
 
-            self.matrix.print()
+        # obs: este omisa cautarea formelor de tip T deoarece (in momentul scrierii acestui comentariu) acestea ofera
+        # doar 30p, desi implica o forma de tip linie de 5
+        # astfel este inutil sa mai verificam
 
-        self.matrix.print()
-        print(cnt_points, cnt_swaps)
+        if cnt_points >= target:
+            print("Terminare: " +  "\033[92m{}\033[00m".format("Țintă atinsă."))
+        else:
+            print("Terminare: " +  "\033[91m{}\033[00m".format("Fără mișcări."))
 
+        return cnt_points, cnt_swaps

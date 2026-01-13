@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+            .centeredDiv{
+                justify-content: center;
+                justify-items: center;
+                align-items: center;
+            }
+            .label{
+                display: block;
+                margin-top: 5px;
+            }
+            .input{
+                display: block;
+            }
+        </style>
+        <meta http-equiv="Cache-Control" content="no-cache">
+        <script>var exports = {};</script>
+        <script type="module" src = 'dist2/register.js'></script>
+    </head>
+    <body>
+        <div class="centeredDiv">
+            <div>
+                <h1>Register</h1>
+                <a href="/login">Go to login page</a>
+            </div>
+            <div>
+                <form style="justify-content: center; justify-items: center; align-items: center; text-align: center;">
+
+                    <label for="username_input" class="label">Username:</label>
+                    <input type="text" id="username_input" class="input">
+
+                    <label for="password_input" class="label">Password:</label>
+                    <input type="text" id="password_input" class="input">
+
+                    <label for="email_input", class="label">Email:</label>
+                    <input type="text" id="email_input" class="input">
+
+                    <input type="button" style="margin-top: 10px;" value="Register" id="register_button"> 
+                </form>
+            </div>
+            
+                
+        </div>
+    </body>
+</html>
