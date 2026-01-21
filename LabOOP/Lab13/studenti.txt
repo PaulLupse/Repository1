@@ -1,0 +1,4 @@
+Popescu,Victor,Calc,2,8.66,1769827340076
+Ionescu,Marius,Info,1,7.33,1769827340077
+Muresan,Ioan,MI,3,9.33,1769827340078
+Andreica,Ioan,Calc,4,8.33,1769827340079

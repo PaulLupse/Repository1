@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>ProiectCalumea</title>
+        <style>
+            .centeredDiv{
+                justify-content: center;
+                justify-items: center;
+                align-items: center;
+                align-content: center;
+                text-align: center;
+            }
+            .input{
+                display: block;
+            }
+            table {
+                font-family: arial, sans-serif;
+                border-collapse: collapse;
+                width: 100%;
+            }
+            td, th {
+                border: 1px solid #dddddd;
+                text-align: left;
+                padding: 8px;
+            }
+            tr:nth-child(even) {
+                background-color: #dddddd;
+            }
+
+
+        </style>
+        <script>var exports = {};</script>
+        <script type="module" src="/dist2/home.js"></script>
+    </head>
+    <body>
+        <div class = 'centeredDiv'>
+            <div class = 'centeredDiv'>
+                <h1>
+                    Main Page
+                </h1>
+            </div>
+            <div class = 'centeredDiv'>
+                <h2>Go to:</h2>
+                <a href="/login">Login page</a>
+                <a href="/register" style="display: block;">Register page</a>
+            </div>
+            <div>
+                <p id = "current_user_display">
+                    Not logged in.
+                </p>
+            </div>
+
+
+            <div id="user_logged_in_frame" style="display: none;margin-top: 5px;" class="centeredDiv">
+                
+                <div>
+                    <button id="show_add_item_frame_button">Add Item</button>
+                </div>
+
+                <div id = "add_item_frame" style="display: none;margin-top: 5px;">
+                    <form style="justify-content: center; justify-items: center; align-items: center; text-align: center;">
+                        <label for="name_input">Name:</label>
+                        <input id="name_input" type="text" class="input">
+                        <label for="value_input">Value:</label>
+                        <input id="value_input" type="text" class="input">
+                        <input id="add_item_button" type="button" value="Add" style="margin-top: 5px;"> 
+                    </form>
+                </div>
+
+                <div style="margin-top: 5px;">
+
+                    <button id="display_items_frame_button">Display items</button>
+
+                    <div id="display_items_frame" style="display: none;margin-top: 5px;">
+                        <button id="hide_display_button">Hide items</button>
+                        <table id="items_table" style="margin-top: 5px;">
+                            <tr> <th>Name</th> <th>Value</th> </tr>
+                        </table>
+                    </div>
+                </div>
+
+                <div>
+                    <button id="logout_button" style="margin-top: 5px;">
+                        Log out
+                    </button>
+                </div>
+
+                <div>
+                    <button id="delete_account_button" style="margin-top: 5px;">
+                        Delete account
+                    </button>
+                </div>
+            </div>
+
+            
+        </div>
+    </body>
+</html>

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+            p {
+                text-align: center;
+                min-width: 200px;
+                max-width: 400px;
+            }
+            .centeredDiv{
+                justify-content: center;
+                justify-items: center;
+                align-items: center;
+            }
+            .button {
+                background-color: red;
+                border: none;
+                border-radius: 5px;
+                border: 2px solid black;
+                color: black;
+                padding: 15px 32px;
+                text-align: center;
+                text-decoration: none;
+                display: inline-block;
+                font-size: 16px;
+                cursor: pointer;
+            }
+            .button:hover{
+                background-color: #d90000;
+                color: #d1d1d1;
+            }
+            .button:active {
+                background-color: #8f0000;
+                color: #949494;
+            }
+        </style>
+        <script src="static/utilities.js"></script>
+        <script src="static/main.js"></script>
+
+    </head>
+
+
+<body>
+<div class="centeredDiv">
+    
+    <div>
+        <p id = "test"></p>
+    </div>
+    <div>
+        <button class = "button"
+        onclick = 'toggleImg("img","resources/p1.png","resources/p2.jpg");'>Toggle camera</button>
+    </div>
+    <div>
+        <img src = "resources/p1.png" id = "img">
+    </div>
+    <div>
+        <button class="button" onclick='fetchSomething("fetch_display");'>
+            Fetch something idk
+        </button>
+    </div>
+    <div>
+        <p id="fetch_display"></p>
+    </div>
+    <div>
+        <button class = "button" onclick = 'fibonacciPrinter.start();'>Start Fibonacci</button>
+    </div>
+    <div>
+        <button class = "button" onclick = 'fibonacciPrinter.togglePause();'>Toggle Pause Fibonacci</button>
+    </div>
+    <div>
+        <p id="fibonacci"></p>
+    </div>
+</div>
+</body>
+
+</html>
