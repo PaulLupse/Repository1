@@ -1,52 +1,36 @@
-#include <bits/stdc++.h>
-
+#include <iostream>
 using namespace std;
 
-ifstream fin("roy-floyd.in");
-ofstream fout("roy-floyd.out");
+class A {
+public:
+    int ceva;
+};
 
-int ad[105][105], n, m;
+class B : public A {
+public:
+    char altceva;
+};
 
-void AfisMat()
-{
-    for(int i = 1; i <= n; i ++)
-    {
-        for(int j = 1; j <= n; j ++)
-            cout << ad[i][j] << " ";
-        cout << '\n';
-    }
+union Uniune {
+    A a;
+    B b;
+};
 
-}
+int main() {
 
-void RF()
-{
-    for(int k = 1; k <= n; k ++)
-        for(int i = 1; i <= n; i ++)
-            for(int j = 1; j <= n; j ++)
-                if(ad[i][j] > ad[i][k] + ad[k][j])
-                    ad[i][j] = ad[i][k] + ad[k][j];
-}
+    B b;
+    b.ceva = 10;
+    b.altceva = 'b';
 
-int main()
-{
-    int x, y, p;
-    fin >> n >> m;
-    for(int i = 1; i <= m; i++){fin >> x >> y >> p; ad[x][y] = p; }
-    for(int i = 1; i <= n; i ++)
-    {
-        for(int j = 1; j <= n; j ++)
-            if(ad[i][j] == 0) ad[i][j] = 1000000000;
-        ad[i][i] = 0;
-    }
-    //AfisMat();
-    RF();
-    for(int i = 1; i <= n; i ++)
-    {
-        for(int j = 1; j <= n; j ++)
-            if(ad[i][j] == 1000000000) ad[i][j] = -1;
-        ad[i][i] = 0;
-    }
-    AfisMat();
+    cout<<sizeof(b)<<endl;
 
-    return 0;
+    Uniune u;
+    u.b = b;
+
+    cout<<sizeof(u)<<endl;
+    cout<<sizeof(u.a)<<endl;
+    cout<<sizeof(u.b)<<endl;
+
+    // ar trebui sa putem accesa si folosind aritmetica pointerilor
+
 }

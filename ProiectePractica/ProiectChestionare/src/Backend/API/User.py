@@ -26,7 +26,14 @@ logger = logging.getLogger('uvicorn.error')
 logger.setLevel(logging.DEBUG)
 
 oauth2_scheme = OAuth2PasswordBearerWithCookies(tokenUrl="users/token")
-db_connector = Database(MDB_URL)
+
+def get_db(url:str)->Database:
+    try:
+        return Database(url)
+    except:
+        raise HTTPException(status_code=500, detail="Internal Server Error")
+
+db_connector:Database = get_db(MDB_URL)
 
 router:APIRouter = APIRouter(prefix="/users")
 

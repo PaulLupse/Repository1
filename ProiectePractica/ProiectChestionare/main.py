@@ -19,7 +19,6 @@ oauth2_scheme = OAuth2PasswordBearerWithCookies(tokenUrl="token")
 app = FastAPI()
 app.mount("/static", StaticFiles(directory="static"), name="static") # HTML
 app.mount("/dist", StaticFiles(directory="dist"), name="dist") # JS
-app.mount("/dist2", StaticFiles(directory="dist2"), name="dist2") # JS
 app.include_router(users_routes)
 
 

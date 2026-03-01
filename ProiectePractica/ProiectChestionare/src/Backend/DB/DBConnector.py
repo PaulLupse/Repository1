@@ -1,13 +1,20 @@
 from pymongo import MongoClient
+from pymongo.errors import ServerSelectionTimeoutError
+
 from src.Backend.Utilities import hash_password, verify_password
 from src.Backend.Domain.Models import Item
 
 class Database:
 
     def __init__(self, url:str):
-        database = MongoClient(url)["users"]
-        self.users_table = database["users"]
-        self.items_table = database["items"]
+        try:
+            database = MongoClient(url)["users"]
+            self.users_table = database["users"]
+            self.items_table = database["items"]
+        except ServerSelectionTimeoutError as e:
+            print("ERROR: Server Selection Timeout")
+            raise e
+
 
     def validate_credentials(self, username:str, password:str):
 
