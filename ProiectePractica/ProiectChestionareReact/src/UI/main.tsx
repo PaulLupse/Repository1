@@ -1,5 +1,10 @@
 import React, {use} from 'react'
 import {createRoot} from "react-dom/client";
+import configFile from './config.json'
+
+import {auto_login} from "./user/back-end-connection";
+
+const baseURL:string = configFile.baseURL;
 
 interface DataProps {
     username:string
@@ -13,8 +18,8 @@ function DataDisplay(props:DataProps) {
                 <h3>
                     You are not logged in.
                 </h3>
-                <a href="">Login</a>
-                <a href="">Register</a>
+                <a href={baseURL + '/login'}>Login</a>
+                <a href={baseURL + '/register'}>Register</a>
             </div>
         )
     }
@@ -23,6 +28,10 @@ function DataDisplay(props:DataProps) {
 function Main() {
 
     const username:string = '';
+
+    async function try_to_login() {
+        return await auto_login();
+    }
 
     return (
         <div style={{display:"flex", flexDirection:"column", height:'100vh', minWidth:'300px', alignItems:'stretch'}}>
@@ -42,7 +51,9 @@ function Main() {
             </div>
 
             <div style={{display:'flex', flexDirection:'column', flexGrow:'1', maxWidth:'600px', marginLeft:'auto', marginRight:'auto', justifyContent:'center'}}>
-                <DataDisplay username={username} />
+                <DataDisplay username={
+                    await auto_login()
+                } />
             </div>
 
         </div>

@@ -1,18 +1,17 @@
 import React from 'react'
 import {createRoot} from "react-dom/client";
-import {LoginForm} from "../components/LoginForm";
+import {CredentialForm} from "../components/CredentialForm";
+import {register} from "./back-end-connection";
 
 function RegisterPage() {
 
     return (
         <div style={{height:'100vh', display:"flex", flexDirection:'column', alignItems:'stretch', justifyContent:'center'}}>
             <div style={{justifyContent:'center', display:'flex'}}>
-                <LoginForm
+                <CredentialForm
                     type="Register"
-                    loginCallback={
-                        async()=>{
-                            console.log('Registering...');
-                        }
+                    callback={
+                        register
                     }
                 />
             </div>

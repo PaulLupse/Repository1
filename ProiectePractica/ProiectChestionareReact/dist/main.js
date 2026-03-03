@@ -30341,6 +30341,16 @@ if (false) // removed by dead control flow
 }
 
 
+/***/ },
+
+/***/ "./src/UI/config.json"
+/*!****************************!*\
+  !*** ./src/UI/config.json ***!
+  \****************************/
+(module) {
+
+module.exports = /*#__PURE__*/JSON.parse('{"baseURL":"http://127.0.0.1:8000"}');
+
 /***/ }
 
 /******/ 	});
@@ -30432,15 +30442,18 @@ if (false) // removed by dead control flow
 var __webpack_exports__ = {};
 // This entry needs to be wrapped in an IIFE because it needs to be isolated against other modules in the chunk.
 (() => {
-/*!**********************!*\
-  !*** ./src/main.tsx ***!
-  \**********************/
+/*!*************************!*\
+  !*** ./src/UI/main.tsx ***!
+  \*************************/
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react_dom_client__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom/client */ "./node_modules/react-dom/client.js");
+/* harmony import */ var _config_json__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./config.json */ "./src/UI/config.json");
 
 
+
+var baseURL = _config_json__WEBPACK_IMPORTED_MODULE_2__.baseURL;
 function DataDisplay(props) {
   if (props.username === '') {
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
@@ -30450,9 +30463,9 @@ function DataDisplay(props) {
         alignItems: 'center'
       }
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h3", null, "You are not logged in."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("a", {
-      href: ""
+      href: baseURL + '/login'
     }, "Login"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("a", {
-      href: ""
+      href: baseURL + '/register'
     }, "Register"));
   }
 }

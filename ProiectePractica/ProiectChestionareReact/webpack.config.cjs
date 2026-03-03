@@ -5,9 +5,9 @@ const reactMatch = /\.(ts|js)x$/
 module.exports = {
     context: __dirname,
     entry: {
-        main:'./src/main.tsx',
-        // login:'./src/user/login.tsx',
-        // register:'./src/user/register.tsx'
+        main:'./src/UI/main.tsx',
+        login:'./src/UI/user/login.tsx',
+        register:'./src/UI/user/register.tsx'
     },
     output: {
         path: path.join(__dirname, "/dist"),

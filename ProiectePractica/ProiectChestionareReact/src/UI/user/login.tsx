@@ -1,18 +1,18 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
-import {LoginForm} from "../components/LoginForm";
+import {CredentialForm} from "../components/CredentialForm";
+
+import {login} from "./back-end-connection";
 
 function LoginPage() {
-
-    async function login(username:string, password:string) { alert(`Here's them credentials: ${username} ${password}`) }
 
     return (
         <div style={{height:'100vh', display:"flex", flexDirection:'column', alignItems:'stretch', justifyContent:'center'}}>
             <div style={{justifyContent:'center', display:'flex'}}>
-                <LoginForm
+                <CredentialForm
                     type="Login"
-                    loginCallback={
-                        ()=>{}
+                    callback={
+                        login
                     }
                 />
             </div>
