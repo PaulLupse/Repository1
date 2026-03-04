@@ -18,6 +18,12 @@ export class LoginInfo {
     public get password() { return this._password; }
 }
 
+export interface Item {
+    name:string
+    owner:string
+    value:string
+}
+
 export async function getAccessToken(loginInfo:LoginInfo) {
 
     const loginForm = new FormData();
@@ -89,7 +95,7 @@ export async function register(username:string, password:string) {
     }
 }
 
-// functie pt login la accesarea paginii, returneaza numele utilizatorului curent
+// functie pt login automat, daca utilizatorul s-a logat anterior
 export async function auto_login() :Promise<string|undefined>{
 
     const loginRequest = new Request(
@@ -103,13 +109,52 @@ export async function auto_login() :Promise<string|undefined>{
         const loginResponse = await fetch(loginRequest);
 
         if(loginResponse.ok)
-            return await loginResponse.json();
+        {
+            const data:any = await loginResponse.json();
+            if(Object.hasOwn(data, 'username'))
+                return data.username;
+            else
+                throw new Error("Autologin did not return a username.");
+
+        }
         else {
             const errorMsg:string = "Could not login. Please login manually.";
             throw new Error(errorMsg);
         }
     }
     catch(error) {
+        alert(error);
+        return undefined;
+    }
+}
+
+export async function get_items():Promise<Array<Item>|undefined> {
+    try {
+
+        const getItemsRequest = new Request( url+'users/me/items',
+            {
+                method:'GET',
+                credentials:'include',
+                headers:new Headers({accept:'application/json'})
+            }
+        );
+
+        const requestResponse:Response = await fetch(getItemsRequest);
+        if (requestResponse.ok) {
+
+            const data:any = await requestResponse.json();
+            if(Object.hasOwn(data, 'items'))
+            {
+                console.log(data.items);
+                return new Array<Item>;
+            }
+
+            else
+                throw new Error('Get items request did not return items.')
+        }
+    }
+    catch (error) {
+        alert(error);
         return undefined;
     }
 }
