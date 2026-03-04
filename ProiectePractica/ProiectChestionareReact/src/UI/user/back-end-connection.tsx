@@ -103,7 +103,7 @@ export async function auto_login() :Promise<string|undefined>{
         {
             method:"POST",
             credentials:'include'
-        })
+        });
 
     try {
         const loginResponse = await fetch(loginRequest);
@@ -131,27 +131,25 @@ export async function auto_login() :Promise<string|undefined>{
 export async function get_items():Promise<Array<Item>|undefined> {
     try {
 
-        const getItemsRequest = new Request( url+'users/me/items',
+        const getItemsRequest = new Request(
+            url+'/users/me/items',
             {
                 method:'GET',
-                credentials:'include',
-                headers:new Headers({accept:'application/json'})
-            }
-        );
+                credentials:'include'
+            });
 
-        const requestResponse:Response = await fetch(getItemsRequest);
-        // if (requestResponse.ok) {
-        //
-        //     const data = await requestResponse.json();
-        //     console.log(data);
-        //     if(Object.hasOwn(data, 'items'))
-        //     {
-        //         return new Array<Item>;
-        //     }
-        //
-        //     else
-        //         throw new Error('Get items request did not return items.')
-        // }
+        const requestResponse = await fetch(getItemsRequest);
+        if (requestResponse.ok) {
+
+            const data = await requestResponse.json();
+            if(Object.hasOwn(data, 'items'))
+            {
+                return data.items;
+            }
+
+            else
+                throw new Error('Get items request did not return items.')
+        }
     }
     catch (error) {
         alert(error);

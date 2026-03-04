@@ -36,6 +36,7 @@ function DataDisplay(props:DataProps) {
                         const newItems:Array<Item>|undefined = await get_items();
 
                         if(newItems) {
+                            console.log(newItems);
                             setItemList(newItems);
                         }
                     }
