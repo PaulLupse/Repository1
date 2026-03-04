@@ -357,7 +357,7 @@ function get_items() {
 }
 function _get_items() {
   _get_items = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee5() {
-    var getItemsRequest, requestResponse, data, _t6;
+    var getItemsRequest, requestResponse, _t6;
     return _regenerator().w(function (_context5) {
       while (1) switch (_context5.p = _context5.n) {
         case 0:
@@ -373,34 +373,17 @@ function _get_items() {
           return fetch(getItemsRequest);
         case 1:
           requestResponse = _context5.v;
-          if (!requestResponse.ok) {
-            _context5.n = 4;
-            break;
-          }
-          _context5.n = 2;
-          return requestResponse.json();
-        case 2:
-          data = _context5.v;
-          if (!Object.hasOwn(data, 'items')) {
-            _context5.n = 3;
-            break;
-          }
-          console.log(data.items);
-          return _context5.a(2, new Array());
-        case 3:
-          throw new Error('Get items request did not return items.');
-        case 4:
-          _context5.n = 6;
+          _context5.n = 3;
           break;
-        case 5:
-          _context5.p = 5;
+        case 2:
+          _context5.p = 2;
           _t6 = _context5.v;
           alert(_t6);
           return _context5.a(2, undefined);
-        case 6:
+        case 3:
           return _context5.a(2);
       }
-    }, _callee5, null, [[0, 5]]);
+    }, _callee5, null, [[0, 2]]);
   }));
   return _get_items.apply(this, arguments);
 }

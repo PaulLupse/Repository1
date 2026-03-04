@@ -140,18 +140,18 @@ export async function get_items():Promise<Array<Item>|undefined> {
         );
 
         const requestResponse:Response = await fetch(getItemsRequest);
-        if (requestResponse.ok) {
-
-            const data:any = await requestResponse.json();
-            if(Object.hasOwn(data, 'items'))
-            {
-                console.log(data.items);
-                return new Array<Item>;
-            }
-
-            else
-                throw new Error('Get items request did not return items.')
-        }
+        // if (requestResponse.ok) {
+        //
+        //     const data = await requestResponse.json();
+        //     console.log(data);
+        //     if(Object.hasOwn(data, 'items'))
+        //     {
+        //         return new Array<Item>;
+        //     }
+        //
+        //     else
+        //         throw new Error('Get items request did not return items.')
+        // }
     }
     catch (error) {
         alert(error);
