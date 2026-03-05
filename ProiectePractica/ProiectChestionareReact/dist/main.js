@@ -2,6 +2,298 @@
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
+/***/ "./src/UI/user/back-end-connection.tsx"
+/*!*********************************************!*\
+  !*** ./src/UI/user/back-end-connection.tsx ***!
+  \*********************************************/
+(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   LoginInfo: () => (/* binding */ LoginInfo),
+/* harmony export */   auto_login: () => (/* binding */ auto_login),
+/* harmony export */   getAccessToken: () => (/* binding */ getAccessToken),
+/* harmony export */   get_items: () => (/* binding */ get_items),
+/* harmony export */   login: () => (/* binding */ login),
+/* harmony export */   register: () => (/* binding */ register)
+/* harmony export */ });
+/* harmony import */ var _config_json__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../config.json */ "./src/UI/config.json");
+function _regenerator() { /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/babel/babel/blob/main/packages/babel-helpers/LICENSE */ var e, t, r = "function" == typeof Symbol ? Symbol : {}, n = r.iterator || "@@iterator", o = r.toStringTag || "@@toStringTag"; function i(r, n, o, i) { var c = n && n.prototype instanceof Generator ? n : Generator, u = Object.create(c.prototype); return _regeneratorDefine2(u, "_invoke", function (r, n, o) { var i, c, u, f = 0, p = o || [], y = !1, G = { p: 0, n: 0, v: e, a: d, f: d.bind(e, 4), d: function d(t, r) { return i = t, c = 0, u = e, G.n = r, a; } }; function d(r, n) { for (c = r, u = n, t = 0; !y && f && !o && t < p.length; t++) { var o, i = p[t], d = G.p, l = i[2]; r > 3 ? (o = l === n) && (u = i[(c = i[4]) ? 5 : (c = 3, 3)], i[4] = i[5] = e) : i[0] <= d && ((o = r < 2 && d < i[1]) ? (c = 0, G.v = n, G.n = i[1]) : d < l && (o = r < 3 || i[0] > n || n > l) && (i[4] = r, i[5] = n, G.n = l, c = 0)); } if (o || r > 1) return a; throw y = !0, n; } return function (o, p, l) { if (f > 1) throw TypeError("Generator is already running"); for (y && 1 === p && d(p, l), c = p, u = l; (t = c < 2 ? e : u) || !y;) { i || (c ? c < 3 ? (c > 1 && (G.n = -1), d(c, u)) : G.n = u : G.v = u); try { if (f = 2, i) { if (c || (o = "next"), t = i[o]) { if (!(t = t.call(i, u))) throw TypeError("iterator result is not an object"); if (!t.done) return t; u = t.value, c < 2 && (c = 0); } else 1 === c && (t = i["return"]) && t.call(i), c < 2 && (u = TypeError("The iterator does not provide a '" + o + "' method"), c = 1); i = e; } else if ((t = (y = G.n < 0) ? u : r.call(n, G)) !== a) break; } catch (t) { i = e, c = 1, u = t; } finally { f = 1; } } return { value: t, done: y }; }; }(r, o, i), !0), u; } var a = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} t = Object.getPrototypeOf; var c = [][n] ? t(t([][n]())) : (_regeneratorDefine2(t = {}, n, function () { return this; }), t), u = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(c); function f(e) { return Object.setPrototypeOf ? Object.setPrototypeOf(e, GeneratorFunctionPrototype) : (e.__proto__ = GeneratorFunctionPrototype, _regeneratorDefine2(e, o, "GeneratorFunction")), e.prototype = Object.create(u), e; } return GeneratorFunction.prototype = GeneratorFunctionPrototype, _regeneratorDefine2(u, "constructor", GeneratorFunctionPrototype), _regeneratorDefine2(GeneratorFunctionPrototype, "constructor", GeneratorFunction), GeneratorFunction.displayName = "GeneratorFunction", _regeneratorDefine2(GeneratorFunctionPrototype, o, "GeneratorFunction"), _regeneratorDefine2(u), _regeneratorDefine2(u, o, "Generator"), _regeneratorDefine2(u, n, function () { return this; }), _regeneratorDefine2(u, "toString", function () { return "[object Generator]"; }), (_regenerator = function _regenerator() { return { w: i, m: f }; })(); }
+function _regeneratorDefine2(e, r, n, t) { var i = Object.defineProperty; try { i({}, "", {}); } catch (e) { i = 0; } _regeneratorDefine2 = function _regeneratorDefine(e, r, n, t) { function o(r, n) { _regeneratorDefine2(e, r, function (e) { return this._invoke(r, n, e); }); } r ? i ? i(e, r, { value: n, enumerable: !t, configurable: !t, writable: !t }) : e[r] = n : (o("next", 0), o("throw", 1), o("return", 2)); }, _regeneratorDefine2(e, r, n, t); }
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+function asyncGeneratorStep(n, t, e, r, o, a, c) { try { var i = n[a](c), u = i.value; } catch (n) { return void e(n); } i.done ? t(u) : Promise.resolve(u).then(r, o); }
+function _asyncToGenerator(n) { return function () { var t = this, e = arguments; return new Promise(function (r, o) { var a = n.apply(t, e); function _next(n) { asyncGeneratorStep(a, r, o, _next, _throw, "next", n); } function _throw(n) { asyncGeneratorStep(a, r, o, _next, _throw, "throw", n); } _next(void 0); }); }; }
+function _classCallCheck(a, n) { if (!(a instanceof n)) throw new TypeError("Cannot call a class as a function"); }
+function _defineProperties(e, r) { for (var t = 0; t < r.length; t++) { var o = r[t]; o.enumerable = o.enumerable || !1, o.configurable = !0, "value" in o && (o.writable = !0), Object.defineProperty(e, _toPropertyKey(o.key), o); } }
+function _createClass(e, r, t) { return r && _defineProperties(e.prototype, r), t && _defineProperties(e, t), Object.defineProperty(e, "prototype", { writable: !1 }), e; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+
+var url = _config_json__WEBPACK_IMPORTED_MODULE_0__.baseURL;
+var LoginInfo = /*#__PURE__*/function () {
+  function LoginInfo(username, password) {
+    _classCallCheck(this, LoginInfo);
+    this._username = username;
+    this._password = password;
+    Object.seal(this);
+    Object.preventExtensions(this);
+  }
+  return _createClass(LoginInfo, [{
+    key: "username",
+    get: function get() {
+      return this._username;
+    }
+  }, {
+    key: "password",
+    get: function get() {
+      return this._password;
+    }
+  }]);
+}();
+function getAccessToken(_x) {
+  return _getAccessToken.apply(this, arguments);
+}
+
+// functie pt login in urma introducerii credentialelor
+function _getAccessToken() {
+  _getAccessToken = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee(loginInfo) {
+    var loginForm;
+    return _regenerator().w(function (_context) {
+      while (1) switch (_context.n) {
+        case 0:
+          loginForm = new FormData();
+          loginForm.append("username", loginInfo.username);
+          loginForm.append("password", loginInfo.password);
+          _context.n = 1;
+          return fetch(url + "/users/token", {
+            method: "POST",
+            body: loginForm
+          });
+        case 1:
+          return _context.a(2, _context.v);
+      }
+    }, _callee);
+  }));
+  return _getAccessToken.apply(this, arguments);
+}
+function login(_x2, _x3) {
+  return _login.apply(this, arguments);
+}
+function _login() {
+  _login = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee2(username, password) {
+    var loginInfo, tokenResponse, errorMsg, _t, _t2, _t3;
+    return _regenerator().w(function (_context2) {
+      while (1) switch (_context2.p = _context2.n) {
+        case 0:
+          // initial citim datele introduse in formular
+          loginInfo = new LoginInfo(username, password);
+          if (!(loginInfo === null)) {
+            _context2.n = 1;
+            break;
+          }
+          return _context2.a(2, undefined);
+        case 1:
+          _context2.p = 1;
+          _context2.n = 2;
+          return getAccessToken(new LoginInfo(loginInfo.username, loginInfo.password));
+        case 2:
+          tokenResponse = _context2.v;
+          if (!tokenResponse.ok) {
+            _context2.n = 3;
+            break;
+          }
+          console.log("Logged in as ".concat(loginInfo.username, "."));
+          alert("Logged in succesfuly as ".concat(loginInfo.username, ". Returning to main page."));
+          window.location.replace(url);
+          _context2.n = 5;
+          break;
+        case 3:
+          _t = "Server responded with status: " + tokenResponse.status + ".\nReturned message: ";
+          _context2.n = 4;
+          return tokenResponse.json();
+        case 4:
+          _t2 = _context2.v.message;
+          errorMsg = _t + _t2;
+          throw new Error(errorMsg);
+        case 5:
+          _context2.n = 7;
+          break;
+        case 6:
+          _context2.p = 6;
+          _t3 = _context2.v;
+          alert(_t3);
+        case 7:
+          return _context2.a(2);
+      }
+    }, _callee2, null, [[1, 6]]);
+  }));
+  return _login.apply(this, arguments);
+}
+function register(_x4, _x5) {
+  return _register.apply(this, arguments);
+}
+
+// functie pt login automat, daca utilizatorul s-a logat anterior
+function _register() {
+  _register = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee3(username, password) {
+    var requestHeader, request, response, data, _data, _t4;
+    return _regenerator().w(function (_context3) {
+      while (1) switch (_context3.p = _context3.n) {
+        case 0:
+          _context3.p = 0;
+          requestHeader = new Headers({
+            'Accept': "application/json",
+            'Content-Type': "application/json"
+          });
+          request = new Request(url + "/users/register", {
+            method: "PUT",
+            headers: requestHeader,
+            body: JSON.stringify({
+              username: username,
+              password: password,
+              email: username != undefined ? password : undefined
+            })
+          });
+          _context3.n = 1;
+          return fetch(request);
+        case 1:
+          response = _context3.v;
+          if (!response.ok) {
+            _context3.n = 3;
+            break;
+          }
+          _context3.n = 2;
+          return response.json();
+        case 2:
+          data = _context3.v;
+          alert(data.message);
+          _context3.n = 5;
+          break;
+        case 3:
+          _context3.n = 4;
+          return response.json();
+        case 4:
+          _data = _context3.v;
+          throw new Error("Server has responded with status: " + response.status + ".\nReturned message: " + _data.message);
+        case 5:
+          _context3.n = 7;
+          break;
+        case 6:
+          _context3.p = 6;
+          _t4 = _context3.v;
+          alert(_t4.toString());
+        case 7:
+          return _context3.a(2);
+      }
+    }, _callee3, null, [[0, 6]]);
+  }));
+  return _register.apply(this, arguments);
+}
+function auto_login() {
+  return _auto_login.apply(this, arguments);
+}
+function _auto_login() {
+  _auto_login = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee4() {
+    var loginRequest, loginResponse, data, errorMsg, _t5;
+    return _regenerator().w(function (_context4) {
+      while (1) switch (_context4.p = _context4.n) {
+        case 0:
+          loginRequest = new Request(url + "/users/me", {
+            method: "POST",
+            credentials: 'include'
+          });
+          _context4.p = 1;
+          _context4.n = 2;
+          return fetch(loginRequest);
+        case 2:
+          loginResponse = _context4.v;
+          if (!loginResponse.ok) {
+            _context4.n = 6;
+            break;
+          }
+          _context4.n = 3;
+          return loginResponse.json();
+        case 3:
+          data = _context4.v;
+          if (!Object.hasOwn(data, 'username')) {
+            _context4.n = 4;
+            break;
+          }
+          return _context4.a(2, data.username);
+        case 4:
+          throw new Error("Autologin did not return a username.");
+        case 5:
+          _context4.n = 7;
+          break;
+        case 6:
+          errorMsg = "Could not login. Please login manually.";
+          throw new Error(errorMsg);
+        case 7:
+          _context4.n = 9;
+          break;
+        case 8:
+          _context4.p = 8;
+          _t5 = _context4.v;
+          alert(_t5);
+          return _context4.a(2, undefined);
+        case 9:
+          return _context4.a(2);
+      }
+    }, _callee4, null, [[1, 8]]);
+  }));
+  return _auto_login.apply(this, arguments);
+}
+function get_items() {
+  return _get_items.apply(this, arguments);
+}
+function _get_items() {
+  _get_items = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee5() {
+    var getItemsRequest, requestResponse, data, _t6;
+    return _regenerator().w(function (_context5) {
+      while (1) switch (_context5.p = _context5.n) {
+        case 0:
+          _context5.p = 0;
+          getItemsRequest = new Request(url + '/users/me/items', {
+            method: 'GET',
+            credentials: 'include'
+          });
+          _context5.n = 1;
+          return fetch(getItemsRequest);
+        case 1:
+          requestResponse = _context5.v;
+          if (!requestResponse.ok) {
+            _context5.n = 4;
+            break;
+          }
+          _context5.n = 2;
+          return requestResponse.json();
+        case 2:
+          data = _context5.v;
+          if (!Object.hasOwn(data, 'items')) {
+            _context5.n = 3;
+            break;
+          }
+          return _context5.a(2, data.items);
+        case 3:
+          throw new Error('Get items request did not return items.');
+        case 4:
+          _context5.n = 6;
+          break;
+        case 5:
+          _context5.p = 5;
+          _t6 = _context5.v;
+          alert(_t6);
+          return _context5.a(2, undefined);
+        case 6:
+          return _context5.a(2);
+      }
+    }, _callee5, null, [[0, 5]]);
+  }));
+  return _get_items.apply(this, arguments);
+}
+
+/***/ },
+
 /***/ "./node_modules/react-dom/cjs/react-dom-client.development.js"
 /*!********************************************************************!*\
   !*** ./node_modules/react-dom/cjs/react-dom-client.development.js ***!
@@ -30341,6 +30633,16 @@ if (false) // removed by dead control flow
 }
 
 
+/***/ },
+
+/***/ "./src/UI/config.json"
+/*!****************************!*\
+  !*** ./src/UI/config.json ***!
+  \****************************/
+(module) {
+
+module.exports = /*#__PURE__*/JSON.parse('{"baseURL":"http://127.0.0.1:8000"}');
+
 /***/ }
 
 /******/ 	});
@@ -30432,32 +30734,130 @@ if (false) // removed by dead control flow
 var __webpack_exports__ = {};
 // This entry needs to be wrapped in an IIFE because it needs to be isolated against other modules in the chunk.
 (() => {
-/*!**********************!*\
-  !*** ./src/main.tsx ***!
-  \**********************/
+/*!*************************!*\
+  !*** ./src/UI/main.tsx ***!
+  \*************************/
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react_dom_client__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom/client */ "./node_modules/react-dom/client.js");
+/* harmony import */ var _config_json__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./config.json */ "./src/UI/config.json");
+/* harmony import */ var _user_back_end_connection__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./user/back-end-connection */ "./src/UI/user/back-end-connection.tsx");
+function _regenerator() { /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/babel/babel/blob/main/packages/babel-helpers/LICENSE */ var e, t, r = "function" == typeof Symbol ? Symbol : {}, n = r.iterator || "@@iterator", o = r.toStringTag || "@@toStringTag"; function i(r, n, o, i) { var c = n && n.prototype instanceof Generator ? n : Generator, u = Object.create(c.prototype); return _regeneratorDefine2(u, "_invoke", function (r, n, o) { var i, c, u, f = 0, p = o || [], y = !1, G = { p: 0, n: 0, v: e, a: d, f: d.bind(e, 4), d: function d(t, r) { return i = t, c = 0, u = e, G.n = r, a; } }; function d(r, n) { for (c = r, u = n, t = 0; !y && f && !o && t < p.length; t++) { var o, i = p[t], d = G.p, l = i[2]; r > 3 ? (o = l === n) && (u = i[(c = i[4]) ? 5 : (c = 3, 3)], i[4] = i[5] = e) : i[0] <= d && ((o = r < 2 && d < i[1]) ? (c = 0, G.v = n, G.n = i[1]) : d < l && (o = r < 3 || i[0] > n || n > l) && (i[4] = r, i[5] = n, G.n = l, c = 0)); } if (o || r > 1) return a; throw y = !0, n; } return function (o, p, l) { if (f > 1) throw TypeError("Generator is already running"); for (y && 1 === p && d(p, l), c = p, u = l; (t = c < 2 ? e : u) || !y;) { i || (c ? c < 3 ? (c > 1 && (G.n = -1), d(c, u)) : G.n = u : G.v = u); try { if (f = 2, i) { if (c || (o = "next"), t = i[o]) { if (!(t = t.call(i, u))) throw TypeError("iterator result is not an object"); if (!t.done) return t; u = t.value, c < 2 && (c = 0); } else 1 === c && (t = i["return"]) && t.call(i), c < 2 && (u = TypeError("The iterator does not provide a '" + o + "' method"), c = 1); i = e; } else if ((t = (y = G.n < 0) ? u : r.call(n, G)) !== a) break; } catch (t) { i = e, c = 1, u = t; } finally { f = 1; } } return { value: t, done: y }; }; }(r, o, i), !0), u; } var a = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} t = Object.getPrototypeOf; var c = [][n] ? t(t([][n]())) : (_regeneratorDefine2(t = {}, n, function () { return this; }), t), u = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(c); function f(e) { return Object.setPrototypeOf ? Object.setPrototypeOf(e, GeneratorFunctionPrototype) : (e.__proto__ = GeneratorFunctionPrototype, _regeneratorDefine2(e, o, "GeneratorFunction")), e.prototype = Object.create(u), e; } return GeneratorFunction.prototype = GeneratorFunctionPrototype, _regeneratorDefine2(u, "constructor", GeneratorFunctionPrototype), _regeneratorDefine2(GeneratorFunctionPrototype, "constructor", GeneratorFunction), GeneratorFunction.displayName = "GeneratorFunction", _regeneratorDefine2(GeneratorFunctionPrototype, o, "GeneratorFunction"), _regeneratorDefine2(u), _regeneratorDefine2(u, o, "Generator"), _regeneratorDefine2(u, n, function () { return this; }), _regeneratorDefine2(u, "toString", function () { return "[object Generator]"; }), (_regenerator = function _regenerator() { return { w: i, m: f }; })(); }
+function _regeneratorDefine2(e, r, n, t) { var i = Object.defineProperty; try { i({}, "", {}); } catch (e) { i = 0; } _regeneratorDefine2 = function _regeneratorDefine(e, r, n, t) { function o(r, n) { _regeneratorDefine2(e, r, function (e) { return this._invoke(r, n, e); }); } r ? i ? i(e, r, { value: n, enumerable: !t, configurable: !t, writable: !t }) : e[r] = n : (o("next", 0), o("throw", 1), o("return", 2)); }, _regeneratorDefine2(e, r, n, t); }
+function asyncGeneratorStep(n, t, e, r, o, a, c) { try { var i = n[a](c), u = i.value; } catch (n) { return void e(n); } i.done ? t(u) : Promise.resolve(u).then(r, o); }
+function _asyncToGenerator(n) { return function () { var t = this, e = arguments; return new Promise(function (r, o) { var a = n.apply(t, e); function _next(n) { asyncGeneratorStep(a, r, o, _next, _throw, "next", n); } function _throw(n) { asyncGeneratorStep(a, r, o, _next, _throw, "throw", n); } _next(void 0); }); }; }
+function _slicedToArray(r, e) { return _arrayWithHoles(r) || _iterableToArrayLimit(r, e) || _unsupportedIterableToArray(r, e) || _nonIterableRest(); }
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
+function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
+function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
+function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
 
 
+
+
+
+var baseURL = _config_json__WEBPACK_IMPORTED_MODULE_2__.baseURL;
+function NotLoggedInPanel() {
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    style: {
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center'
+    }
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h3", null, "You are not logged in."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("a", {
+    href: baseURL + '/login'
+  }, "Login"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("a", {
+    href: baseURL + '/register'
+  }, "Register"));
+}
 function DataDisplay(props) {
-  if (props.username === '') {
+  var _React$useState = react__WEBPACK_IMPORTED_MODULE_0___default().useState(Array),
+    _React$useState2 = _slicedToArray(_React$useState, 2),
+    itemList = _React$useState2[0],
+    setItemList = _React$useState2[1];
+  react__WEBPACK_IMPORTED_MODULE_0___default().useEffect(function () {
+    function getItems() {
+      return _getItems.apply(this, arguments);
+    }
+    function _getItems() {
+      _getItems = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee() {
+        var newItems;
+        return _regenerator().w(function (_context) {
+          while (1) switch (_context.n) {
+            case 0:
+              _context.n = 1;
+              return (0,_user_back_end_connection__WEBPACK_IMPORTED_MODULE_3__.get_items)();
+            case 1:
+              newItems = _context.v;
+              if (newItems) {
+                console.log(newItems);
+                setItemList(newItems);
+              }
+            case 2:
+              return _context.a(2);
+          }
+        }, _callee);
+      }));
+      return _getItems.apply(this, arguments);
+    }
+    if (props.isLoggedIn) getItems();
+  }, [props.isLoggedIn]);
+  if (props.isLoggedIn) {
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
       style: {
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center'
       }
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h3", null, "You are not logged in."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("a", {
-      href: ""
-    }, "Login"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("a", {
-      href: ""
-    }, "Register"));
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("table", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("thead", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("th", null, "Name"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("th", null, "Value"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("tbody", null, itemList.map(function (item, index) {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("tr", {
+        key: index
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("td", null, item.name), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("td", null, item.value));
+    }))));
+  } else {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(NotLoggedInPanel, null);
   }
 }
 function Main() {
-  var username = '';
+  var _React$useState3 = react__WEBPACK_IMPORTED_MODULE_0___default().useState(''),
+    _React$useState4 = _slicedToArray(_React$useState3, 2),
+    username = _React$useState4[0],
+    setUsername = _React$useState4[1];
+  var _React$useState5 = react__WEBPACK_IMPORTED_MODULE_0___default().useState(false),
+    _React$useState6 = _slicedToArray(_React$useState5, 2),
+    isLoggedIn = _React$useState6[0],
+    setIsLoggedIn = _React$useState6[1];
+
+  // folosim un effect pentru a returna utilizatorul curent
+  react__WEBPACK_IMPORTED_MODULE_0___default().useEffect(function () {
+    function getUser() {
+      return _getUser.apply(this, arguments);
+    }
+    function _getUser() {
+      _getUser = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee2() {
+        var username;
+        return _regenerator().w(function (_context2) {
+          while (1) switch (_context2.n) {
+            case 0:
+              _context2.n = 1;
+              return (0,_user_back_end_connection__WEBPACK_IMPORTED_MODULE_3__.auto_login)();
+            case 1:
+              username = _context2.v;
+              if (username) {
+                setUsername(username);
+                setIsLoggedIn(true);
+              }
+            case 2:
+              return _context2.a(2);
+          }
+        }, _callee2);
+      }));
+      return _getUser.apply(this, arguments);
+    }
+    getUser();
+  }, []);
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     style: {
       display: "flex",
@@ -30509,7 +30909,8 @@ function Main() {
       justifyContent: 'center'
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(DataDisplay, {
-    username: username
+    username: username,
+    isLoggedIn: isLoggedIn
   })));
 }
 window.onload = function () {
