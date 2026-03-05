@@ -6,6 +6,8 @@ try:
     import Shared
 except: from . import Shared
 
+
+
 def calc_h_1(x, y, x_target, y_target): # manhattan distance
     X = abs(x_target - x)
     Y = abs(y_target - y)
@@ -70,7 +72,7 @@ def Asearch(Map, x_source, y_source, x_target, y_target, Type):
     changes_queue = dq()
     n = int(sqrt(Map.size))
 
-    map = Utilities.border(Map, n, n)
+    map = border(Map, n, n)
 
     info = init_info(n, n)
 
