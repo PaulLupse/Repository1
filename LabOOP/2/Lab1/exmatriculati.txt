@@ -1,0 +1,3 @@
+Popescu,Victor,Calc,2,8.66,1769827340076
+Muresan,Ioan,MI,3,9.33,1769827340078
+Enescu,George,Info,3,9.15,1769827340073

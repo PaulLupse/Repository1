@@ -157,3 +157,21 @@ export async function get_items():Promise<Array<Item>|undefined> {
     }
 }
 
+export async function logout():Promise<boolean> {
+    try {
+        const logoutRequest = new Request(url+"/users/me/logout",
+            {
+                method:"POST",
+                credentials:"include"
+            });
+
+        const logoutResponse = await fetch(logoutRequest);
+        return logoutResponse.ok;
+
+    }
+    catch(error) {
+        alert(error);
+        return false;
+    }
+}
+

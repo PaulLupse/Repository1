@@ -130,7 +130,7 @@ async def register_user(register_data:RegisterData):
         return JSONResponse(content={"message":"Registered succesfuly."},
                             status_code=status.HTTP_201_CREATED)
 
-@router.post("/me/logout", response_class=JSONResponse)
+@router.post("/me/logout", response_class=JSONResponse, dependencies=[Depends(authenticate)])
 async def logout_user():
 
     response:JSONResponse = JSONResponse(content={"message":f"Logged out succesfully."}, status_code=status.HTTP_200_OK)
@@ -147,8 +147,8 @@ async def delete_user(login_response:Annotated[str, Depends(authenticate)]):
         return JSONResponse(content={"message":"Deleted user succesfully."}, status_code=200)
     else: return JSONResponse(content={"message":"Could not delete user."}, status_code=400)
 
-@router.post("/me/addItem", response_class=JSONResponse)
-async def add_item(login_response:Annotated[str, Depends(authenticate)], item:Item):
+@router.post("/me/addItem", response_class=JSONResponse, dependencies=[Depends(authenticate)])
+async def add_item(item:Item):
 
     add_response = db_connector.add_item(item)
     if add_response == 409:

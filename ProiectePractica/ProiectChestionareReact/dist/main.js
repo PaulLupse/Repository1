@@ -15,6 +15,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   getAccessToken: () => (/* binding */ getAccessToken),
 /* harmony export */   get_items: () => (/* binding */ get_items),
 /* harmony export */   login: () => (/* binding */ login),
+/* harmony export */   logout: () => (/* binding */ logout),
 /* harmony export */   register: () => (/* binding */ register)
 /* harmony export */ });
 /* harmony import */ var _config_json__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../config.json */ "./src/UI/config.json");
@@ -290,6 +291,35 @@ function _get_items() {
     }, _callee5, null, [[0, 5]]);
   }));
   return _get_items.apply(this, arguments);
+}
+function logout() {
+  return _logout.apply(this, arguments);
+}
+function _logout() {
+  _logout = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee6() {
+    var logoutRequest, logoutResponse, _t7;
+    return _regenerator().w(function (_context6) {
+      while (1) switch (_context6.p = _context6.n) {
+        case 0:
+          _context6.p = 0;
+          logoutRequest = new Request(url + "/users/me/logout", {
+            method: "POST",
+            credentials: "include"
+          });
+          _context6.n = 1;
+          return fetch(logoutRequest);
+        case 1:
+          logoutResponse = _context6.v;
+          return _context6.a(2, logoutResponse.ok);
+        case 2:
+          _context6.p = 2;
+          _t7 = _context6.v;
+          alert(_t7);
+          return _context6.a(2, false);
+      }
+    }, _callee6, null, [[0, 2]]);
+  }));
+  return _logout.apply(this, arguments);
 }
 
 /***/ },
@@ -30757,14 +30787,16 @@ function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
 
 
 
-
 var baseURL = _config_json__WEBPACK_IMPORTED_MODULE_2__.baseURL;
 function NotLoggedInPanel() {
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    id: "not_logged_in_panel",
     style: {
       display: 'flex',
       flexDirection: 'column',
-      alignItems: 'center'
+      alignItems: 'center',
+      marginTop: '5px',
+      marginBottom: '5px'
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h3", null, "You are not logged in."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("a", {
     href: baseURL + '/login'
@@ -30806,10 +30838,13 @@ function DataDisplay(props) {
   }, [props.isLoggedIn]);
   if (props.isLoggedIn) {
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+      id: "display",
       style: {
         display: 'flex',
         flexDirection: 'column',
-        alignItems: 'center'
+        alignItems: 'center',
+        marginTop: '5px',
+        marginBottom: '5px'
       }
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("table", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("thead", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("th", null, "Name"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("th", null, "Value"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("tbody", null, itemList.map(function (item, index) {
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("tr", {
@@ -30868,21 +30903,43 @@ function Main() {
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     style: {
-      display: 'flex'
+      display: 'grid',
+      gridTemplateColumns: '1fr auto 1fr',
+      alignItems: 'center',
+      borderBottom: '5px',
+      borderBottomStyle: 'double'
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     style: {
       display: "flex",
       alignItems: 'center',
-      justifyContent: 'center',
-      maxWidth: '200px',
-      flexGrow: '1'
+      gap: '10px',
+      marginLeft: '10px'
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("p", {
     style: {
       textAlign: 'center'
     }
-  }, "Current user: ", username ? username : 'none')), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+  }, "Current user: ", isLoggedIn ? username : 'none'), isLoggedIn && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
+    onClick: /*#__PURE__*/_asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee3() {
+      return _regenerator().w(function (_context3) {
+        while (1) switch (_context3.n) {
+          case 0:
+            _context3.n = 1;
+            return (0,_user_back_end_connection__WEBPACK_IMPORTED_MODULE_3__.logout)();
+          case 1:
+            if (!_context3.v) {
+              _context3.n = 2;
+              break;
+            }
+            setUsername('');
+            setIsLoggedIn(false);
+          case 2:
+            return _context3.a(2);
+        }
+      }, _callee3);
+    }))
+  }, "Log out")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     style: {
       flexGrow: '1'
     }
@@ -30890,28 +30947,24 @@ function Main() {
     style: {
       textAlign: 'center'
     }
-  }, "Main page")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+  }, "Main page"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     style: {
       display: "flex",
-      alignItems: 'center',
       justifyContent: 'center',
-      maxWidth: '200px',
-      flexGrow: '1'
+      height: '100%'
     }
-  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     style: {
       display: 'flex',
       flexDirection: 'column',
       flexGrow: '1',
-      maxWidth: '600px',
-      marginLeft: 'auto',
-      marginRight: 'auto',
-      justifyContent: 'center'
+      justifyContent: 'center',
+      maxWidth: '600px'
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(DataDisplay, {
     username: username,
     isLoggedIn: isLoggedIn
-  })));
+  }))));
 }
 window.onload = function () {
   var rootDiv = document.getElementById("root");

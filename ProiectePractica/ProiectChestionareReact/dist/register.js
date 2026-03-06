@@ -124,6 +124,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   getAccessToken: () => (/* binding */ getAccessToken),
 /* harmony export */   get_items: () => (/* binding */ get_items),
 /* harmony export */   login: () => (/* binding */ login),
+/* harmony export */   logout: () => (/* binding */ logout),
 /* harmony export */   register: () => (/* binding */ register)
 /* harmony export */ });
 /* harmony import */ var _config_json__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../config.json */ "./src/UI/config.json");
@@ -399,6 +400,35 @@ function _get_items() {
     }, _callee5, null, [[0, 5]]);
   }));
   return _get_items.apply(this, arguments);
+}
+function logout() {
+  return _logout.apply(this, arguments);
+}
+function _logout() {
+  _logout = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee6() {
+    var logoutRequest, logoutResponse, _t7;
+    return _regenerator().w(function (_context6) {
+      while (1) switch (_context6.p = _context6.n) {
+        case 0:
+          _context6.p = 0;
+          logoutRequest = new Request(url + "/users/me/logout", {
+            method: "POST",
+            credentials: "include"
+          });
+          _context6.n = 1;
+          return fetch(logoutRequest);
+        case 1:
+          logoutResponse = _context6.v;
+          return _context6.a(2, logoutResponse.ok);
+        case 2:
+          _context6.p = 2;
+          _t7 = _context6.v;
+          alert(_t7);
+          return _context6.a(2, false);
+      }
+    }, _callee6, null, [[0, 2]]);
+  }));
+  return _logout.apply(this, arguments);
 }
 
 /***/ },
