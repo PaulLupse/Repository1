@@ -96,7 +96,7 @@ export async function register(username:string, password:string) {
 }
 
 // functie pt login automat, daca utilizatorul s-a logat anterior
-export async function auto_login() :Promise<string|undefined>{
+export async function auto_login():Promise<string|undefined>{
 
     const loginRequest = new Request(
         url + "/users/me",
@@ -118,8 +118,8 @@ export async function auto_login() :Promise<string|undefined>{
 
         }
         else {
-            const errorMsg:string = "Could not login. Please login manually.";
-            throw new Error(errorMsg);
+            console.log("Could not login automatically.");
+            return undefined;
         }
     }
     catch(error) {
@@ -173,5 +173,33 @@ export async function logout():Promise<boolean> {
         alert(error);
         return false;
     }
+}
+
+export async function add_item(username:string, item:Item):Promise<boolean> {
+    try {
+
+        const requestHeader = new Headers({
+            'Accept': "application/json",
+            'Content-Type': "application/json"
+        });
+        const createItemRequest = new Request(url+"/users/me/items",
+            {
+                method:"POST",
+                headers:requestHeader,
+                body:JSON.stringify(item)
+            }
+        )
+        const createItemResponse = await fetch(createItemRequest);
+        if(createItemResponse.ok) {
+            return true;
+        }
+        const errorMsg:string = (await createItemResponse.json()).message;
+        throw new Error(`Failed to create item. Returned message: ${errorMsg}`)
+    }
+    catch(Error) {
+        alert(Error);
+        return false;
+    }
+
 }
 

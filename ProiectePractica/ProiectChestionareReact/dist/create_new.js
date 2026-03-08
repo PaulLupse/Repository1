@@ -2,137 +2,6 @@
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
-/***/ "./src/UI/components/Table.tsx"
-/*!*************************************!*\
-  !*** ./src/UI/components/Table.tsx ***!
-  \*************************************/
-(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   Table: () => (/* binding */ Table),
-/* harmony export */   TableModel: () => (/* binding */ TableModel)
-/* harmony export */ });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _Utilities__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Utilities */ "./src/UI/components/Utilities.tsx");
-function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
-function _classCallCheck(a, n) { if (!(a instanceof n)) throw new TypeError("Cannot call a class as a function"); }
-function _defineProperties(e, r) { for (var t = 0; t < r.length; t++) { var o = r[t]; o.enumerable = o.enumerable || !1, o.configurable = !0, "value" in o && (o.writable = !0), Object.defineProperty(e, _toPropertyKey(o.key), o); } }
-function _createClass(e, r, t) { return r && _defineProperties(e.prototype, r), t && _defineProperties(e, t), Object.defineProperty(e, "prototype", { writable: !1 }), e; }
-function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
-function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
-
-
-
-// model de data pentru a se folosi impreuna cu TableView
-var TableModel = /*#__PURE__*/function () {
-  function TableModel(fieldNumber, fieldTypes) {
-    _classCallCheck(this, TableModel);
-    this.data = new Array();
-    this.fieldNumber = fieldNumber;
-    if (fieldTypes) {
-      if (fieldNumber != fieldTypes.length) throw new Error("Argument fieldTypes must have a length equal to the one passed in argument fieldNumber.");
-      this.fieldTypes = fieldTypes;
-    } else {
-      this.fieldTypes = new Array();
-      for (var i = 0; i < fieldNumber; i++) this.fieldTypes.push("any");
-    }
-  }
-  return _createClass(TableModel, [{
-    key: "validateEntry",
-    value: function validateEntry(line) {
-      if (Object.keys(line).length != this.fieldNumber) throw new Error("Line has an invalid number of elements");
-      var i = 0;
-      for (var _i = 0, _Object$entries = Object.entries(line); _i < _Object$entries.length; _i++) {
-        var entry = _Object$entries[_i];
-        if (_typeof(entry) !== this.fieldTypes[i]) throw new Error("Line field number ".concat(i, " has invalid element type."));
-      }
-    }
-  }, {
-    key: "add",
-    value: function add(index, line) {
-      if (index < this.data.length || index >= this.data.length) throw new Error("Invalid index.");
-      this.validateEntry(line);
-      this.data.splice(index, 0, line);
-    }
-  }, {
-    key: "remove",
-    value: function remove(index) {
-      if (index < this.data.length || index >= this.data.length) throw new Error("Invalid index.");
-      this.data.splice(index, 1);
-    }
-  }, {
-    key: "pushFront",
-    value: function pushFront(line) {
-      this.validateEntry(line);
-      this.data.push(line);
-    }
-  }, {
-    key: "pushBack",
-    value: function pushBack(line) {
-      this.validateEntry(line);
-      this.data.unshift(line);
-    }
-  }, {
-    key: "popBack",
-    value: function popBack(line) {
-      this.data.shift();
-    }
-  }, {
-    key: "popFront",
-    value: function popFront(line) {
-      this.data.pop();
-    }
-  }, {
-    key: "getData",
-    value: function getData() {
-      return this.data;
-    }
-  }]);
-}();
-
-// componenta Table ia ca parametrii numele coloanelor, modelul (care retine datele) si, optional, stilul pt
-// tabela
-
-function Table(props) {
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("table", {
-    style: props.style ? props.style : {}
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("thead", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("tr", null, props.columns.map(function mapFunction(columnName, columnIndex) {
-    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("th", {
-      key: columnIndex
-    }, columnName);
-  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("tbody", null, props.data.map(function (line, index) {
-    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("tr", {
-      key: index
-    }, (0,_Utilities__WEBPACK_IMPORTED_MODULE_1__["default"])(line).map(function (entry, index) {
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("td", {
-        key: index
-      }, entry);
-    }));
-  })));
-}
-
-/***/ },
-
-/***/ "./src/UI/components/Utilities.tsx"
-/*!*****************************************!*\
-  !*** ./src/UI/components/Utilities.tsx ***!
-  \*****************************************/
-(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* binding */ getValues)
-/* harmony export */ });
-function getValues(obj) {
-  var values = new Array();
-  for (var key in obj) values.push(obj[key]);
-  return values;
-}
-
-/***/ },
-
 /***/ "./src/UI/user/back-end-connection.tsx"
 /*!*********************************************!*\
   !*** ./src/UI/user/back-end-connection.tsx ***!
@@ -42084,17 +41953,17 @@ module.exports = /*#__PURE__*/JSON.parse('{"baseURL":"http://127.0.0.1:8000"}');
 var __webpack_exports__ = {};
 // This entry needs to be wrapped in an IIFE because it needs to be isolated against other modules in the chunk.
 (() => {
-/*!*************************!*\
-  !*** ./src/UI/main.tsx ***!
-  \*************************/
+/*!*****************************************!*\
+  !*** ./src/UI/user/create-new-item.tsx ***!
+  \*****************************************/
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react_dom_client__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom/client */ "./node_modules/react-dom/client.js");
-/* harmony import */ var _config_json__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./config.json */ "./src/UI/config.json");
-/* harmony import */ var _user_back_end_connection__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./user/back-end-connection */ "./src/UI/user/back-end-connection.tsx");
-/* harmony import */ var _components_Table__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./components/Table */ "./src/UI/components/Table.tsx");
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/dist/development/chunk-LFPYN7LY.mjs");
+/* harmony import */ var _back_end_connection__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./back-end-connection */ "./src/UI/user/back-end-connection.tsx");
+/* harmony import */ var _config_json__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../config.json */ "./src/UI/config.json");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/dist/development/chunk-LFPYN7LY.mjs");
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 function _regenerator() { /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/babel/babel/blob/main/packages/babel-helpers/LICENSE */ var e, t, r = "function" == typeof Symbol ? Symbol : {}, n = r.iterator || "@@iterator", o = r.toStringTag || "@@toStringTag"; function i(r, n, o, i) { var c = n && n.prototype instanceof Generator ? n : Generator, u = Object.create(c.prototype); return _regeneratorDefine2(u, "_invoke", function (r, n, o) { var i, c, u, f = 0, p = o || [], y = !1, G = { p: 0, n: 0, v: e, a: d, f: d.bind(e, 4), d: function d(t, r) { return i = t, c = 0, u = e, G.n = r, a; } }; function d(r, n) { for (c = r, u = n, t = 0; !y && f && !o && t < p.length; t++) { var o, i = p[t], d = G.p, l = i[2]; r > 3 ? (o = l === n) && (u = i[(c = i[4]) ? 5 : (c = 3, 3)], i[4] = i[5] = e) : i[0] <= d && ((o = r < 2 && d < i[1]) ? (c = 0, G.v = n, G.n = i[1]) : d < l && (o = r < 3 || i[0] > n || n > l) && (i[4] = r, i[5] = n, G.n = l, c = 0)); } if (o || r > 1) return a; throw y = !0, n; } return function (o, p, l) { if (f > 1) throw TypeError("Generator is already running"); for (y && 1 === p && d(p, l), c = p, u = l; (t = c < 2 ? e : u) || !y;) { i || (c ? c < 3 ? (c > 1 && (G.n = -1), d(c, u)) : G.n = u : G.v = u); try { if (f = 2, i) { if (c || (o = "next"), t = i[o]) { if (!(t = t.call(i, u))) throw TypeError("iterator result is not an object"); if (!t.done) return t; u = t.value, c < 2 && (c = 0); } else 1 === c && (t = i["return"]) && t.call(i), c < 2 && (u = TypeError("The iterator does not provide a '" + o + "' method"), c = 1); i = e; } else if ((t = (y = G.n < 0) ? u : r.call(n, G)) !== a) break; } catch (t) { i = e, c = 1, u = t; } finally { f = 1; } } return { value: t, done: y }; }; }(r, o, i), !0), u; } var a = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} t = Object.getPrototypeOf; var c = [][n] ? t(t([][n]())) : (_regeneratorDefine2(t = {}, n, function () { return this; }), t), u = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(c); function f(e) { return Object.setPrototypeOf ? Object.setPrototypeOf(e, GeneratorFunctionPrototype) : (e.__proto__ = GeneratorFunctionPrototype, _regeneratorDefine2(e, o, "GeneratorFunction")), e.prototype = Object.create(u), e; } return GeneratorFunction.prototype = GeneratorFunctionPrototype, _regeneratorDefine2(u, "constructor", GeneratorFunctionPrototype), _regeneratorDefine2(GeneratorFunctionPrototype, "constructor", GeneratorFunction), GeneratorFunction.displayName = "GeneratorFunction", _regeneratorDefine2(GeneratorFunctionPrototype, o, "GeneratorFunction"), _regeneratorDefine2(u), _regeneratorDefine2(u, o, "Generator"), _regeneratorDefine2(u, n, function () { return this; }), _regeneratorDefine2(u, "toString", function () { return "[object Generator]"; }), (_regenerator = function _regenerator() { return { w: i, m: f }; })(); }
 function _regeneratorDefine2(e, r, n, t) { var i = Object.defineProperty; try { i({}, "", {}); } catch (e) { i = 0; } _regeneratorDefine2 = function _regeneratorDefine(e, r, n, t) { function o(r, n) { _regeneratorDefine2(e, r, function (e) { return this._invoke(r, n, e); }); } r ? i ? i(e, r, { value: n, enumerable: !t, configurable: !t, writable: !t }) : e[r] = n : (o("next", 0), o("throw", 1), o("return", 2)); }, _regeneratorDefine2(e, r, n, t); }
 function asyncGeneratorStep(n, t, e, r, o, a, c) { try { var i = n[a](c), u = i.value; } catch (n) { return void e(n); } i.done ? t(u) : Promise.resolve(u).then(r, o); }
@@ -42105,95 +41974,122 @@ function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) 
 function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
 function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
 function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
+function _callSuper(t, o, e) { return o = _getPrototypeOf(o), _possibleConstructorReturn(t, _isNativeReflectConstruct() ? Reflect.construct(o, e || [], _getPrototypeOf(t).constructor) : o.apply(t, e)); }
+function _possibleConstructorReturn(t, e) { if (e && ("object" == _typeof(e) || "function" == typeof e)) return e; if (void 0 !== e) throw new TypeError("Derived constructors may only return object or undefined"); return _assertThisInitialized(t); }
+function _assertThisInitialized(e) { if (void 0 === e) throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); return e; }
+function _isNativeReflectConstruct() { try { var t = !Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); } catch (t) {} return (_isNativeReflectConstruct = function _isNativeReflectConstruct() { return !!t; })(); }
+function _getPrototypeOf(t) { return _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function (t) { return t.__proto__ || Object.getPrototypeOf(t); }, _getPrototypeOf(t); }
+function _inherits(t, e) { if ("function" != typeof e && null !== e) throw new TypeError("Super expression must either be null or a function"); t.prototype = Object.create(e && e.prototype, { constructor: { value: t, writable: !0, configurable: !0 } }), Object.defineProperty(t, "prototype", { writable: !1 }), e && _setPrototypeOf(t, e); }
+function _setPrototypeOf(t, e) { return _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function (t, e) { return t.__proto__ = e, t; }, _setPrototypeOf(t, e); }
+function _defineProperties(e, r) { for (var t = 0; t < r.length; t++) { var o = r[t]; o.enumerable = o.enumerable || !1, o.configurable = !0, "value" in o && (o.writable = !0), Object.defineProperty(e, _toPropertyKey(o.key), o); } }
+function _createClass(e, r, t) { return r && _defineProperties(e.prototype, r), t && _defineProperties(e, t), Object.defineProperty(e, "prototype", { writable: !1 }), e; }
+function _classCallCheck(a, n) { if (!(a instanceof n)) throw new TypeError("Cannot call a class as a function"); }
+function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
 
 
 
 
 
-
-var baseURL = _config_json__WEBPACK_IMPORTED_MODULE_2__.baseURL;
-function NotLoggedInPanel(props) {
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
-    id: "not_logged_in_panel",
-    style: props.divStyle
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h3", null, "You are not logged in."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("a", {
-    href: baseURL + '/login'
-  }, "Login"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("a", {
-    href: baseURL + '/register'
-  }, "Register"));
-}
-function DataDisplay(props) {
-  var _React$useState = react__WEBPACK_IMPORTED_MODULE_0___default().useState(Array),
-    _React$useState2 = _slicedToArray(_React$useState, 2),
-    itemList = _React$useState2[0],
-    setItemList = _React$useState2[1];
-  var navigate = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_5__.useNavigate)();
+var baseURL = _config_json__WEBPACK_IMPORTED_MODULE_3__.baseURL;
+var FormQuestion = /*#__PURE__*/_createClass(function FormQuestion(text, isOptional) {
+  _classCallCheck(this, FormQuestion);
+  _defineProperty(this, "text", '');
+  _defineProperty(this, "isOptional", false);
+  this.text = text;
+  this.isOptional = isOptional;
+});
+var GridQuestion = /*#__PURE__*/function (_FormQuestion2) {
+  function GridQuestion(text, isOptional, isMultipleChoice, choices) {
+    var _this;
+    _classCallCheck(this, GridQuestion);
+    _this = _callSuper(this, GridQuestion, [text, isOptional]);
+    _defineProperty(_this, "isMultipleChoice", false);
+    _defineProperty(_this, "choices", new Array());
+    _this.isMultipleChoice = isMultipleChoice;
+    _this.choices = choices;
+    return _this;
+  }
+  _inherits(GridQuestion, _FormQuestion2);
+  return _createClass(GridQuestion);
+}(FormQuestion);
+var TextQuestion = /*#__PURE__*/function (_FormQuestion3) {
+  function TextQuestion(text, isOptional, maxChars) {
+    var _this2;
+    _classCallCheck(this, TextQuestion);
+    _this2 = _callSuper(this, TextQuestion, [text, isOptional]);
+    _defineProperty(_this2, "maxCharacters", 30);
+    _this2.maxCharacters = maxChars;
+    return _this2;
+  }
+  _inherits(TextQuestion, _FormQuestion3);
+  return _createClass(TextQuestion);
+}(FormQuestion);
+function CreateNewItem(_ref) {
+  var username = _ref.username;
+  var nameInput = react__WEBPACK_IMPORTED_MODULE_0___default().useRef(null);
+  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(Array),
+    _useState2 = _slicedToArray(_useState, 2),
+    formQuestions = _useState2[0],
+    setFormQuestions = _useState2[1];
   react__WEBPACK_IMPORTED_MODULE_0___default().useEffect(function () {
-    function getItems() {
-      return _getItems.apply(this, arguments);
+    setFormQuestions([new TextQuestion("Ce vrei ma?", false, 20), new TextQuestion("Ce ai ma?", false, 20), new TextQuestion("Ce-ti trebe ma?", false, 20), new GridQuestion("MilsTespEsg?", false, false, ["Da", "Nu"])]);
+  }, []);
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    style: {
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: "start",
+      alignContent: "center",
+      maxWidth: '600px',
+      flexGrow: '1',
+      gap: '5px',
+      padding: '10px'
     }
-    function _getItems() {
-      _getItems = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee() {
-        var newItems;
-        return _regenerator().w(function (_context) {
-          while (1) switch (_context.n) {
-            case 0:
-              _context.n = 1;
-              return (0,_user_back_end_connection__WEBPACK_IMPORTED_MODULE_3__.get_items)();
-            case 1:
-              newItems = _context.v;
-              if (newItems) {
-                console.log(newItems);
-                setItemList(newItems);
-              }
-            case 2:
-              return _context.a(2);
-          }
-        }, _callee);
-      }));
-      return _getItems.apply(this, arguments);
-    }
-    if (props.isLoggedIn) getItems();
-  }, [props.isLoggedIn]);
-  return (
-    /*#__PURE__*/
-    // folosim un grid pentru a aseza sectiunile din continut
-    // o sectiune va fii dedicata vizualizarea chestionarelor create de utilizator
-    react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
-      style: props.gridStyle
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
-      id: "display",
-      style: props.divStyle
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h3", {
-      style: {
-        padding: '5px'
-      }
-    }, "My Items"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_Table__WEBPACK_IMPORTED_MODULE_4__.Table, {
-      columns: ["Name", "Value"],
-      data: itemList
-    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
-      style: {
-        display: "flex",
-        flexDirection: 'column'
-      }
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
-      className: "table-button",
-      onClick: function onClick() {
-        navigate('/create-new-item');
-        navigate(0);
-      }
-    }, "New Item"))))
-  );
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("input", {
+    type: "text",
+    ref: nameInput,
+    placeholder: "Item name"
+  }), formQuestions.map(function (question, index) {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+      key: index
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("p", null, index, ". ", question.text), question instanceof TextQuestion ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("input", {
+      type: "text",
+      maxLength: question.maxCharacters
+    }) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null, question.choices.map(function (choice, index) {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+        key: index,
+        style: {
+          display: 'flex',
+          alignItems: 'center'
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("input", {
+        type: "radio"
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("p", null, " ", index, ". ", choice));
+    })));
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
+    onClick: /*#__PURE__*/_asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee() {
+      return _regenerator().w(function (_context) {
+        while (1) switch (_context.n) {
+          case 0:
+            return _context.a(2);
+        }
+      }, _callee);
+    }))
+  }, "Create"));
 }
 function Main() {
-  var _React$useState3 = react__WEBPACK_IMPORTED_MODULE_0___default().useState(''),
+  var _React$useState = react__WEBPACK_IMPORTED_MODULE_0___default().useState(''),
+    _React$useState2 = _slicedToArray(_React$useState, 2),
+    username = _React$useState2[0],
+    setUsername = _React$useState2[1];
+  // isLoggedIn = {-1, daca nu se stie starea de logare; 0, daca nu este logat userul; 1, daca este logat userul}
+  var _React$useState3 = react__WEBPACK_IMPORTED_MODULE_0___default().useState(false),
     _React$useState4 = _slicedToArray(_React$useState3, 2),
-    username = _React$useState4[0],
-    setUsername = _React$useState4[1];
-  var _React$useState5 = react__WEBPACK_IMPORTED_MODULE_0___default().useState(false),
-    _React$useState6 = _slicedToArray(_React$useState5, 2),
-    isLoggedIn = _React$useState6[0],
-    setIsLoggedIn = _React$useState6[1];
+    isLoggedIn = _React$useState4[0],
+    setIsLoggedIn = _React$useState4[1];
+  var navigate = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_4__.useNavigate)();
 
   // folosim un effect pentru a returna utilizatorul curent
   react__WEBPACK_IMPORTED_MODULE_0___default().useEffect(function () {
@@ -42207,12 +42103,14 @@ function Main() {
           while (1) switch (_context2.n) {
             case 0:
               _context2.n = 1;
-              return (0,_user_back_end_connection__WEBPACK_IMPORTED_MODULE_3__.auto_login)();
+              return (0,_back_end_connection__WEBPACK_IMPORTED_MODULE_2__.auto_login)();
             case 1:
               username = _context2.v;
               if (username) {
                 setUsername(username);
                 setIsLoggedIn(true);
+              } else {
+                navigate(baseURL);
               }
             case 2:
               return _context2.a(2);
@@ -42258,8 +42156,9 @@ function Main() {
       return _regenerator().w(function (_context3) {
         while (1) switch (_context3.n) {
           case 0:
+            console.log("Logout button clicked");
             _context3.n = 1;
-            return (0,_user_back_end_connection__WEBPACK_IMPORTED_MODULE_3__.logout)();
+            return (0,_back_end_connection__WEBPACK_IMPORTED_MODULE_2__.logout)();
           case 1:
             if (!_context3.v) {
               _context3.n = 2;
@@ -42267,6 +42166,7 @@ function Main() {
             }
             setUsername('');
             setIsLoggedIn(false);
+            navigate(baseURL);
           case 2:
             return _context3.a(2);
         }
@@ -42280,7 +42180,7 @@ function Main() {
     style: {
       textAlign: 'center'
     }
-  }, "Main Page"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+  }, "Create new item"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     id: "Continut",
     style: {
       display: 'flex',
@@ -42288,49 +42188,17 @@ function Main() {
       height: '100%',
       justifyContent: 'center'
     }
-  }, isLoggedIn ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(DataDisplay, {
-    username: username,
-    isLoggedIn: isLoggedIn
-    // div style reprezinta stilul div-urilor din fiecare celula a grid-ului
-    ,
-    divStyle: {
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'stretch',
-      padding: '10px',
-      flexGrow: '1',
-      justifyContent: 'start',
-      borderStyle: 'dotted',
-      overflow: 'auto'
-    },
-    gridStyle: {
-      display: 'grid',
-      gridTemplateColumns: '1fr',
-      width: '90%',
-      height: '100%',
-      alignItems: 'start',
-      gap: '10px'
-    }
-  }) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(NotLoggedInPanel, {
-    divStyle: {
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-      paddingTop: '10px',
-      paddingBottom: '10px',
-      height: '90%',
-      flexGrow: '1',
-      justifyContent: 'center'
-    }
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(CreateNewItem, {
+    username: username
   })));
 }
 window.onload = function () {
   var rootDiv = document.getElementById("root");
   var root = (0,react_dom_client__WEBPACK_IMPORTED_MODULE_1__.createRoot)(rootDiv);
-  root.render(/*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_5__.BrowserRouter, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(Main, null)));
+  root.render(/*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_4__.BrowserRouter, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(Main, null)));
 };
 })();
 
 /******/ })()
 ;
-//# sourceMappingURL=main.js.map
+//# sourceMappingURL=create_new.js.map

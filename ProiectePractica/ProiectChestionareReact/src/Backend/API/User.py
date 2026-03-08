@@ -79,7 +79,7 @@ async def authenticate(token : Annotated[str, Depends(oauth2_scheme)]):
         raise validation_error
 
 
-EXP = 5
+EXP = 60
 @router.post("/token", response_class=JSONResponse)
 async def get_token(credentials: Annotated[OAuth2PasswordRequestForm, Depends()]):
 
@@ -147,7 +147,7 @@ async def delete_user(login_response:Annotated[str, Depends(authenticate)]):
         return JSONResponse(content={"message":"Deleted user succesfully."}, status_code=200)
     else: return JSONResponse(content={"message":"Could not delete user."}, status_code=400)
 
-@router.post("/me/addItem", response_class=JSONResponse, dependencies=[Depends(authenticate)])
+@router.post("/me/items", response_class=JSONResponse, dependencies=[Depends(authenticate)])
 async def add_item(item:Item):
 
     add_response = db_connector.add_item(item)

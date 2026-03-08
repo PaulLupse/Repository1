@@ -4,19 +4,25 @@ import configFile from './config.json'
 
 import {auto_login, get_items, logout} from "./user/back-end-connection";
 
+import {Table} from "./components/Table";
+
 import type {Item} from "./user/back-end-connection";
+
+import {BrowserRouter, useNavigate, Route} from "react-router-dom"
 
 const baseURL:string = configFile.baseURL;
 
 interface DataProps {
     username:string
     isLoggedIn:boolean
+    divStyle:any
+    gridStyle:any
 }
 
-function NotLoggedInPanel() {
+function NotLoggedInPanel(props:{divStyle:any}) {
     return (
             <div id="not_logged_in_panel"
-                style={{display:'flex', flexDirection:'column', alignItems:'center', marginTop:'5px', marginBottom:'5px'}}>
+                style={props.divStyle}>
                 <h3>
                     You are not logged in.
                 </h3>
@@ -26,10 +32,12 @@ function NotLoggedInPanel() {
         )
 }
 
+
 function DataDisplay(props:DataProps) {
 
     const [itemList, setItemList] = React.useState(Array<Item>);
 
+    const navigate = useNavigate();
 
     React.useEffect(()=> {
                     async function getItems ():Promise<void> {
@@ -46,45 +54,31 @@ function DataDisplay(props:DataProps) {
                 [props.isLoggedIn]
             );
 
-    if(props.isLoggedIn) {
+    return(
+        // folosim un grid pentru a aseza sectiunile din continut
+        // o sectiune va fii dedicata vizualizarea chestionarelor create de utilizator
+        <div style={props.gridStyle}>
 
-        return(
-            <div id="display" style={{display:'flex', flexDirection:'column', alignItems:'center', marginTop:'5px', marginBottom:'5px'}}>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>
-                                Name
-                            </th>
-                            <th>
-                                Value
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {itemList.map(
-                            (item:Item, index:number) => {
-                                return(
-                                    <tr key={index}>
-                                        <td>
-                                            {item.name}
-                                        </td>
-                                        <td>
-                                            {item.value}
-                                        </td>
-                                    </tr>
-                                );
+            <div id="display" style={props.divStyle}>
+
+                <h3 style={{padding:'5px'}}>My Items</h3>
+
+                <Table<Item> columns={["Name", "Value"]} data={itemList} />
+                <div style={{display:"flex", flexDirection:'column'}}>
+                    <button className={"table-button"}
+                        onClick={
+                            () => {
+                                navigate('/create-new-item');
+                                navigate(0);
                             }
-                        )}
-                    </tbody>
-                </table>
+                        }>
+                        New Item
+                    </button>
+                </div>
             </div>
-        );
-    }
-    else
-    {
-        return <NotLoggedInPanel />
-    }
+        </div>
+
+    );
 }
 
 function Main() {
@@ -107,10 +101,14 @@ function Main() {
     );
 
     return (
-        <div style={{display:"flex", flexDirection:"column", height:'100vh', minWidth:'300px', alignItems:'stretch'}}>
+        <div id="Pagina intreaga"
+            style={{display:"flex", flexDirection:"column", height:'100vh', minWidth:'300px', alignItems:'stretch',
+            gap:'10px'}}>
 
-            <div style={{display:'grid', gridTemplateColumns:'1fr auto 1fr', alignItems:'center',
+            <div id="Bara de sus"
+                style={{display:'grid', gridTemplateColumns:'1fr auto 1fr', alignItems:'center',
                 borderBottom:'5px', borderBottomStyle:'double'}}>
+
                 <div style={{display:"flex", alignItems:'center', gap:'10px', marginLeft:'10px'}}>
                     <p style={{textAlign:'center'}}>
                         Current user: {isLoggedIn?username:'none'}
@@ -131,20 +129,32 @@ function Main() {
                         </button>
                     }
                 </div>
+
                 <div style={{flexGrow:'1'}}>
                     <h1 style={{textAlign:'center'}}>
-                        Main page
+                        Main Page
                     </h1>
                 </div>
-            </div>
-
-            <div style={{display:"flex", justifyContent:'center', height:'100%'}}>
-                 <div style={{display:'flex', flexDirection:'column', flexGrow:'1', justifyContent:'center',
-                     maxWidth:'600px', }}>
-                    <DataDisplay username={username} isLoggedIn={isLoggedIn} />
-                </div>
 
             </div>
+
+            <div id="Continut" style={{display:'flex', alignItems:'center', height:'100%', justifyContent:'center'}}>
+
+                {isLoggedIn?
+                    <DataDisplay username={username} isLoggedIn={isLoggedIn}
+                                 // div style reprezinta stilul div-urilor din fiecare celula a grid-ului
+                        divStyle={{display:'flex', flexDirection:'column', alignItems:'stretch', padding:'10px',
+                            flexGrow:'1', justifyContent:'start', borderStyle:'dotted', overflow:'auto'}}
+
+                        gridStyle={{display:'grid', gridTemplateColumns:'1fr', width:'90%', height:'100%', alignItems:'start',
+                            gap:'10px'}} />
+                    :
+                    <NotLoggedInPanel divStyle={{display:'flex', flexDirection:'column', alignItems:'center', paddingTop:'10px',
+                            paddingBottom:'10px', height:'90%', flexGrow:'1', justifyContent:'center'}} />
+                }
+
+            </div>
+
 
         </div>
     );
@@ -153,5 +163,9 @@ function Main() {
 window.onload = ()=>{
     const rootDiv:HTMLDivElement = document.getElementById("root") as HTMLDivElement
     const root = createRoot(rootDiv);
-    root.render(<Main />);
+    root.render(
+        <BrowserRouter>
+
+            <Main />
+        </BrowserRouter>);
 }

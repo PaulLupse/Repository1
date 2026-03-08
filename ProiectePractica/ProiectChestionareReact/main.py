@@ -17,8 +17,9 @@ logger.setLevel(logging.DEBUG)
 oauth2_scheme = OAuth2PasswordBearerWithCookies(tokenUrl="token")
 
 app = FastAPI()
-app.mount("/static", StaticFiles(directory="static"), name="static") # HTML
-app.mount("/dist", StaticFiles(directory="dist"), name="dist") # JS
+app.mount("/static/html", StaticFiles(directory="static/html"), name="html") # HTML
+app.mount("/static/css", StaticFiles(directory="static/css"), name="css") # CSS
+app.mount("/dist", StaticFiles(directory="dist"), name="dist") # TSX
 app.include_router(users_routes)
 
 
@@ -37,13 +38,18 @@ async def http_exception_handler(request:Request, exception : HTTPException):
 
 @app.get("/", response_class=HTMLResponse)
 async def root():
-    return FileResponse("static/index.html")
+    return FileResponse("static/html/index.html")
 
 @app.get("/login", response_class=FileResponse)
 async def login_page():
-    return FileResponse("static/login.html")
+    return FileResponse("static/html/login.html")
 
 @app.get("/register")
 async def register_page():
-    return FileResponse("static/register.html")
+    return FileResponse("static/html/register.html")
+
+@app.get("/create-new-item")
+async def create_new_item():
+    return FileResponse("static/html/create-new-item.html")
+
 
